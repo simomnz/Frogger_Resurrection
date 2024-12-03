@@ -8,7 +8,7 @@ int main(void) {
     start(game);
 
     run(game);
-  
+   //sborra 
     stop(game);
 
     return 0;
