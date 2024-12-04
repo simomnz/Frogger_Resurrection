@@ -1,7 +1,7 @@
 #include "colors.h"
 
 
-void initColors(int c, int r, int g, int b){
+void initColors(short c, short r, short g, short b){
 
     /* init_color e' una funzione di ncurses*/
 

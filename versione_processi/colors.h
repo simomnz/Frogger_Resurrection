@@ -7,7 +7,7 @@
 
 
 /* Prende il colore "c" e lo inizializza con i valori rgb */
-void initColors(int c, int r, int g, int b);
+void initColors(short c, short r, short g, short b);    //short o int?
 
 void setColors();
 
