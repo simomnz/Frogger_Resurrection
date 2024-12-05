@@ -8,3 +8,6 @@
 
 void printCursor(short x, short y);
 
+
+//resituisce la difficoltà
+short menu ();

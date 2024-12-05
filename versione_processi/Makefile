@@ -14,3 +14,9 @@ colors.o: colors.c
 
 menu.o: menu.c
 	gcc -c menu.c -o menu.o
+
+
+#per rimuovere 
+
+clean:
+	rm -f *.o frogger
