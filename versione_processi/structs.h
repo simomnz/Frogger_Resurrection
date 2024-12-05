@@ -11,6 +11,7 @@ typedef struct frog
 {
     short x;
     short y;
+
 } Frog;
 
 typedef struct crocodile
@@ -22,7 +23,7 @@ typedef struct crocodile
     short direction;    /* direzione */
     short length;       /* lunghezza */
     short genTime;      /* tempo di generazione */
-    short shotTime;     /* tempo di per sparare */
+    short shotTime;     /* tempo per sparare */
 } Crocodile;
 
 
