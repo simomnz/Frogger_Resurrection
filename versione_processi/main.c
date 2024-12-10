@@ -10,6 +10,6 @@ int main(void) {
     run(game);
      
     stop(game);
-
+    
     return 0;
 }
