@@ -17,8 +17,14 @@ int createSocket() {
     }
 
     addr.sun_family = AF_UNIX;  /* Indirizzo locale */ 
-    strncpy(addr.sun_path, SOCKET_PATH, 2);  /* Nome del socket (utilizziamo "strncpy" e non "strcpy per problemi di vulnerabilità" ) */ 
 
+
+
+    ///da controllare e capire
+    strncpy(addr.sun_path, SOCKET_PATH, sizeof(addr.sun_path) -1 ); /* Copio il path del socket */
+    addr.sun_path[sizeof(addr.sun_path) - 1] = '\0'; /* Termino la stringa */
+
+    unlink(SOCKET_PATH); /* Rimuove il file socket se esiste già (evita errori non previsti nel controllo del binding) */
 
     if (bind(sockfd, (struct sockaddr *)&addr, sizeof(addr)) == -1) {  /* Nel caso il binding del socket fallisca */
         perror("Errore nel bind del socket");
@@ -27,4 +33,19 @@ int createSocket() {
     }
     return sockfd;
 }
+
+
+
+
+char recvPlayerInput() { 
+
+    //da implementare
+
+}
+ 
+
+//void sendPlayerInput(char input) {} 
+
+    //da capire
+
 
