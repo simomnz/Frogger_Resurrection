@@ -42,6 +42,7 @@ typedef struct {
     short speed;        /* velocità */
     short direction;    /* direzione */
     short length;       /* lunghezza */     
+    short height;       /* altezza */
 } Crocodile;
 
 
