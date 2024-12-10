@@ -38,20 +38,16 @@ typedef struct {
 typedef struct {
     
     pid_t PID;
-    short x;            /* cordinate in x */
-    short y;            /* cordinate in y */
+    Coordinates cords;
     short speed;        /* velocità */
     short direction;    /* direzione */
-    short length;       /* lunghezza */
-    short genTime;      /* tempo di generazione */
-    short shotTime;     /* tempo per sparare */
+    short length;       /* lunghezza */     
 } Crocodile;
 
 
 typedef struct {
     pid_t PID;    /* PID del proiettile */
-    short x;
-    short y;
+    Coordinates cords;
     short speed;   //aumetabile con la difficoltà
     short direction;
 
@@ -61,8 +57,7 @@ typedef struct {
 
 typedef struct {
     pid_t PID;    /* PID della granata */
-    short x;
-    short y;
+    Coordinates cords;
     short speed;    //???
     short direction;
     short life;    //tempo di vita ( o passi compiuti)
