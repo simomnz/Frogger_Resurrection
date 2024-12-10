@@ -21,3 +21,4 @@ void stop(Game *game) {
     game->isRunning = 0;
     endwin();
 }
+

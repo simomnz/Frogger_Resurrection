@@ -3,6 +3,12 @@
 
 //void initMainWindow();    giàfatto nel main (lascio qua per sicurezza)
 
-void createWindow(int height, int width, int starty, int startx);
+WINDOW *createWindow(int height, int width, int starty, int startx);
 
 void deleteWindow(WINDOW *win);
+
+void setupGameWindow();
+
+void updateScoreWindow(WINDOW *scoreWindow, int score);
+
+void updateGameWindow(WINDOW *gameWindow);

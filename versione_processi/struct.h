@@ -1,3 +1,5 @@
+#pragma once
+
 
 //da togliere (?)
 #include <sys/types.h>
@@ -5,17 +7,28 @@
 
 
 
-//aggiungere la struct game (?)
 
-typedef struct frog
+
+typedef struct game
 {
+    unsigned int isRunning;
+    Player *player;
+    Crocodile crocodiles;
+} Game;
+
+typedef struct coordinates {
+    short x;
+    short y;
+} Coordinates;
+
+typedef struct frog {
     short x;
     short y;
 
 } Frog;
 
-typedef struct crocodile
-{
+typedef struct crocodile {
+    
     pid_t PID;
     short x;            /* cordinate in x */
     short y;            /* cordinate in y */
@@ -27,8 +40,7 @@ typedef struct crocodile
 } Crocodile;
 
 
-typedef struct projectile
-{
+typedef struct projectile {
     pid_t PID;    /* PID del proiettile */
     short x;
     short y;
@@ -38,8 +50,7 @@ typedef struct projectile
 } Projectile;
 
 
-typedef struct grenade
-{
+typedef struct grenade {
     pid_t PID;    /* PID della granata */
     short x;
     short y;
@@ -47,3 +58,10 @@ typedef struct grenade
     short direction;
     short life;    //tempo di vita ( o passi compiuti)
 } Grenade;
+
+
+typedef struct player {
+    Coordinates coordinates;
+    unsigned short int isOnCrocodile;
+    
+} Player;
