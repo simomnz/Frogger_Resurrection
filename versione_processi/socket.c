@@ -4,6 +4,7 @@
 
 
 
+
 int createSocket() {
 
     int sockfd;  
@@ -37,15 +38,43 @@ int createSocket() {
 
 
 
-char recvPlayerInput() { 
+void recvPlayerCords(Player *player, int sockfd) { 
 
-    //da implementare
+    Coordinates cords;
+    ssize_t bytes = recv(sockfd, &cords, sizeof(Coordinates), 0);  /* Ricezione delle cordinate dal server */
+
+    if (bytes == -1) {  /* Nel caso la ricezione delle cordinate fallisca */
+        perror("Errore nella ricezione delle cordinate dal server");
+        close(sockfd);  /* Chiudo il socket */
+        exit(EXIT_FAILURE);
+    }
+
+    //cambiare nome alle variabili per evitare confusione?
+    player->cords.x = cords.x;
+    player->cords.y = cords.y;
+
 
 }
  
 
-//void sendPlayerInput(char input) {} 
+//potrebbe essere implementata anche solo nella funzione movePlayer
+void sendPlayerCords(Player *player, int sockfd) 
+{
+    Coordinates cords;
+    cords.x = player->cords.x;
+    cords.y = player->cords.y;
 
-    //da capire
+    ssize_t bytes = send(sockfd, &cords, sizeof(Coordinates), 0);  /* Invio delle cordinate al server */
+
+    if (bytes == -1) {  /* Nel caso l'invio delle cordinate fallisca */
+        perror("Errore nell'invio delle cordinate al server");
+        close(sockfd);  /* Chiudo il socket */
+        exit(EXIT_FAILURE);
+    }
+} 
+
+
+
+ 
 
 

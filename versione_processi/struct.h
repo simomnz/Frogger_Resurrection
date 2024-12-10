@@ -9,25 +9,33 @@
 
 
 
-typedef struct game
-{
+typedef struct {
     unsigned int isRunning;
     Player *player;
     Crocodile crocodiles;
 } Game;
 
-typedef struct coordinates {
+
+
+//boh poi si vedrà
+
+
+//utile per la communicazione tra client e server
+typedef struct {
     short x;
     short y;
 } Coordinates;
 
-typedef struct frog {
-    short x;
-    short y;
 
+//serve per la grafica (? da capire)
+typedef struct {
+
+    short width;
+    short height;
+    
 } Frog;
 
-typedef struct crocodile {
+typedef struct {
     
     pid_t PID;
     short x;            /* cordinate in x */
@@ -40,7 +48,7 @@ typedef struct crocodile {
 } Crocodile;
 
 
-typedef struct projectile {
+typedef struct {
     pid_t PID;    /* PID del proiettile */
     short x;
     short y;
@@ -50,7 +58,8 @@ typedef struct projectile {
 } Projectile;
 
 
-typedef struct grenade {
+
+typedef struct {
     pid_t PID;    /* PID della granata */
     short x;
     short y;
@@ -60,8 +69,14 @@ typedef struct grenade {
 } Grenade;
 
 
-typedef struct player {
-    Coordinates coordinates;
+
+
+//può avere senso?
+typedef struct {
+    Frog frog;
+    Coordinates cords;
+    short lives;
+    short score;
     unsigned short int isOnCrocodile;
     
 } Player;

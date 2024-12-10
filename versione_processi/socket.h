@@ -3,7 +3,7 @@
 #include <sys/socket.h>  
 #include <sys/un.h>       /* per i socket unix */
 #include <ncurses.h>
-
+#include "struct.h"
 
 #define SOCKET_PATH "/tmp/mysocket"  /* Path del socket */
 
@@ -12,7 +12,6 @@
 int createSocket();
 
 
-char recvPlayerInput();
+void recvPlayerCords(Player *player, int sockfd);
 
-//void sendPlayerInput(char input); da capire al volo
-
+void sendPlayerInput(Player *player, int sockfd);
