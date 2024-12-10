@@ -31,6 +31,7 @@ void deleteWindow(WINDOW *win)
 
 void setupGameWindow()
 {
+    WINDOW *scoreWindow, *gameWindow;
     scoreWindow = createWindow(3, COLS, 0, 0);  //i parametri sono: altezza, larghezza, coordinata y, coordinata x
     gameWindow = createWindow(LINES - 3, COLS, 3, 0);  //i parametri sono: altezza, larghezza, coordinata y, coordinata x
 }

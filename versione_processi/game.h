@@ -1,7 +1,7 @@
 #pragma once
 #include <stdio.h>
 #include "player.h"
-
+#include "struct.h"
 
 void start(Game *game);
 

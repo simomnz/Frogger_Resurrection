@@ -1,4 +1,6 @@
-//da togliere (?)
+#pragma once
+#include <stdlib.h>
+#include <time.h>   
 #include <ncurses.h>
 
 //void initMainWindow();    giàfatto nel main (lascio qua per sicurezza)
