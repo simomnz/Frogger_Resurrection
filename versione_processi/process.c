@@ -3,4 +3,6 @@
 #include "process.h"
 
 
-void createProcess();
+void createProcess() {
+    
+}

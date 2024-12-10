@@ -1,6 +1,6 @@
 #include "crocodile.h"
 #include "struct.h"
-
+#include "utils.h"
 
 //li ho messi qua perchè poi verranno
 #define SCREEN_WIDTH 100
@@ -30,7 +30,7 @@ void moveCrocodile(Crocodile *crocodile, int pipe) {
             sleep(getRespawnCrocTime());
             crocodile->cords.x = SCREEN_WIDTH - 1;
         }
-        write(pipe, &crocodile, sizeof(Crocodile));
+        writeData(pipe, &crocodile, sizeof(Crocodile));
 
     }   
 
