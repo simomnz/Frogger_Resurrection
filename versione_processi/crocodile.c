@@ -60,10 +60,11 @@ void createCrocodile(int pipe) {
         Crocodile crocodile;
         crocodile.PID = fork();
         crocodile.cords.x = 0;
-        crocodile.cords.y = rand() % SCREEN_HEIGHT;
-        crocodile.speed = 1;
-        crocodile.direction = 1;
-        crocodile.length = 5;
+        crocodile.cords.y = rand() % SCREEN_HEIGHT;   //da cambiare in righe di gioco
+        crocodile.speed = 1;    //valore da cambiare in base alla difficoltà    
+        crocodile.direction = 1;  //da cambiare in base alla riga
+        crocodile.length = 9;  //valore a caso
+        crocodile.height = 4;
 
         int y; 
 

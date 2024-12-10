@@ -11,7 +11,6 @@
 
 int createSocket();
 
-
 void recvPlayerCords(Player *player, int sockfd);
 
 void sendPlayerInput(Player *player, int sockfd);
