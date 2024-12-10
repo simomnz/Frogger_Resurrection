@@ -69,7 +69,9 @@ void createCrocodile(int pipe) {
 
 
         do{
+
             y = rand() % SCREEN_HEIGHT;  //va sostituito con le righe di gioco
+            
         }while(!validSpawn(&crocodile));
 
         crocodile.cords.y = y;
