@@ -12,7 +12,7 @@ int createSocket() {
     
     sockfd = socket(AF_UNIX, SOCK_STREAM, 0);  /* Creazione del socket */
 
-    if (sockfd == -1) {                        /* Nel caso la creazione del socket fallisca */
+    if (sockfd < 0) {                        /* Nel caso la creazione del socket fallisca */
         perror("Errore nella create del socket");
         exit(EXIT_FAILURE);
     }
@@ -27,7 +27,7 @@ int createSocket() {
 
     unlink(SOCKET_PATH); /* Rimuove il file socket se esiste già (evita errori non previsti nel controllo del binding) */
 
-    if (bind(sockfd, (struct sockaddr *)&addr, sizeof(addr)) == -1) {  /* Nel caso il binding del socket fallisca */
+    if (bind(sockfd, (struct sockaddr *)&addr, sizeof(addr)) < 0) {  /* Nel caso il binding del socket fallisca */
         perror("Errore nel bind del socket");
         close(sockfd);   /* Chiudo il socket */
         exit(EXIT_FAILURE);
@@ -43,7 +43,7 @@ void recvPlayerCords(Player *player, int sockfd) {
     Coordinates cords;
     ssize_t bytes = recv(sockfd, &cords, sizeof(Coordinates), 0);  /* Ricezione delle cordinate dal server */
 
-    if (bytes == -1) {  /* Nel caso la ricezione delle cordinate fallisca */
+    if (bytes < 0) {  /* Nel caso la ricezione delle cordinate fallisca */
         perror("Errore nella ricezione delle cordinate dal server");
         close(sockfd);  /* Chiudo il socket */
         exit(EXIT_FAILURE);
@@ -66,7 +66,7 @@ void sendPlayerCords(Player *player, int sockfd)
 
     ssize_t bytes = send(sockfd, &cords, sizeof(Coordinates), 0);  /* Invio delle cordinate al server */
 
-    if (bytes == -1) {  /* Nel caso l'invio delle cordinate fallisca */
+    if (bytes < 0) {  /* Nel caso l'invio delle cordinate fallisca */
         perror("Errore nell'invio delle cordinate al server");
         close(sockfd);  /* Chiudo il socket */
         exit(EXIT_FAILURE);
