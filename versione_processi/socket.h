@@ -9,7 +9,7 @@
 
 
 
-int createSocket();
+int createSocket(); 
 
 void recvPlayerCords(Player *player, int sockfd);
 

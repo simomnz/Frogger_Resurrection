@@ -11,8 +11,9 @@
 
 typedef struct {
     unsigned int isRunning;
-    Player *player;
+    Player player;
     Crocodile crocodiles;
+    int serverSocket;
 } Game;
 
 
