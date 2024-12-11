@@ -1,6 +1,7 @@
 #include "crocodile.h"
 #include "struct.h"
 #include "utils.h"
+#include "menu.h"
 
 //li ho messi qua perchè poi verranno
 #define SCREEN_WIDTH 100
@@ -39,43 +40,6 @@ void moveCrocodile(Crocodile *crocodile, int pipe) {
 
 }
 
-//ha senso la matrice (?), 
-/*
-int validSpawn(Crocodile *newCroc, Crocodile **currCrocs, int numCrocs) {  
-
-    for(int i = 0; i < numCrocs; i++) {  
-        
-        //usare una matrice ?
-        Crocodile *existCroc = &currCrocs[i];
-
-        if(abs(newCroc->cords.x != (existCroc[i][j].cords.x + CROCODILE_LENGTH)) && abs(newCroc->cords.y != (existCroc[i][j].cords.y + CROCODILE_HEIGHT)))  {
-                return 1;
-        }
-        
-    }
-
-    // TODO
-    return 0;
-}
-  */
-
-
-
-//numCrocs cambiabile con una funzione che restituisce len (?),non sono sicuro possa funzionare con array dinamico
-int validSpawn(Crocodile *newCroc, Crocodile *currCrocs, int numCrocs) {  
-
-    for(int i=0; i < numCrocs; i++){ 
-        if(abs(newCroc->cords.x == (currCrocs[i].cords.x + CROCODILE_LENGTH)) && abs(newCroc->cords.y == (currCrocs[i].cords.y + CROCODILE_HEIGHT)))  {
-            return 0;
-        }
-    }
-    return 1;
-
-}
-
-
-
-
 
 
 
@@ -88,46 +52,32 @@ int getRespawnCrocTime() {
 //da cambiare la matrice (?)
 void createCrocodile(int pipe, Crocodile *crocodiles) {
 
-    
 
-    //crea solo su una riga per adesso
-
+    //sostituire le righe 
+    for(int j; j < LINES; j++)  {
+        
     //TODO modificare il numero in base alla difficoltà
-    for(int i= 0; i < 4; i++) {
-       
-        Crocodile newCroc;
-        newCroc.PID = fork();
-        srand(time(NULL) + newCroc.PID);
-        newCroc.cords.x = 0;
-        newCroc.cords.y = rand() % SCREEN_HEIGHT;   //da cambiare in righe di gioco
+        for(int i= 0; i < 4; i++) {
+        
+            Crocodile newCroc;
+            newCroc.PID = fork();
+            srand(time(NULL) + newCroc.PID);
+            newCroc.cords.x = 0;
+            newCroc.cords.y = rand() % SCREEN_HEIGHT;   //da cambiare in righe di gioco
 
 
-        newCroc.cords.direction = 1;  //da cambiare in base alla riga
+            newCroc.cords.direction = 1;  //da cambiare in base alla riga
 
 
-        newCroc.speed = 1;    //valore da cambiare in base alla difficoltà    
-        newCroc.length = 9;  //valore a caso
-        newCroc.height = 4;
+            newCroc.speed = 1;    //valore da cambiare in base alla difficoltà    
+            newCroc.sprite.lenght = CROCODILE_LENGTH;  //valore a caso
+            newCroc.sprite.height = CROCODILE_HEIGHT;  
 
-        int y; 
+            newCroc.cords.y = j;
 
-
-        do{
-
-            y = rand() % SCREEN_HEIGHT;  //va sostituito con le righe di gioco
-            
-
-            //aggiustare chiamata a funzione
-        }while(!validSpawn(&newCroc, ));
-
-        newCroc.cords.y = y;
-
-        //aggiungere le cordinate in x (uguali per tutti nella stessa riga)
-
-
-        moveCrocodile(&newCroc, pipe);
-
-        exit(0);
+        }
 
     }
+    exit(0);   
 }
+

@@ -32,10 +32,11 @@ void movePlayer(Player *player, int sockfd) {
         case ' ':
 
             //gestione delle granate
-
+            printf("da implementare");
             //TODO
 
             break;
+        
     }
 
     //la funzione dovrebbe successivamente chiamare sendPlayerCords per inviare l'input al server   
@@ -50,7 +51,7 @@ int isPlayerOnCroc(Game *game, unsigned short numCroc) {
 
         // Controlla se il giocatore è sulla lunghezza del coccodrillo
         unsigned short onX = (game->player.cords.x >= croc->cords.x) &&
-                   (game->player.cords.x <= croc->cords.x + croc->length);
+                   (game->player.cords.x <= croc->cords.x + croc->sprite.length);
 
         // Controlla se il giocatore è sulla stessa riga
         unsigned short onY = (game->player.cords.y == croc->cords.y);
@@ -66,4 +67,6 @@ int isPlayerOnCroc(Game *game, unsigned short numCroc) {
     game->player.isOnCrocodile = 0;
     return false;
 }
+
+
 
