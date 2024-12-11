@@ -9,7 +9,7 @@
 
 void moveCrocodile(Crocodile *crocodile, int pipe) {
 
-    srand(time(NULL) + crocodile->PID); 
+
 
 
     while(1) {
@@ -25,7 +25,7 @@ void moveCrocodile(Crocodile *crocodile, int pipe) {
             crocodile->cords.x = 0;
         } else if (crocodile->cords.x < 0) {
             
-            //funzionerà con lo sleep?
+            //funzionerà con lo sleep?ridondante
 
             sleep(getRespawnCrocTime());
             crocodile->cords.x = SCREEN_WIDTH - 1;
@@ -39,44 +39,73 @@ void moveCrocodile(Crocodile *crocodile, int pipe) {
 
 }
 
+//ha senso la matrice (?), 
+/*
+int validSpawn(Crocodile *newCroc, Crocodile **currCrocs, int numCrocs) {  
 
-//funzione per il controllo valido dello spawn dei coccodrilli?
-int validSpawn(Crocodile *crocodile) {
+    for(int i = 0; i < numCrocs; i++) {  
+        
+        //usare una matrice ?
+        Crocodile *existCroc = &currCrocs[i];
 
-    for(int i = 0; i < sizeof(crocodiles); i++) {
-        for(int j = 0; j < sizeof(crocodiles[i]); j++) {
-            if((crocodile->cords.x != (crocodiles[i][j].cords.x + CROCODILE_LENGTH)) && crocodile->cords.y != (crocodiles[i][j].cords.y + CROCODILE_HEIGHT))  {
+        if(abs(newCroc->cords.x != (existCroc[i][j].cords.x + CROCODILE_LENGTH)) && abs(newCroc->cords.y != (existCroc[i][j].cords.y + CROCODILE_HEIGHT)))  {
                 return 1;
-            }
         }
+        
     }
 
     // TODO
     return 0;
 }
+  */
+
+
+
+//numCrocs cambiabile con una funzione che restituisce len (?),non sono sicuro possa funzionare con array dinamico
+int validSpawn(Crocodile *newCroc, Crocodile *currCrocs, int numCrocs) {  
+
+    for(int i=0; i < numCrocs; i++){ 
+        if(abs(newCroc->cords.x == (currCrocs[i].cords.x + CROCODILE_LENGTH)) && abs(newCroc->cords.y == (currCrocs[i].cords.y + CROCODILE_HEIGHT)))  {
+            return 0;
+        }
+    }
+    return 1;
+
+}
+
+
+
+
+
+
 
 
 int getRespawnCrocTime() {
     return (rand() % (CROCODILE_RESPAWN_MAX - CROCODILE_RESPAWN_MIN + 1)) + CROCODILE_RESPAWN_MIN;
 }
 
-void createCrocodile(int pipe) {
+
+//da cambiare la matrice (?)
+void createCrocodile(int pipe, Crocodile **crocodiles) {
+
+    
 
     //crea solo su una riga per adesso
     for(int i= 0; i < rand() % (MAX_LINE_CROCODILES -MIN_LINE_CROCODILES)+ MIN_LINE_CROCODILES ; i++) {
        
-        Crocodile crocodile;
-        crocodile.PID = fork();
-        crocodile.cords.x = 0;
-        crocodile.cords.y = rand() % SCREEN_HEIGHT;   //da cambiare in righe di gioco
+        Crocodile newCroc;
+        newCroc.PID = fork();
+        srand(time(NULL) + newCroc.PID);
+        newCroc.cords.x = 0;
+        newCroc.cords.y = rand() % SCREEN_HEIGHT;   //da cambiare in righe di gioco
 
 
-        crocodile.cords.direction = 1;  //da cambiare in base alla riga
+        newCroc.cords.direction = 1;  //da cambiare in base alla riga
 
 
-        crocodile.speed = 1;    //valore da cambiare in base alla difficoltà    
-        crocodile.length = 9;  //valore a caso
-        crocodile.height = 4;
+        newCroc.speed = 1;    //valore da cambiare in base alla difficoltà    
+        newCroc.length = 9;  //valore a caso
+        newCroc.height = 4;
 
         int y; 
 
@@ -85,14 +114,16 @@ void createCrocodile(int pipe) {
 
             y = rand() % SCREEN_HEIGHT;  //va sostituito con le righe di gioco
             
-        }while(!validSpawn(&crocodile));
 
-        crocodile.cords.y = y;
+            //aggiustare chiamata a funzione
+        }while(!validSpawn(&newCroc, ));
+
+        newCroc.cords.y = y;
 
         //aggiungere le cordinate in x (uguali per tutti nella stessa riga)
 
 
-        moveCrocodile(&crocodile, pipe);
+        moveCrocodile(&newCroc, pipe);
 
         exit(0);
 

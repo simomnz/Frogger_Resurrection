@@ -13,13 +13,20 @@ void start(Game *game) {
     createCrocodile(crocodiles);
 }
 
+
+
+//funzione per contare numero di coccodrilli attivi(?)
 void run(Game *game) {
     while (game->isRunning) {
         recvPlayerCords(game->player, game->serverSocket);
         mvprintw(game->player.cords.y, game->player.cords.x, game->player.frog.sprite);
         int direction = 0;
+
+        //sizeof non va bene
         for (int i = 0; i < sizeof(crocodiles); i++) {
             for (int j = 0; j < sizeof(crocodiles[i]); j++) {
+
+
                 if ((game->player.cords.x == crocodiles[i][j].x) && (game->player.cords.y == crocodiles[i][j].y)) {
                     game->player.isOnCrocodile = 1;
                     direction = crocodiles[i][j].direction;
