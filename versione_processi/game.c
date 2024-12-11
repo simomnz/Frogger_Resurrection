@@ -26,8 +26,14 @@ void run(Game *game) {
                 }
             }
         }
-        
     }
+    // Da cambiare con schermata di vittoria e sconfitta
+    if (game->player.lives > 0) {
+        mvprintw(0, 0, "Hai vinto");
+    }else {
+        mvprintw(0, 0, "Hai perso"); 
+    }
+    
     
 }
 
