@@ -16,9 +16,10 @@ void start(Game *game) {
 
 //funzione per contare numero di coccodrilli attivi(?)
 void run(Game *game) {
+    Player *player = &game->player;
     while (game->isRunning) {
-        recvPlayerCords(&game->player, &game->serverSocket);
-        mvprintw(game->player.cords.y, game->player.cords.x, game->player.frog.sprite);
+        recvPlayerCords(player, game->serverSocket);
+        mvprintw(player->cords.y, player->cords.x, player->frog.sprite);
         int numCroc = 4;
 
         if (isPlayerOnCroc(&game, numCroc)) {
