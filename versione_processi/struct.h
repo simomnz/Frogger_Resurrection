@@ -12,7 +12,7 @@
 typedef struct {
     unsigned int isRunning;
     Player player;
-    Crocodile crocodiles;
+    Crocodile *crocodiles;
     int serverSocket;
 } Game;
 

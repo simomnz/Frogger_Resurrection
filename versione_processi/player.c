@@ -43,3 +43,27 @@ void movePlayer(Player *player, int sockfd) {
     sendPlayerCords(sockfd, player);
 }
 
+
+int isPlayerOnCroc(Game *game, unsigned short numCroc) {
+    for (int i = 0; i < numCroc; i++) {
+        Crocodile *croc = &game->crocodiles[i];
+
+        // Controlla se il giocatore è sulla lunghezza del coccodrillo
+        unsigned short onX = (game->player.cords.x >= croc->cords.x) &&
+                   (game->player.cords.x <= croc->cords.x + croc->length);
+
+        // Controlla se il giocatore è sulla stessa riga
+        unsigned short onY = (game->player.cords.y == croc->cords.y);
+
+        if (onX && onY) {
+            game->player.isOnCrocodile = 1;
+            game->player.cords.direction = croc->cords.direction;
+            return true;
+        }
+    }
+
+    // Se non è su nessun coccodrillo
+    game->player.isOnCrocodile = 0;
+    return false;
+}
+

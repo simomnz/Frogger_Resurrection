@@ -12,13 +12,13 @@ void moveCrocodile(Crocodile *crocodile, int pipe) {
 
 
 
-    while(1) {
+    while (1) {
 
         crocodile->cords.x += (crocodile->cords.direction * crocodile->speed);
 
         //vari controlli per vedere se esce dallo schermo
 
-        if  (crocodile->cords.x >= SCREEN_WIDTH) {
+        if (crocodile->cords.x >= SCREEN_WIDTH) {
             //aspetto un quanto di tempo random
 
             sleep(getRespawnCrocTime());
@@ -86,12 +86,14 @@ int getRespawnCrocTime() {
 
 
 //da cambiare la matrice (?)
-void createCrocodile(int pipe, Crocodile **crocodiles) {
+void createCrocodile(int pipe, Crocodile *crocodiles) {
 
     
 
     //crea solo su una riga per adesso
-    for(int i= 0; i < rand() % (MAX_LINE_CROCODILES -MIN_LINE_CROCODILES)+ MIN_LINE_CROCODILES ; i++) {
+
+    //TODO modificare il numero in base alla difficoltà
+    for(int i= 0; i < 4; i++) {
        
         Crocodile newCroc;
         newCroc.PID = fork();
