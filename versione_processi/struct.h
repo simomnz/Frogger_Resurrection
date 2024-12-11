@@ -25,6 +25,7 @@ typedef struct {
 typedef struct {
     short x;
     short y;
+    short direction;
 } Coordinates;
 
 
@@ -39,9 +40,8 @@ typedef struct {
 typedef struct {
     
     pid_t PID;
-    Coordinates cords;
+    Coordinates cords;   /* cordinate riferite al punto in alto a sinistra del coccodrilo */
     short speed;        /* velocità */
-    short direction;    /* direzione */
     short length;       /* lunghezza */     
     short height;       /* altezza */
 } Crocodile;
@@ -51,7 +51,6 @@ typedef struct {
     pid_t PID;    /* PID del proiettile */
     Coordinates cords;
     short speed;   //aumetabile con la difficoltà
-    short direction;
 
 } Projectile;
 
@@ -61,7 +60,6 @@ typedef struct {
     pid_t PID;    /* PID della granata */
     Coordinates cords;
     short speed;    //???
-    short direction;
     short life;    //tempo di vita ( o passi compiuti)
 } Grenade;
 

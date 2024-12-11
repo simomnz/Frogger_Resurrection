@@ -11,6 +11,10 @@
 #define MIN_LINE_CROCODILES 4
 
 
+#define  CROCODILE_LENGTH 5   //valori a caso da cambiare
+#define  CROCODILE_HEIGHT 3  
+
+
 
 void moveCrocodile(Crocodile *crocodile, int pipe);
 

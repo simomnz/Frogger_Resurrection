@@ -14,7 +14,7 @@ void moveCrocodile(Crocodile *crocodile, int pipe) {
 
     while(1) {
 
-        crocodile->cords.x += (crocodile->direction * crocodile->speed);
+        crocodile->cords.x += (crocodile->cords.direction * crocodile->speed);
 
         //vari controlli per vedere se esce dallo schermo
 
@@ -43,9 +43,16 @@ void moveCrocodile(Crocodile *crocodile, int pipe) {
 //funzione per il controllo valido dello spawn dei coccodrilli?
 int validSpawn(Crocodile *crocodile) {
 
-    //controllo se in quelle x + lunghezza del coccodrillo c'è un altro coccodrillo
+    for(int i = 0; i < sizeof(crocodiles); i++) {
+        for(int j = 0; j < sizeof(crocodiles[i]); j++) {
+            if((crocodile->cords.x != (crocodiles[i][j].cords.x + CROCODILE_LENGTH)) && crocodile->cords.y != (crocodiles[i][j].cords.y + CROCODILE_HEIGHT))  {
+                return 1;
+            }
+        }
+    }
+
     // TODO
-    return 1;
+    return 0;
 }
 
 
@@ -55,14 +62,19 @@ int getRespawnCrocTime() {
 
 void createCrocodile(int pipe) {
 
+    //crea solo su una riga per adesso
     for(int i= 0; i < rand() % (MAX_LINE_CROCODILES -MIN_LINE_CROCODILES)+ MIN_LINE_CROCODILES ; i++) {
        
         Crocodile crocodile;
         crocodile.PID = fork();
         crocodile.cords.x = 0;
         crocodile.cords.y = rand() % SCREEN_HEIGHT;   //da cambiare in righe di gioco
+
+
+        crocodile.cords.direction = 1;  //da cambiare in base alla riga
+
+
         crocodile.speed = 1;    //valore da cambiare in base alla difficoltà    
-        crocodile.direction = 1;  //da cambiare in base alla riga
         crocodile.length = 9;  //valore a caso
         crocodile.height = 4;
 
