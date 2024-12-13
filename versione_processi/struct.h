@@ -56,7 +56,7 @@ typedef struct {
     Coordinates cords;
     Sprite sprite;
     short speed;    //???
-    short life;    //tempo di vita ( o passi compiuti)
+    short lifeSpan;    //tempo di vita ( o passi compiuti)
 } Grenade;
 
 typedef struct 

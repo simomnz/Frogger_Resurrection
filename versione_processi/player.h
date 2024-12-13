@@ -4,6 +4,15 @@
 #include <ncurses.h>  //per la funzione getch
 #include "socket.h"
 
+
+
+
+
 void movePlayer(Player *player, int sockfd);
 
 int isPlayerOnCroc(Game *game, unsigned short numCroc);
+
+void createGrenade(Player *player, int pipe);
+
+void moveGrenade(Grenade *grenade, int pipe);
+

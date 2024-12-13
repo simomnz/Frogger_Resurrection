@@ -18,7 +18,7 @@ int createSocket() {
     }
 
     addr.sun_family = AF_UNIX;  /* Indirizzo locale */ ///
-
+    //manunz uno di quelli
     ///da controllare e capire
     strncpy(addr.sun_path, SOCKET_PATH, sizeof(addr.sun_path) -1 ); /* Copio il path del socket */
     addr.sun_path[sizeof(addr.sun_path) - 1] = '\0'; /* Termino la stringa */
@@ -55,7 +55,7 @@ void recvPlayerCords(Player *player, int sockfd) {
 }
  
 
-//potrebbe essere implementata anche solo nella funzione movePlayer
+
 void sendPlayerCords(Player *player, int sockfd) 
 {
     Coordinates cords;

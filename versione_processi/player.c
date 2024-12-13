@@ -78,3 +78,39 @@ int isPlayerOnCroc(Game *game, unsigned short numCroc) {
 
 
 
+//funzione per il movimento delle granate (da rivedere)
+
+
+//TODO
+
+void moveGrenade(Grenade *grenade, int pipe) {
+
+   while (grenade->lifeSpan > 0)
+   {
+        grenade->cords.x += grenade->speed;
+        grenade->lifeSpan--;
+
+        if (grenade->lifeSpan == 0) {
+            //TODO
+            //kill(grenade->PID, SIGKILL);
+        }
+
+        writeData(pipe, grenade, sizeof(Grenade));
+   }
+   exit(0);
+}
+
+void createGrenade(Player *player, int pipe) {
+    Grenade grenade;
+    grenade.cords.x = player->cords.x;
+    grenade.cords.y = player->cords.y;
+    grenade.sprite.length = 1;   //da cambiare
+    grenade.sprite.sprite = 1;   //da cambiare
+    grenade.speed = 1;   //da 
+    
+    grenade.lifeSpan = 5;   //da cambiare
+
+    moveGrenade(&grenade, pipe);
+}
+
+
