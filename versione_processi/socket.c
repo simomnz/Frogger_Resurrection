@@ -17,9 +17,7 @@ int createSocket() {
         exit(EXIT_FAILURE);
     }
 
-    addr.sun_family = AF_UNIX;  /* Indirizzo locale */ 
-
-
+    addr.sun_family = AF_UNIX;  /* Indirizzo locale */ ///
 
     ///da controllare e capire
     strncpy(addr.sun_path, SOCKET_PATH, sizeof(addr.sun_path) -1 ); /* Copio il path del socket */

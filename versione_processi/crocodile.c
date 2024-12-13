@@ -3,7 +3,7 @@
 #include "utils.h"
 #include "menu.h"
 
-//li ho messi qua perchè poi verranno
+//li ho messi qua perchè poi verranno eliminati
 #define SCREEN_WIDTH 100
 #define SCREEN_HEIGHT 30
 
@@ -24,6 +24,7 @@ void moveCrocodile(Crocodile *crocodile, int pipe) {
 
             sleep(getRespawnCrocTime());
             crocodile->cords.x = 0;
+            
         } else if (crocodile->cords.x < 0) {
             
             //funzionerà con lo sleep?ridondante
@@ -56,7 +57,7 @@ void createCrocodile(int pipe, Crocodile *crocodiles) {
     //sostituire le righe 
     for(int j; j < LINES; j++)  {
         
-    //TODO modificare il numero in base alla difficoltà
+        //TODO modificare il numero in base alla difficoltà
         for(int i= 0; i < 4; i++) {
         
             Crocodile newCroc;
@@ -75,6 +76,9 @@ void createCrocodile(int pipe, Crocodile *crocodiles) {
 
             newCroc.cords.y = j;
 
+
+            //TODO
+            muoviCrocodile(newCroc, pipe);
         }
 
     }

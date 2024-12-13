@@ -5,7 +5,15 @@
 
 void movePlayer(Player *player, int sockfd) {
 
-    int input = getch();      
+    int input = getch();
+
+
+    //gestione del movimento del giocatore sul coccodrillo
+
+
+    if (player->isOnCrocodile) {
+        player->cords.x += player->cords.direction;
+    }
 
     switch (input) {
         case 'w':
@@ -40,11 +48,11 @@ void movePlayer(Player *player, int sockfd) {
     }
 
     //la funzione dovrebbe successivamente chiamare sendPlayerCords per inviare l'input al server   
-
+    
     sendPlayerCords(sockfd, player);
 }
 
-
+//perchè passare il numero di coccodrilli? già presente in game
 int isPlayerOnCroc(Game *game, unsigned short numCroc) {
     for (int i = 0; i < numCroc; i++) {
         Crocodile *croc = &game->crocodiles[i];

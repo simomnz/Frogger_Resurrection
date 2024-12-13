@@ -25,7 +25,7 @@ void run(Game *game) {
         int numCroc = 4;
 
         if (isPlayerOnCroc(&game, numCroc)) {
-            /* code */
+            
         }
         
     }
