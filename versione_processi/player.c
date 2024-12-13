@@ -85,7 +85,7 @@ int isPlayerOnCroc(Game *game, unsigned short numCroc) {
 
 void moveGrenade(Grenade *grenade, int pipe) {
 
-   while (grenade->lifeSpan > 0)
+   do
    {
         grenade->cords.x += grenade->speed;
         grenade->lifeSpan--;
@@ -96,11 +96,16 @@ void moveGrenade(Grenade *grenade, int pipe) {
         }
 
         writeData(pipe, grenade, sizeof(Grenade));
-   }
+
+        //tempo di attesa (da cambiare)
+        usleep(200000);/* condition */
+
+   }while (grenade->lifeSpan > 0);
    exit(0);
 }
 
 void createGrenade(Player *player, int pipe) {
+    
     Grenade grenade;
     grenade.cords.x = player->cords.x;
     grenade.cords.y = player->cords.y;
