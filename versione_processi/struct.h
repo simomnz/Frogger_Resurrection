@@ -14,6 +14,7 @@ typedef struct {
     Player player;
     Crocodile *crocodiles;
     int serverSocket;
+    unsigned short int closedDen[5]; /*boolean array, true Den is closed, false otherwise*/
 } Game;
 
 

@@ -10,6 +10,10 @@ void start(Game *game) {
     game->serverSocket = createSocket();
     game->isRunning = 1;
     createCrocodile(game->crocodiles);
+    /*set all dens as open*/
+    for (int i = 0; i < 5; i++) {
+        game->closedDen[i] = 0;
+    }
 }
 
 
@@ -25,8 +29,21 @@ void run(Game *game) {
         int numCroc = 4;
 
         if (isPlayerOnCroc(&game, numCroc)) {
+            if (player->cords.x + CROCODILE_SHIFT ) {
+                player->cords.x += 1;
+            }
             
+             // spostamento del coccodrillo (da capire il numero)
+        }else if (isPlayerInDen(&game)) {
+            // TODO
+            // update score
+            // update screen
+            // create global variable for spawn point
+            /*let the frog restart from spawnpoint*/
+            player->cords.x = spawnPoint.x;
+            player->cords.y = spawnPoint.y;
         }
+        
         
     }
     // Da cambiare con schermata di vittoria e sconfitta
@@ -42,6 +59,5 @@ void run(Game *game) {
 void stop(Game *game) {
     game->isRunning = 0;
     endwin();
-
 }
 

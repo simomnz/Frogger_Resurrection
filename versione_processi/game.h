@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "player.h"
 #include "struct.h"
+#include "crocodile.h"
 
 void start(Game *game);
 
