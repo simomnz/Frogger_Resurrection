@@ -1,55 +1,59 @@
 #include "player.h"
- 
 
 
 
-void movePlayer(Player *player, int sockfd) {
 
-    int input = getch();
+void movePlayer(Player *player, int pipeFd) {
 
-
-    //gestione del movimento del giocatore sul coccodrillo
-
-
-    if (player->isOnCrocodile) {
-        player->cords.x += player->cords.direction;
-    }
-
-    switch (input) {
-        case 'w':
-        case 'W':
-        case KEY_UP:
-            player->cords.y--;
-            break;
-        case 's':
-        case 'S':
-        case KEY_DOWN:
-            player->cords.y++;
-            break;
-        case 'a':
-        case 'A':
-        case KEY_LEFT:
-            player->cords.x--;
-            break;
-        case 'd':
-        case 'D':   
-        case KEY_RIGHT:
-            player->cords.x++;
-            break;
-            
-        case ' ':
-
-            //gestione delle granate
-            printf("da implementare");
-            //TODO
-
-            break;
-        
-    }
-
-    //la funzione dovrebbe successivamente chiamare sendPlayerCords per inviare l'input al server   
+    while (1) {
+        /* code */
     
-    sendPlayerCords(sockfd, player);
+        int input = getch();
+
+
+        //gestione del movimento del giocatore sul coccodrillo
+
+
+        // if (player->isOnCrocodile) {
+        //     player->cords.x += player->cords.direction;
+        // }
+
+        switch (input) {
+            case 'w':
+            case 'W':
+            case KEY_UP:
+                player->cords.y--;
+                break;
+            case 's':
+            case 'S':
+            case KEY_DOWN:
+                player->cords.y++;
+                break;
+            case 'a':
+            case 'A':
+            case KEY_LEFT:
+                player->cords.x--;
+                break;
+            case 'd':
+            case 'D':   
+            case KEY_RIGHT:
+                player->cords.x++;
+                break;
+                
+            case ' ':
+
+                //gestione delle granate
+                printf("da implementare");
+                //TODO
+
+                break;
+            default: continue;
+        }
+
+        //la funzione dovrebbe successivamente chiamare sendPlayerCords per inviare l'input al server   
+        writeData(pipeFd, player->cords, sizeof(Coordinates))
+        // sendPlayerCords(sockfd, player);
+    }
 }
 
 //perchè passare il numero di coccodrilli? già presente in game

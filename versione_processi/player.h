@@ -3,7 +3,7 @@
 #include <ctype.h>   //per la funzione tolower
 #include <ncurses.h>  //per la funzione getch
 #include "socket.h"
-
+#include "utils.h"
 
 
 

@@ -3,6 +3,7 @@
 #include "player.h"
 #include "struct.h"
 #include "crocodile.h"
+#include "windows.h"
 
 void start(Game *game);
 

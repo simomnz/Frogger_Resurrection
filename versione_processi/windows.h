@@ -3,6 +3,8 @@
 #include <time.h>   
 #include <ncurses.h>
 
+#define COLUMN_BORDER 50
+#define LINES_BORDER 100
 //void initMainWindow();    giàfatto nel main (lascio qua per sicurezza)
 
 WINDOW *createWindow(int height, int width, int starty, int startx);
