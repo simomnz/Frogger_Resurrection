@@ -2,6 +2,7 @@
 
 
 int main(void) {
+    
 
     Game game;
     game.isRunning = 0;

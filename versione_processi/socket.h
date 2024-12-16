@@ -4,6 +4,7 @@
 #include <sys/un.h>       /* per i socket unix */
 #include <ncurses.h>
 #include "struct.h"
+#include <unistd.h>
 
 #define SOCKET_PATH "/tmp/mysocket"  /* Path del socket */
 

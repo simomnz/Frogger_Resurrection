@@ -51,7 +51,7 @@ void movePlayer(Player *player, int pipeFd) {
         }
 
         //la funzione dovrebbe successivamente chiamare sendPlayerCords per inviare l'input al server   
-        writeData(pipeFd, player->cords, sizeof(Coordinates))
+        writeData(pipeFd, &player->cords, sizeof(Coordinates));
         // sendPlayerCords(sockfd, player);
     }
 }
@@ -81,6 +81,27 @@ int isPlayerOnCroc(Game *game, unsigned short numCroc) {
 }
 
 
+int isPlayerOnGrass(Game *game){
+    if (game->player.cords.y == LINES_BORDER - 1) {
+        return 1;
+    }
+    return 0;
+
+}
+
+
+int isPlayerOnDen(Game *game) {
+    
+    for (int i = 0; i < 5; i++) {
+
+        //da cambiare e implementare l'array closedDen
+        if (game->player.cords.x == COLS)  {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 
 //funzione per il movimento delle granate (da rivedere)
 
@@ -102,7 +123,7 @@ void moveGrenade(Grenade *grenade, int pipe) {
         writeData(pipe, grenade, sizeof(Grenade));
 
         //tempo di attesa (da cambiare)
-        usleep(200000);/* condition */
+        //usleep(200000);/* condition */
 
    }while (grenade->lifeSpan > 0);
    exit(0);
@@ -114,7 +135,7 @@ void createGrenade(Player *player, int pipe) {
     grenade.cords.x = player->cords.x;
     grenade.cords.y = player->cords.y;
     grenade.sprite.length = 1;   //da cambiare
-    grenade.sprite.sprite = 1;   //da cambiare
+    grenade.sprite = player->sprite;   //giusto per non dare errori (da cambiare)
     grenade.speed = 1;   //da 
     
     grenade.lifeSpan = 5;   //da cambiare

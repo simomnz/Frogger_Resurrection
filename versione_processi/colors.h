@@ -1,4 +1,5 @@
-
+#pragma once
+#include <ncurses.h>
 
 /* Moltiplicando un valore RGB compreso tra 0 e 255 per questa costante, si converte il valore nella scala [0 - 1000] utilizzata da ncurses */
 #define RGB_CONVERTER 3.921569

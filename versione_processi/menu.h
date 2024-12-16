@@ -1,6 +1,6 @@
-
 #include <ncurses.h>
-
+#include "game.h"
+#include "colors.h"
 
 //bisogna decidere se utilizzare le windows oppure no (io voto si)
 

@@ -1,5 +1,5 @@
 #include "menu.h"
-#include "colors.h"
+
 
 
 
@@ -48,13 +48,13 @@ short menu()
             switch (c)
             {
             case 0:
-                runGame();  //funzione a caso (giusto per capire)
+                //runGame();  //funzione a caso (giusto per capire)
                 break;
             case 1:
-                showScore();  //funzione a caso (giusto per capire)
+                //showScore();  //funzione a caso (giusto per capire)
                 break;
             case 2:
-                closeGame();  //funzione a caso (giusto per capire)
+                //closeGame();  //funzione a caso (giusto per capire)
                 break;
             }
         }

@@ -1,9 +1,10 @@
 #pragma once
 #include <stdio.h>
-#include "player.h"
 #include "struct.h"
 #include "crocodile.h"
 #include "windows.h"
+#include "sprite.h"
+#include "player.h"
 
 void start(Game *game);
 

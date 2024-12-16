@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <ncurses.h>
 #include <unistd.h>
+#include "struct.h"
 
 
 #define CROCODILE_RESPAWN_MAX 10
@@ -16,7 +17,11 @@
 
 
 
-void moveCrocodile(Crocodile *crocodile, int pipe);
 
 int getRespawnCrocTime();
+
+
+void createCrocodile(int *pipe, Crocodile *crocodiles);
+
+void moveCrocodile(int *pipe, Crocodile *crocodile );
 
