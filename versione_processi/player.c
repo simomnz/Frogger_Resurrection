@@ -49,6 +49,7 @@ void movePlayer(Player *player, int pipeFd) {
                 break;
             default: continue;
         }
+            //flushinp();
 
         //la funzione dovrebbe successivamente chiamare sendPlayerCords per inviare l'input al server   
         writeData(pipeFd, &player->cords, sizeof(Coordinates));

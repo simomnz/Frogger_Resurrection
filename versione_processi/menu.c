@@ -11,7 +11,7 @@ short menu()
 
     //printo le grafiche
 
-    printCursor(0, 0);  //cordinate scritta start
+    //printCursor(0, 0);  //cordinate scritta start
 
     int c = 0;
 

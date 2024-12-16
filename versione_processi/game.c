@@ -10,21 +10,25 @@ void start(Game *game) {
 
     game->serverSocket = createSocket();
     game->isRunning = 1;
-    createCrocodile(game->pipeFd, game->crocodiles);
+
+
+    //tutto da aggiustare
+    //createCrocodile(game->pipeFd, game->crocodiles);
     /*set all dens as open*/
     for (int i = 0; i < 5; i++) {
         game->closedDen[i] = 0;
     }
+    
 }
 
 
 
-//funzione per contare numero di coccodrilli attivi(?)
+//questa funzione non funziona neanche per il cazzo
+
 void run(Game *game) {
     Player *player = &game->player;
     player->lives = 3;
 
-    pipe(game->pipeFd);
 
     if (pipe(game->pipeFd) < 0) {
         perror("error in pipe creation");
@@ -40,15 +44,16 @@ void run(Game *game) {
 
     close(game->pipeFd[1]);
 
-    Coordinates spawnPoint = {COLUMN_BORDER / 2, LINES_BORDER - 1};
-
+    Coordinates spawnPoint = {10, 5};
+    player->cords.x = spawnPoint.x;
+    player->cords.y = spawnPoint.y;
     while (game->isRunning) {
         clear();
         // recvPlayerCords(player, game->serverSocket);
         readData(game->pipeFd[0], &player->cords, sizeof(Coordinates));
-        mvprintw(player->cords.y, player->cords.x, "---" ); //da sostituire con la texture player->sprite.texture  (mattrice)
         int numCroc = 4;
 
+        /*
         if (isPlayerOnCroc(game, numCroc)) {
             // spostamento del coccodrillo (da capire il numero)
             int new_x = player->cords.x + (CROCODILE_SHIFT * player->cords.direction);
@@ -59,33 +64,42 @@ void run(Game *game) {
         }else if (isPlayerOnDen(game)) {
             // TODO
             // update score
-            // update screen
+            // update screenprintFrog(player);
             // create global variable for spawn point
-            /*let the frog restart from spawnpoint*/
+            //let the frog restart from spawnpoint
             // player->lives--; (?)
             player->cords.x = spawnPoint.x;
             player->cords.y = spawnPoint.y;
+
         }else if (!isPlayerOnGrass(game)) {
             player->cords.x = spawnPoint.x;
             player->cords.y = spawnPoint.y;
             player->lives--;
         }
+        */
 
-        printFrog(player);
-        printCrocodile(game->crocodiles, numCroc);
+        printFrog(player->cords.x, player->cords.y);
+
+        
+        //printCrocodile(game->crocodiles, numCroc);
+
+        /*if (game->player.lives > 0) {
+            mvprintw(0, 0, "Hai vinto");
+            usleep(100000);
+            break;
+        }else {
+            mvprintw(0, 0, "Hai perso"); 
+            usleep(100000);
+            stop(game);
+            //exit(0);
+
+        }*/
         refresh();
-
-
+        usleep(10000);
             
+        
     }
     // Da cambiare con schermata di vittoria e sconfitta
-    if (game->player.lives > 0) {
-        mvprintw(0, 0, "Hai vinto");
-    }else {
-        mvprintw(0, 0, "Hai perso"); 
-    }
-    exit(0);
-      
 }
 
 void stop(Game *game) {

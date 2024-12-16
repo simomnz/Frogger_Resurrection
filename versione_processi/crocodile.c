@@ -23,34 +23,49 @@ void createCrocodile(int *pipe, Crocodile *crocodiles) {
 
 
     //sostituire le righe 
-    for(int j; j < LINES; j++)  {
+    for(int j= 0; j < LINES; j++)  {
         
         //TODO modificare il numero in base alla difficoltà
         for(int i= 0; i < 4; i++) {
         
             Crocodile newCroc;
             newCroc.PID = fork();
-            srand(time(NULL) + newCroc.PID);
-            newCroc.cords.x = 0;
-            newCroc.cords.y = rand() % SCREEN_HEIGHT;   //da cambiare in righe di gioco
+
+            if (newCroc.PID < 0) {
+                perror("Fork failed");
+                exit(1);  // Exit if fork fails
+            
+            }
+            if(newCroc.PID == 0) {
+                
+                srand(time(NULL) + newCroc.PID);
+                newCroc.cords.x = 0;
+                newCroc.cords.y = rand() % SCREEN_HEIGHT;   //da cambiare in righe di gioco
 
 
-            newCroc.cords.direction = 1;  //da cambiare in base alla riga
+                newCroc.cords.direction = 1;  //da cambiare in base alla riga
 
 
-            newCroc.speed = 1;    //valore da cambiare in base alla difficoltà    
-            newCroc.sprite.length = CROCODILE_LENGTH;  //valore a caso
-            newCroc.sprite.height = CROCODILE_HEIGHT;  
+                newCroc.speed = 1;    //valore da cambiare in base alla difficoltà    
+                newCroc.sprite.length = CROCODILE_LENGTH;  //valore a caso
+                newCroc.sprite.height = CROCODILE_HEIGHT;  
 
-            newCroc.cords.y = j;
+                newCroc.cords.y = j;
 
 
-            //TODO
-            moveCrocodile (pipe, &newCroc);
+                //TODO
+                moveCrocodile (pipe, &newCroc);
+
+                //aggiungo newcroc al vettore
+                crocodiles[i] = newCroc;
+                
+                
+                exit(0);   
+
+            }
         }
 
     }
-    exit(0);   
 }
 
 
@@ -80,9 +95,9 @@ void moveCrocodile(int *pipe, Crocodile *crocodile) {
         }
         writeData(pipe[1], &crocodile, sizeof(Crocodile));
 
+        usleep(200000);
     }   
 
-    usleep(200000);
 
 
 }

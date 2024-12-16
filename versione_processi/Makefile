@@ -1,6 +1,5 @@
-frogger: game.o main.o colors.o menu.o player.o socket.o windows.o sprite.o utils.o projectile.o
-	gcc main.o game.o colors.o player.o socket.o windows.o sprite.o utils.o projectile.o crocodile.o -lncurses -o frogger   
-
+frogger: game.o main.o colors.o menu.o player.o socket.o windows.o sprite.o utils.o projectile.o crocodile.o	
+	gcc game.o main.o colors.o player.o socket.o windows.o sprite.o utils.o projectile.o crocodile.o -o frogger -lncurses
 #aggiungere menu.o
 
 main.o: main.c struct.h
