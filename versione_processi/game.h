@@ -6,6 +6,8 @@
 #include "sprite.h"
 #include "player.h"
 
+//da spostare
+
 void start(Game *game);
 
 void run(Game *game);

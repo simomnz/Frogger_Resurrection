@@ -3,11 +3,15 @@
 #include <sys/types.h>
 
 
+#define MAX_CROCODILES 4
+
+
 
 typedef struct {
     short x;
     short y;
     short direction;
+    unsigned short source;
 } Coordinates;
 
 typedef struct {
@@ -51,7 +55,7 @@ typedef struct {
     int pipeFd[2];
     unsigned int isRunning;
     Player player;
-    Crocodile *crocodiles;
+    Crocodile crocodiles[MAX_CROCODILES];
     int serverSocket;
     unsigned short int closedDen[5];
 } Game;

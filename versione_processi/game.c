@@ -10,48 +10,61 @@ void start(Game *game) {
 
     game->serverSocket = createSocket();
     game->isRunning = 1;
+    if (pipe(game->pipeFd) < 0) {
+        perror("error in pipe creation");
+        exit(-1);
+    }
+    
 
+    createCrocodile(game->pipeFd, game->crocodiles);
+    printCrocodile(game->crocodiles);
 
-    //tutto da aggiustare
-    //createCrocodile(game->pipeFd, game->crocodiles);
     /*set all dens as open*/
+
     for (int i = 0; i < 5; i++) {
         game->closedDen[i] = 0;
     }
-    
 }
 
 
 
-//questa funzione non funziona neanche per il cazzo
 
 void run(Game *game) {
     Player *player = &game->player;
     player->lives = 3;
 
 
-    if (pipe(game->pipeFd) < 0) {
-        perror("error in pipe creation");
-        exit(-1);
-    }
 
+    Coordinates spawnPoint = {(COLS-1)/2, LINES -1};
+    player->cords.x = spawnPoint.x;
+    player->cords.y = spawnPoint.y;
+    printFrog(player->cords.x, player->cords.y);
+    
     pid_t pidPlayer = fork();
     if (pidPlayer == 0) {
         close(game->pipeFd[0]);
         movePlayer(player, game->pipeFd[1]);
         exit(0);
+        //Boh
     }
 
     close(game->pipeFd[1]);
+    Coordinates message = {0, 0, 0, 0};
+    int source = 0;
+    Crocodile *crocodile = game->crocodiles;
 
-    Coordinates spawnPoint = {10, 5};
-    player->cords.x = spawnPoint.x;
-    player->cords.y = spawnPoint.y;
     while (game->isRunning) {
         clear();
         // recvPlayerCords(player, game->serverSocket);
-        readData(game->pipeFd[0], &player->cords, sizeof(Coordinates));
-        int numCroc = 4;
+        readData(game->pipeFd[0], &message, sizeof(Coordinates));
+
+        if (message.source == 0) {
+            player->cords = message;
+        } else if (message.source == 1) {
+            crocodile->cords = message;
+        }
+
+
 
         /*
         if (isPlayerOnCroc(game, numCroc)) {
@@ -80,6 +93,7 @@ void run(Game *game) {
 
         printFrog(player->cords.x, player->cords.y);
 
+        printCrocodile(game->crocodiles);
         
         //printCrocodile(game->crocodiles, numCroc);
 
@@ -106,4 +120,7 @@ void stop(Game *game) {
     game->isRunning = 0;
     endwin();
 }
+
+
+
 

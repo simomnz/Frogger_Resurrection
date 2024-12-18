@@ -7,7 +7,7 @@ void movePlayer(Player *player, int pipeFd) {
 
     while (1) {
         /* code */
-    
+
         int input = getch();
 
 
@@ -17,6 +17,7 @@ void movePlayer(Player *player, int pipeFd) {
         // if (player->isOnCrocodile) {
         //     player->cords.x += player->cords.direction;
         // }
+        player->cords.source = 0;
 
         switch (input) {
             case 'w':
@@ -126,7 +127,7 @@ void moveGrenade(Grenade *grenade, int pipe) {
         //tempo di attesa (da cambiare)
         //usleep(200000);/* condition */
 
-   }while (grenade->lifeSpan > 0);
+    }while (grenade->lifeSpan > 0);
    exit(0);
 }
 

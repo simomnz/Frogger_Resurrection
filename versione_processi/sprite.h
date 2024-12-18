@@ -2,7 +2,8 @@
 #include "struct.h"
 #include <ncurses.h>
 
-void printCrocodile(Crocodile *crocodile, int numCroc);
+
+void printCrocodile(Crocodile *crocodile);
 
 
 void printFrog(int x, int y);

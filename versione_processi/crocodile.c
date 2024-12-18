@@ -18,61 +18,42 @@ int getRespawnCrocTime() {
 }
 
 
-//da cambiare la matrice (?)
 void createCrocodile(int *pipe, Crocodile *crocodiles) {
+    srand(time(NULL));
 
-
-    //sostituire le righe 
-    for(int j= 0; j < LINES; j++)  {
-        
-        //TODO modificare il numero in base alla difficoltà
-        for(int i= 0; i < 4; i++) {
-        
+    for (int j = 0; j < LINES; j++) {
+        for (int i = 0; i < MAX_CROCODILES; i++) {
             Crocodile newCroc;
-            newCroc.PID = fork();
+            pid_t pid = fork();
 
-            if (newCroc.PID < 0) {
+            if (pid < 0) {
                 perror("Fork failed");
-                exit(1);  // Exit if fork fails
-            
-            }
-            if(newCroc.PID == 0) {
-                
-                srand(time(NULL) + newCroc.PID);
-                newCroc.cords.x = 0;
-                newCroc.cords.y = rand() % SCREEN_HEIGHT;   //da cambiare in righe di gioco
-
-
-                newCroc.cords.direction = 1;  //da cambiare in base alla riga
-
-
-                newCroc.speed = 1;    //valore da cambiare in base alla difficoltà    
-                newCroc.sprite.length = CROCODILE_LENGTH;  //valore a caso
-                newCroc.sprite.height = CROCODILE_HEIGHT;  
-
+                exit(1);
+            } else if (pid == 0) {
+                newCroc.cords.x = rand() % COLS;
                 newCroc.cords.y = j;
+                newCroc.cords.direction = 1;
+                newCroc.cords.source = 1;
+                newCroc.speed = 1;
+                newCroc.sprite.length = CROCODILE_LENGTH;
+                newCroc.sprite.height = CROCODILE_HEIGHT;
+                
 
-
-                //TODO
-                moveCrocodile (pipe, &newCroc);
-
-                //aggiungo newcroc al vettore
+                moveCrocodile(pipe, &newCroc);
+                exit(0);
+            } else {
+                newCroc.PID = pid;
                 crocodiles[i] = newCroc;
-                
-                
-                exit(0);   
-
             }
         }
-
     }
 }
 
 
+
 void moveCrocodile(int *pipe, Crocodile *crocodile) {
 
-
-
+    
 
     while (1) {
 
@@ -93,7 +74,9 @@ void moveCrocodile(int *pipe, Crocodile *crocodile) {
             sleep(getRespawnCrocTime());
             crocodile->cords.x = SCREEN_WIDTH - 1;
         }
-        writeData(pipe[1], &crocodile, sizeof(Crocodile));
+        writeData(pipe[1], &crocodile->cords, sizeof(Coordinates));
+
+
 
         usleep(200000);
     }   
