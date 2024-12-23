@@ -32,7 +32,7 @@ void start(Game *game) {
 void run(Game *game) {
     Player *player = &game->player;
     player->lives = 3;
-
+    // cazzo culo palle
 
 
     Coordinates spawnPoint = {(COLS-1)/2, LINES -1};
