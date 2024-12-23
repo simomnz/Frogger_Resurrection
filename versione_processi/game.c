@@ -38,6 +38,7 @@ void run(Game *game) {
     Coordinates spawnPoint = {(COLS-1)/2, LINES -1};
     player->cords.x = spawnPoint.x;
     player->cords.y = spawnPoint.y;
+    player->cords.source = 0;
     printFrog(player->cords.x, player->cords.y);
     
     pid_t pidPlayer = fork();
@@ -60,8 +61,8 @@ void run(Game *game) {
 
         if (message.source == 0) {
             player->cords = message;
-        } else if (message.source == 1) {
-            crocodile->cords = message;
+        } else if (message.source > 1) {
+            crocodile[message.source].cords = message;
         }
 
 
@@ -109,7 +110,7 @@ void run(Game *game) {
 
         }*/
         refresh();
-        usleep(10000);
+        usleep(1000);
             
         
     }

@@ -21,9 +21,9 @@ int getRespawnCrocTime() {
 void createCrocodile(int *pipe, Crocodile *crocodiles) {
     srand(time(NULL));
 
+    Crocodile newCroc;
     for (int j = 0; j < LINES; j++) {
         for (int i = 0; i < MAX_CROCODILES; i++) {
-            Crocodile newCroc;
             pid_t pid = fork();
 
             if (pid < 0) {
@@ -33,7 +33,7 @@ void createCrocodile(int *pipe, Crocodile *crocodiles) {
                 newCroc.cords.x = rand() % COLS;
                 newCroc.cords.y = j;
                 newCroc.cords.direction = 1;
-                newCroc.cords.source = 1;
+                newCroc.cords.source = (j * MAX_CROCODILES) + i + 1;
                 newCroc.speed = 1;
                 newCroc.sprite.length = CROCODILE_LENGTH;
                 newCroc.sprite.height = CROCODILE_HEIGHT;
