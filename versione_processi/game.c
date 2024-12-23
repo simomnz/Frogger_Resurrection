@@ -61,8 +61,8 @@ void run(Game *game) {
 
         if (message.source == 0) {
             player->cords = message;
-        } else if (message.source > 1) {
-            crocodile[message.source].cords = message;
+        } else if (message.source > 0) {
+            crocodile[message.source - 1].cords = message;
         }
 
 
