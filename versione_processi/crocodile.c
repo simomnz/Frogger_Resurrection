@@ -12,17 +12,17 @@
 
 
 
-
+/*
 int getRespawnCrocTime() {
     return (rand() % (CROCODILE_RESPAWN_MAX - CROCODILE_RESPAWN_MIN + 1)) + CROCODILE_RESPAWN_MIN;
 }
-
+*/
 
 void createCrocodile(int *pipe, Crocodile *crocodiles) {
-    srand(time(NULL));
+    
 
     Crocodile newCroc;
-    for (int j = 0; j < LINES; j++) {
+    for (int j = 2; j < LINES -2; j++) {
         for (int i = 0; i < MAX_CROCODILES; i++) {
             pid_t pid = fork();
 
@@ -30,11 +30,14 @@ void createCrocodile(int *pipe, Crocodile *crocodiles) {
                 perror("Fork failed");
                 exit(1);
             } else if (pid == 0) {
-                newCroc.cords.x = rand() % COLS;
+
+                srand(time(NULL) + getpid());
+                newCroc.cords.x = rand() % (COLS -1) + 1;
                 newCroc.cords.y = j;
-                newCroc.cords.direction = 1;
+
+                newCroc.cords.direction = (j % 2 == 0) ? 1 : -1;
                 newCroc.cords.source = (j * MAX_CROCODILES) + i + 1;
-                newCroc.speed = 1;
+                newCroc.speed = (rand() % 3) + 1;
                 newCroc.sprite.length = CROCODILE_LENGTH;
                 newCroc.sprite.height = CROCODILE_HEIGHT;
                 
@@ -64,14 +67,14 @@ void moveCrocodile(int *pipe, Crocodile *crocodile) {
         if (crocodile->cords.x >= SCREEN_WIDTH) {
             //aspetto un quanto di tempo random
 
-            sleep(getRespawnCrocTime());
+            usleep((rand() % 200000) + 100000);
             crocodile->cords.x = 0;
             
         } else if (crocodile->cords.x < 0) {
             
             //funzionerà con lo sleep?ridondante
 
-            sleep(getRespawnCrocTime());
+            usleep((rand() % 200000) + 100000);
             crocodile->cords.x = SCREEN_WIDTH - 1;
         }
         writeData(pipe[1], &crocodile->cords, sizeof(Coordinates));

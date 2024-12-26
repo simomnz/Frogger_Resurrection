@@ -24,6 +24,7 @@ void start(Game *game) {
     for (int i = 0; i < 5; i++) {
         game->closedDen[i] = 0;
     }
+
 }
 
 
@@ -50,7 +51,7 @@ void run(Game *game) {
 
     close(game->pipeFd[1]);
     Coordinates message = {0, 0, 0, 0};
-    int source = 0;
+
     Crocodile *crocodile = game->crocodiles;
 
     while (game->isRunning) {
@@ -61,7 +62,10 @@ void run(Game *game) {
         if (message.source == 0) {
             player->cords = message;
         } else if (message.source > 0) {
-            crocodile[message.source - 1].cords = message;
+            
+            crocodile[message.source - 1].cords.x = message.x;
+            crocodile[message.source - 1].cords.y = message.y;
+            //crocodile[message.source - 1].cords = message;
         }
 
 
@@ -95,7 +99,7 @@ void run(Game *game) {
 
         printCrocodile(game->crocodiles);
         
-        //printCrocodile(game->crocodiles, numCroc);
+        
 
         /*if (game->player.lives > 0) {
             mvprintw(0, 0, "Hai vinto");
