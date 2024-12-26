@@ -59,8 +59,8 @@ void movePlayer(Player *player, int pipeFd) {
 }
 
 //perchè passare il numero di coccodrilli? già presente in game
-int isPlayerOnCroc(Game *game, unsigned short numCroc) {
-    for (int i = 0; i < numCroc; i++) {
+int isPlayerOnCroc(Game *game) {
+    for (int i = 0; i < 10; i++) {
         Crocodile *croc = &game->crocodiles[i];
 
         // Controlla se il giocatore è sulla lunghezza del coccodrillo

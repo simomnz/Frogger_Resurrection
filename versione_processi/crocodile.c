@@ -23,6 +23,9 @@ void createCrocodile(int *pipe, Crocodile *crocodiles) {
 
     Crocodile newCroc;
     for (int j = 2; j < LINES -2; j++) {
+
+        int rowspeed = (rand() % 3) + 1;
+
         for (int i = 0; i < MAX_CROCODILES; i++) {
             pid_t pid = fork();
 
@@ -37,7 +40,7 @@ void createCrocodile(int *pipe, Crocodile *crocodiles) {
 
                 newCroc.cords.direction = (j % 2 == 0) ? 1 : -1;
                 newCroc.cords.source = (j * MAX_CROCODILES) + i + 1;
-                newCroc.speed = (rand() % 3) + 1;
+                newCroc.speed = rowspeed;
                 newCroc.sprite.length = CROCODILE_LENGTH;
                 newCroc.sprite.height = CROCODILE_HEIGHT;
                 

@@ -3,7 +3,7 @@
 #include <sys/types.h>
 
 
-#define MAX_CROCODILES 4
+#define MAX_CROCODILES 2
 
 
 
