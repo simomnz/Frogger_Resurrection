@@ -11,7 +11,7 @@
 
 void movePlayer(Player *player, int sockfd);
 
-int isPlayerOnCroc(Game *game, unsigned short numCroc);
+int isPlayerOnCroc(Game *game);
 
 int isPlayerOnDen(Game *game);
 

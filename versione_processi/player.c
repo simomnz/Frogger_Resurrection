@@ -14,9 +14,10 @@ void movePlayer(Player *player, int pipeFd) {
         //gestione del movimento del giocatore sul coccodrillo
 
 
-        // if (player->isOnCrocodile) {
-        //     player->cords.x += player->cords.direction;
-        // }
+        if (player->isOnCrocodile) {
+            player->cords.x += player->cords.direction;
+        }
+
         player->cords.source = 0;
 
         switch (input) {
@@ -60,7 +61,11 @@ void movePlayer(Player *player, int pipeFd) {
 
 //perchè passare il numero di coccodrilli? già presente in game
 int isPlayerOnCroc(Game *game) {
-    for (int i = 0; i < 10; i++) {
+    
+    //da cambiare
+    int totalCrocodiles = (LINES - 4) * MAX_CROCODILES;
+
+    for (int i = 0; i < totalCrocodiles; i++) {
         Crocodile *croc = &game->crocodiles[i];
 
         // Controlla se il giocatore è sulla lunghezza del coccodrillo

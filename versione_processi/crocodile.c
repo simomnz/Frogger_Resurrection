@@ -67,7 +67,8 @@ void moveCrocodile(int *pipe, Crocodile *crocodile) {
 
         //vari controlli per vedere se esce dallo schermo
 
-        if (crocodile->cords.x >= SCREEN_WIDTH) {
+        //da cambiare con le MACRO
+        if (crocodile->cords.x >= COLS -1) {
             //aspetto un quanto di tempo random
 
             usleep((rand() % 200000) + 100000);
@@ -78,7 +79,7 @@ void moveCrocodile(int *pipe, Crocodile *crocodile) {
             //funzionerà con lo sleep?ridondante
 
             usleep((rand() % 200000) + 100000);
-            crocodile->cords.x = SCREEN_WIDTH - 1;
+            crocodile->cords.x = COLS - 1;
         }
         writeData(pipe[1], &crocodile->cords, sizeof(Coordinates));
 
