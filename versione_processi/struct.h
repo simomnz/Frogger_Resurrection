@@ -53,6 +53,7 @@ typedef struct {
 
 typedef struct {
     int pipeFd[2];
+    int gameToPipe[2];
     unsigned int isRunning;
     Player player;
     Crocodile crocodiles[MAX_CROCODILES];

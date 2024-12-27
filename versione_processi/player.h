@@ -9,7 +9,7 @@
 
 
 
-void movePlayer(Player *player, int sockfd);
+void movePlayer(Player *player, int sockfdm, int gameToPlayerFd);
 
 int isPlayerOnCroc(Game *game);
 

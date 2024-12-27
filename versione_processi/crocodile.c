@@ -84,7 +84,7 @@ void moveCrocodile(int *pipe, Crocodile *crocodile) {
         writeData(pipe[1], &crocodile->cords, sizeof(Coordinates));
 
 
-
+        
         usleep(200000);
     }   
 

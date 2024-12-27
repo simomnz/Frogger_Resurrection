@@ -14,6 +14,10 @@ void start(Game *game) {
         perror("error in pipe creation");
         exit(-1);
     }
+    if (pipe(game->gameToPipe) < 0) {
+        perror("error in pipe creation");
+        exit(-1);
+    }
     
 
     createCrocodile(game->pipeFd, game->crocodiles);
@@ -44,12 +48,14 @@ void run(Game *game) {
     pid_t pidPlayer = fork();
     if (pidPlayer == 0) {
         close(game->pipeFd[0]);
-        movePlayer(player, game->pipeFd[1]);
+        movePlayer(player, game->pipeFd[1], game->gameToPipe[0]);
         exit(0);
         //Boh
     }
 
     close(game->pipeFd[1]);
+
+    
     Coordinates message = {0, 0, 0, 0};
 
     Crocodile *crocodile = game->crocodiles;
@@ -69,15 +75,23 @@ void run(Game *game) {
         }
 
 
+        if (isPlayerOnCroc(game)) {
+
+            player->cords.x += player->cords.direction;
+            writeData(game->gameToPipe[1], &player->cords, sizeof(Coordinates));
+
+        }
+        /*
+        if (isPlayerOnCroc(game)) {
+            // spostamento del coccodrillo (da capire il numero)
+            int new_x = player->cords.x + player->cords.direction;
+            if (new_x < (COLS -1) && new_x > 0) {
+                player->cords.x = new_x;
+            }
+        }
+        */
 
         /*
-        if (isPlayerOnCroc(game, numCroc)) {
-            // spostamento del coccodrillo (da capire il numero)
-            int new_x = player->cords.x + (CROCODILE_SHIFT * player->cords.direction);
-            if (new_x <= COLUMN_BORDER && new_x >= 0) {
-                player->cords.x = new_x;
-            } 
-            
         }else if (isPlayerOnDen(game)) {
             // TODO
             // update score

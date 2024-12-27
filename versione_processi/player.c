@@ -3,21 +3,23 @@
 
 
 
-void movePlayer(Player *player, int pipeFd) {
+void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
 
     while (1) {
-        /* code */
+    
 
-        int input = getch();
+        Coordinates message = {0, 0, 0, 0};
 
-
-        //gestione del movimento del giocatore sul coccodrillo
-
-
-        if (player->isOnCrocodile) {
-            player->cords.x += player->cords.direction;
+        if (read(gameToPlayerFd, &message, sizeof(Coordinates)) > 0) {
+            if (message.source == 0) {
+                player->cords.x = message.x;
+                player->cords.y = message.y;
+                player->cords.direction = message.direction;
+                continue; // Salta la gestione manuale se è un aggiornamento automatico
+            }
         }
 
+        int input = getch();
         player->cords.source = 0;
 
         switch (input) {
@@ -89,7 +91,7 @@ int isPlayerOnCroc(Game *game) {
 
 
 int isPlayerOnGrass(Game *game){
-    if (game->player.cords.y == LINES_BORDER - 1) {
+    if (game->player.cords.y == LINES_BORDER - 1 || game->player.cords.y == LINES_BORDER - 2) {
         return 1;
     }
     return 0;
