@@ -9,7 +9,7 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
     
 
         Coordinates message = {0, 0, 0, 0};
-
+        
         if (read(gameToPlayerFd, &message, sizeof(Coordinates)) > 0) {
             if (message.source == 0) {
                 player->cords.x = message.x;

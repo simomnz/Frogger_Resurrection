@@ -48,12 +48,13 @@ void run(Game *game) {
     pid_t pidPlayer = fork();
     if (pidPlayer == 0) {
         close(game->pipeFd[0]);
+        close(game->gameToPipe[1]);
         movePlayer(player, game->pipeFd[1], game->gameToPipe[0]);
         exit(0);
-        //Boh
     }
 
     close(game->pipeFd[1]);
+    close(game->gameToPipe[0]);
 
     
     Coordinates message = {0, 0, 0, 0};
