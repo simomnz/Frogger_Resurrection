@@ -9,15 +9,14 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
     
 
         Coordinates message = {0, 0, 0, 0};
+
+        readData(gameToPlayerFd, &message, sizeof(Coordinates));
+
+        player->cords = message;
+    
+
+
         
-        if (read(gameToPlayerFd, &message, sizeof(Coordinates)) > 0) {
-            if (message.source == 0) {
-                player->cords.x = message.x;
-                player->cords.y = message.y;
-                player->cords.direction = message.direction;
-                continue; // Salta la gestione manuale se è un aggiornamento automatico
-            }
-        }
 
         int input = getch();
         player->cords.source = 0;
