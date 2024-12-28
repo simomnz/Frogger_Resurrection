@@ -4,22 +4,11 @@
 
 
 void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
+    // usleep(1000);
 
     while (1) {
-    
-
-        Coordinates message = {0, 0, 0, 0};
-
-        readData(gameToPlayerFd, &message, sizeof(Coordinates));
-
-        player->cords = message;
-    
-
-
-        
 
         int input = getch();
-        player->cords.source = 0;
 
         switch (input) {
             case 'w':
@@ -57,6 +46,7 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
         //la funzione dovrebbe successivamente chiamare sendPlayerCords per inviare l'input al server   
         writeData(pipeFd, &player->cords, sizeof(Coordinates));
         // sendPlayerCords(sockfd, player);
+        readData(gameToPlayerFd, &player->cords, sizeof(Coordinates));
     }
 }
 

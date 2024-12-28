@@ -37,7 +37,7 @@ void start(Game *game) {
 void run(Game *game) {
     Player *player = &game->player;
     player->lives = 3;
-
+    
 
     Coordinates spawnPoint = {(COLS-1)/2, LINES -1};
     player->cords.x = spawnPoint.x;
@@ -69,19 +69,15 @@ void run(Game *game) {
         if (message.source == 0) {
             player->cords = message;
         } else if (message.source > 0) {
-            
-            crocodile[message.source - 1].cords.x = message.x;
-            crocodile[message.source - 1].cords.y = message.y;
-            //crocodile[message.source - 1].cords = message;
+            crocodile[message.source - 1].cords = message;
         }
 
 
         if (isPlayerOnCroc(game)) {
-
             player->cords.x += player->cords.direction;
-            writeData(game->gameToPipe[1], &player->cords, sizeof(Coordinates));
-
         }
+        
+        writeData(game->gameToPipe[1], &player->cords, sizeof(Coordinates));
         /*
         if (isPlayerOnCroc(game)) {
             // spostamento del coccodrillo (da capire il numero)
