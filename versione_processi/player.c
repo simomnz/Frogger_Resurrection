@@ -62,12 +62,12 @@ int isPlayerOnCroc(Game *game) {
     for (int i = 0; i < totalCrocodiles; i++) {
         Crocodile *croc = &game->crocodiles[i];
 
-        // Controlla se il giocatore è sulla lunghezza del coccodrillo
+        // bisogna controllare la direzione del coccodrillo (sarebbe => o <=)
         unsigned short onX = (game->player.cords.x >= croc->cords.x) &&
                    (game->player.cords.x <= croc->cords.x + croc->sprite.length);
 
         // Controlla se il giocatore è sulla stessa riga
-        unsigned short onY = (game->player.cords.y == croc->cords.y);
+        unsigned short onY = (game->player.cords.y == croc->cords.y);  //da aggiungere la lunghezza
 
         if (onX && onY) {
             game->player.isOnCrocodile = 1;

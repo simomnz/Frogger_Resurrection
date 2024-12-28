@@ -33,8 +33,6 @@ void start(Game *game) {
 }
 
 
-
-
 void run(Game *game) {
     Player *player = &game->player;
     player->lives = 3;
@@ -75,11 +73,18 @@ void run(Game *game) {
 
 
         if (isPlayerOnCroc(game)) {
-            player->cords.x += player->cords.direction;
+
+            if (player->cords.x + player->cords.direction < COLS && player->cords.x + player->cords.direction > 0) {
+                player->cords.x += player->cords.direction;
+
+            }
+
         }
         
         writeData(game->gameToPipe[1], &player->cords, sizeof(Coordinates));
         mvprintw(1, 0, "Scrivo x = %d && y = %d", player->cords.x, player->cords.y);
+
+
         /*
         if (isPlayerOnCroc(game)) {
             // spostamento del coccodrillo (da capire il numero)

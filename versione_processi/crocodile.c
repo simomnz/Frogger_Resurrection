@@ -41,7 +41,7 @@ void createCrocodile(int *pipe, Crocodile *crocodiles) {
                 newCroc.cords.direction = (j % 2 == 0) ? 1 : -1;
                 newCroc.cords.source = (j * MAX_CROCODILES) + i + 1;
                 newCroc.speed = rowspeed;
-                newCroc.sprite.length = CROCODILE_LENGTH;
+                newCroc.sprite.length = CROCODILE_LENGTH * newCroc.cords.direction;
                 newCroc.sprite.height = CROCODILE_HEIGHT;
                 
 
