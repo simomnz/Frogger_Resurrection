@@ -2,7 +2,8 @@
 #include <ncurses.h>
 
 void start(Game *game) {
-    initscr();      
+    initscr();   
+    nodelay(stdscr, TRUE);   
     noecho();       
     cbreak();       
     keypad(stdscr, TRUE);   
@@ -37,7 +38,7 @@ void start(Game *game) {
 void run(Game *game) {
     Player *player = &game->player;
     player->lives = 3;
-    
+
 
     Coordinates spawnPoint = {(COLS-1)/2, LINES -1};
     player->cords.x = spawnPoint.x;
@@ -57,7 +58,7 @@ void run(Game *game) {
     close(game->gameToPipe[0]);
 
     
-    Coordinates message = {0, 0, 0, 0};
+    Coordinates message; // = {0, 0, 0, 0};
 
     Crocodile *crocodile = game->crocodiles;
 
@@ -65,7 +66,7 @@ void run(Game *game) {
         clear();
         // recvPlayerCords(player, game->serverSocket);
         readData(game->pipeFd[0], &message, sizeof(Coordinates));
-
+        mvprintw(0, 25, "Leggo x = %d && y = %d", player->cords.x, player->cords.y);
         if (message.source == 0) {
             player->cords = message;
         } else if (message.source > 0) {
@@ -73,11 +74,12 @@ void run(Game *game) {
         }
 
 
-        if (isPlayerOnCroc(game)) {
-            player->cords.x += player->cords.direction;
-        }
+        // if (isPlayerOnCroc(game)) {
+        //     player->cords.x += player->cords.direction;
+        // }
         
         writeData(game->gameToPipe[1], &player->cords, sizeof(Coordinates));
+        mvprintw(1, 0, "Scrivo x = %d && y = %d", player->cords.x, player->cords.y);
         /*
         if (isPlayerOnCroc(game)) {
             // spostamento del coccodrillo (da capire il numero)
@@ -123,9 +125,9 @@ void run(Game *game) {
             //exit(0);
 
         }*/
-        refresh();
+        mvprintw(0, 0, "x = %d && y = %d", player->cords.x, player->cords.y);
         usleep(1000);
-            
+        refresh(); 
         
     }
     // Da cambiare con schermata di vittoria e sconfitta

@@ -4,8 +4,8 @@
 
 
 void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
-    // usleep(1000);
-
+    usleep(1000);
+    // Coordinates message;
     while (1) {
 
         int input = getch();
@@ -39,7 +39,9 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
                 //TODO
 
                 break;
-            default: continue;
+            default: 
+                
+                continue;
         }
             //flushinp();
 
@@ -47,6 +49,7 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
         writeData(pipeFd, &player->cords, sizeof(Coordinates));
         // sendPlayerCords(sockfd, player);
         readData(gameToPlayerFd, &player->cords, sizeof(Coordinates));
+        // mvprintw(0, 50, "Player legge x = %d && y = %d", player->cords.x, player->cords.y);
     }
 }
 
