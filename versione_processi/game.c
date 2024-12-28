@@ -74,9 +74,9 @@ void run(Game *game) {
         }
 
 
-        // if (isPlayerOnCroc(game)) {
-        //     player->cords.x += player->cords.direction;
-        // }
+        if (isPlayerOnCroc(game)) {
+            player->cords.x += player->cords.direction;
+        }
         
         writeData(game->gameToPipe[1], &player->cords, sizeof(Coordinates));
         mvprintw(1, 0, "Scrivo x = %d && y = %d", player->cords.x, player->cords.y);
