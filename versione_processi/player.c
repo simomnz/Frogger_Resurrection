@@ -7,7 +7,7 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
     usleep(1000);
     // Coordinates message;
     while (1) {
-
+        readData(gameToPlayerFd, &player->cords, sizeof(Coordinates));
         int input = getch();
 
         switch (input) {
@@ -48,7 +48,7 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
         //la funzione dovrebbe successivamente chiamare sendPlayerCords per inviare l'input al server   
         writeData(pipeFd, &player->cords, sizeof(Coordinates));
         // sendPlayerCords(sockfd, player);
-        readData(gameToPlayerFd, &player->cords, sizeof(Coordinates));
+        
         // mvprintw(0, 50, "Player legge x = %d && y = %d", player->cords.x, player->cords.y);
     }
 }
