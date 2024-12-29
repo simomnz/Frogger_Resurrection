@@ -16,6 +16,11 @@
 #define  CROCODILE_HEIGHT 1
 
 
+//DA TOGLIERE
+
+#define SCREEN_WIDTH 100
+#define SCREEN_HEIGHT 30
+
 
 
 int getRespawnCrocTime();

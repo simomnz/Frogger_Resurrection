@@ -3,9 +3,8 @@
 #include "utils.h"
 #include "menu.h"
 
-//li ho messi qua perchè poi verranno eliminati
-#define SCREEN_WIDTH 100
-#define SCREEN_HEIGHT 30
+
+
 
 
 
