@@ -64,7 +64,7 @@ void run(Game *game) {
         clear();
         // recvPlayerCords(player, game->serverSocket);
         readData(game->pipeFd[0], &message, sizeof(Coordinates));
-        mvprintw(0, 25, "Leggo x = %d && y = %d", player->cords.x, player->cords.y);
+        // mvprintw(0, 25, "Leggo x = %d && y = %d", player->cords.x, player->cords.y);
         if (message.source == 0) {
             player->cords = message;
         } else if (message.source > 0) {
@@ -73,27 +73,16 @@ void run(Game *game) {
 
 
         if (isPlayerOnCroc(game)) {
-
-            if (player->cords.x + player->cords.direction < COLS && player->cords.x + player->cords.direction > 0) {
-                player->cords.x += player->cords.direction;
-
-            }
-
-        }
-        
-        writeData(game->gameToPipe[1], &player->cords, sizeof(Coordinates));
-        mvprintw(1, 0, "Scrivo x = %d && y = %d", player->cords.x, player->cords.y);
-
-
-        /*
-        if (isPlayerOnCroc(game)) {
             // spostamento del coccodrillo (da capire il numero)
             int new_x = player->cords.x + player->cords.direction;
-            if (new_x < (COLS -1) && new_x > 0) {
+            if (new_x <= (COLS -1) && new_x >= 0) {
                 player->cords.x = new_x;
             }
         }
-        */
+        
+        writeData(game->gameToPipe[1], &player->cords, sizeof(Coordinates));
+        // mvprintw(1, 0, "Scrivo x = %d && y = %d", player->cords.x, player->cords.y);
+
 
         /*
         }else if (isPlayerOnDen(game)) {
