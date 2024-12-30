@@ -68,9 +68,6 @@ void run(Game *game) {
         if (message.source == 0) {
             player->cords = message;
         } else if (message.source > 0) {
-            //nessun bisogno di mettere +1 (source coccodrilli ha minimo =5)
-
-            //a quanto pare non è vero, bisogna mettere +1 (non ho capito bene perchè)
             crocodile[message.source -1].cords = message;
         }
 

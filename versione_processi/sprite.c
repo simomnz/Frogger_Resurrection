@@ -26,35 +26,3 @@ void printCrocodile(Crocodile *crocodile) {
     }
 }
 
-/*
-void printCrocodile(Crocodile *crocodile) {
-    int crocIndex = 0; 
-
-
-    for (int j = 2; j < LINES - 2; j++) { 
-        for (int i = 0; i < MAX_CROCODILES; i++) { 
-
-
-            Crocodile *currentCroc = &crocodile[crocIndex++];
-            
-           
-            if (currentCroc->cords.x >= 0 && currentCroc->cords.x < COLS) {
-
-                if (currentCroc->cords.direction == 1) { 
-
-                    mvprintw(currentCroc->cords.y, currentCroc->cords.x, "C");
-                    mvprintw(currentCroc->cords.y, currentCroc->cords.x + 1, "r");
-                    mvprintw(currentCroc->cords.y, currentCroc->cords.x + 2, "o");
-            
-                }else {  
-
-                    mvprintw(currentCroc->cords.y, currentCroc->cords.x, "C"); 
-                    mvprintw(currentCroc->cords.y, currentCroc->cords.x - 1, "r");
-                    mvprintw(currentCroc->cords.y, currentCroc->cords.x - 2, "o");
-                    
-                }
-            }
-        }
-    }
-}
-*/
