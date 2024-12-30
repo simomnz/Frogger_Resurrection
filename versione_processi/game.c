@@ -107,10 +107,10 @@ void run(Game *game) {
         }
         */
 
-        printFrog(player->cords.x, player->cords.y);
 
         printCrocodile(game->crocodiles);
         
+        printFrog(player->cords.x, player->cords.y);
         
 
         /*if (game->player.lives > 0) {

@@ -1,0 +1,1 @@
+1- Al momento la rana (Player), quando sta sopra al coccodrillo rimane bloccato in mezzo, e torna la se prova a spostarsi ---- Da Risolvere
