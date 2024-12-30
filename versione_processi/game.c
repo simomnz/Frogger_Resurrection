@@ -68,14 +68,17 @@ void run(Game *game) {
         if (message.source == 0) {
             player->cords = message;
         } else if (message.source > 0) {
-            crocodile[message.source - 1].cords = message;
+            //nessun bisogno di mettere +1 (source coccodrilli ha minimo =5)
+
+            //a quanto pare non è vero, bisogna mettere +1 (non ho capito bene perchè)
+            crocodile[message.source -1].cords = message;
         }
 
         
         if (isPlayerOnCroc(game)) {
             // spostamento del coccodrillo (da capire il numero)
             int new_x = player->cords.x + player->cords.direction;
-            if (new_x <= (COLS -1) && new_x >= 0) {
+            if (new_x >= 0 && new_x < COLS) {
                 player->cords.x = new_x;
             }
             mvwprintw(stdscr, 0, COLS/2, "Player is on crocodile");

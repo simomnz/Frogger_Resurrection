@@ -9,8 +9,8 @@ void printFrog(int x, int y) {
 
 
 void printCrocodile(Crocodile *crocodile) { 
-    for (int i = 0; i < (MAX_CROCODILES * LINES); i++) {
-        if (crocodile[i].cords.x > 0 && crocodile[i].cords.x < COLS && crocodile[i].cords.y > 0 && crocodile[i].cords.y < LINES) {
+    for (int i = 0; i < (MAX_CROCODILES * (LINES -4)); i++) {
+        if (crocodile[i].cords.x > 0 && crocodile[i].cords.x < COLS) {
 
             //da cambiare con gli sprite
             if(crocodile[i].cords.direction == 1) {
@@ -22,8 +22,39 @@ void printCrocodile(Crocodile *crocodile) {
                 mvprintw(crocodile[i].cords.y, crocodile[i].cords.x - 1, "r");
                 mvprintw(crocodile[i].cords.y, crocodile[i].cords.x - 2, "o");
             }
-            
         }
     }
 }
-  
+
+/*
+void printCrocodile(Crocodile *crocodile) {
+    int crocIndex = 0; 
+
+
+    for (int j = 2; j < LINES - 2; j++) { 
+        for (int i = 0; i < MAX_CROCODILES; i++) { 
+
+
+            Crocodile *currentCroc = &crocodile[crocIndex++];
+            
+           
+            if (currentCroc->cords.x >= 0 && currentCroc->cords.x < COLS) {
+
+                if (currentCroc->cords.direction == 1) { 
+
+                    mvprintw(currentCroc->cords.y, currentCroc->cords.x, "C");
+                    mvprintw(currentCroc->cords.y, currentCroc->cords.x + 1, "r");
+                    mvprintw(currentCroc->cords.y, currentCroc->cords.x + 2, "o");
+            
+                }else {  
+
+                    mvprintw(currentCroc->cords.y, currentCroc->cords.x, "C"); 
+                    mvprintw(currentCroc->cords.y, currentCroc->cords.x - 1, "r");
+                    mvprintw(currentCroc->cords.y, currentCroc->cords.x - 2, "o");
+                    
+                }
+            }
+        }
+    }
+}
+*/

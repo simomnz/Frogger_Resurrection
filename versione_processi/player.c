@@ -58,11 +58,11 @@ int isPlayerOnCroc(Game *game) {
     
     //da cambiare
     int totalCrocodiles = (LINES - 4) * MAX_CROCODILES;
-    unsigned short onX;
+    
 
     for (int i = 0; i < totalCrocodiles; i++) {
         Crocodile *croc = &game->crocodiles[i];
-
+        unsigned short onX = 0; 
         // bisogna controllare la direzione del coccodrillo (sarebbe => o <=)
         if(croc->cords.direction == 1) {
             onX = (game->player.cords.x >= croc->cords.x) &&

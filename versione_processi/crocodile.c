@@ -21,9 +21,10 @@ void createCrocodile(int *pipe, Crocodile *crocodiles) {
     
 
     Crocodile newCroc;
-    for (int j = 2; j < LINES -2; j++) {
+    for (int j = 0; j < LINES -4; j++) {
 
-        int rowspeed = (rand() % 3) + 1;
+        //int rowspeed = (rand() % 3) + 1;
+        int rowspeed = 1;
 
         for (int i = 0; i < MAX_CROCODILES; i++) {
             pid_t pid = fork();
@@ -35,7 +36,7 @@ void createCrocodile(int *pipe, Crocodile *crocodiles) {
 
                 srand(time(NULL) + getpid());
                 newCroc.cords.x = rand() % (COLS -1) + 1;
-                newCroc.cords.y = j;
+                newCroc.cords.y = j +2;
 
                 newCroc.cords.direction = (j % 2 == 0) ? 1 : -1;
                 newCroc.cords.source = (j * MAX_CROCODILES) + i + 1;
@@ -47,7 +48,7 @@ void createCrocodile(int *pipe, Crocodile *crocodiles) {
                 exit(0);
             } else {
                 newCroc.PID = pid;
-                crocodiles[(j * MAX_CROCODILES) + i] = newCroc;
+                crocodiles[(j * MAX_CROCODILES) + i ] = newCroc;
             }
         }
     }
