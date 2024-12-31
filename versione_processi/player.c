@@ -61,29 +61,41 @@ int isPlayerOnCroc(Game *game) {
     
 
     for (int i = 0; i < totalCrocodiles; i++) {
+
         Crocodile *croc = &game->crocodiles[i];
         unsigned short onX = 0; 
-        // bisogna controllare la direzione del coccodrillo (sarebbe => o <=)
-        if(croc->cords.direction == 1) {
-            onX = (game->player.cords.x >= croc->cords.x) &&
-                   (game->player.cords.x <= croc->cords.x + croc->sprite.length);
-        } else {
-            onX = (game->player.cords.x <= croc->cords.x) &&
-                   (game->player.cords.x >= croc->cords.x + croc->sprite.length);
+        
+        int startX, endX;
+
+        if (croc->cords.direction == 1) { 
+            startX = croc->cords.x;
+            endX = croc->cords.x + croc->sprite.length;
+        } else if (croc->cords.direction == -1)
+        {
+            startX = croc->cords.x - croc->sprite.length +1;
+            endX = croc->cords.x +1;
         }
-       
 
-        // Controlla se il giocatore è sulla stessa riga
-        unsigned short onY = (game->player.cords.y == croc->cords.y);  //da aggiungere la lunghezza
+        //debug
+        mvprintw(0, 0, "startX: %d, endX: %d, y: %d, length: %d", startX, endX, croc->cords.y,croc->sprite.length);
+        mvprintw(1, 0, "player x: %d, y: %d", game->player.cords.x, game->player.cords.y);
 
-        if (onX && onY) {
+        //se metti questo esplode tutto (balordo)
+        /*
+        if (game->player.cords.x < startX) {
+            game->player.cords.x = startX;
+        } else if (game->player.cords.x >= endX) {
+            game->player.cords.x = endX - 1;
+        }
+        */
+        //unsigned short onY = (game->player.cords.y == croc->cords.y);  
+        if (game->player.cords.y == croc->cords.y && game->player.cords.x >= startX && game->player.cords.x < endX) {
             game->player.isOnCrocodile = 1;
             game->player.cords.direction = croc->cords.direction;
             return true;
         }
     }
 
-    // Se non è su nessun coccodrillo
     game->player.isOnCrocodile = 0;
     return false;
 }

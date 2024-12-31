@@ -12,11 +12,6 @@
 
 
 /*
-int getRespawnCrocTime() {
-    return (rand() % (CROCODILE_RESPAWN_MAX - CROCODILE_RESPAWN_MIN + 1)) + CROCODILE_RESPAWN_MIN;
-}
-*/
-
 void createCrocodile(int *pipe, Crocodile *crocodiles) {
     
 
@@ -41,14 +36,50 @@ void createCrocodile(int *pipe, Crocodile *crocodiles) {
                 newCroc.cords.direction = (j % 2 == 0) ? 1 : -1;
                 newCroc.cords.source = (j * MAX_CROCODILES) + i + 1;
                 newCroc.speed = rowspeed;
-                newCroc.sprite.length = CROCODILE_LENGTH * newCroc.cords.direction;
+                newCroc.sprite.length = 3; //CROCODILE_LENGTH * newCroc.cords.direction;
                 newCroc.sprite.height = CROCODILE_HEIGHT;
+                
                 
                 moveCrocodile(pipe, &newCroc);
                 exit(0);
             } else {
                 newCroc.PID = pid;
                 crocodiles[(j * MAX_CROCODILES) + i ] = newCroc;
+            }
+        }
+    }
+}
+*/
+
+void createCrocodile(int *pipe, Crocodile *crocodiles) {
+    Crocodile newCroc;
+
+    for (int j = 0; j < LINES - 4; j++) {
+        int rowspeed = 1; // Velocità fissa per ora
+
+        for (int i = 0; i < MAX_CROCODILES; i++) {
+            // Inizializza i valori prima di fork()
+            newCroc.cords.x = rand() % (COLS - 1) + 1;
+            newCroc.cords.y = j + 2;
+            newCroc.cords.direction = (j % 2 == 0) ? 1 : -1;
+            newCroc.cords.source = (j * MAX_CROCODILES) + i + 1;
+            newCroc.speed = rowspeed;
+            newCroc.sprite.length = CROCODILE_LENGTH; // Lunghezza fissa
+            newCroc.sprite.height = CROCODILE_HEIGHT;
+
+            pid_t pid = fork();
+
+            if (pid < 0) {
+                perror("Fork failed");
+                exit(1);
+            } else if (pid == 0) { 
+                srand(time(NULL) + getpid()); 
+                moveCrocodile(pipe, &newCroc);
+                exit(0); 
+            } else { 
+                newCroc.PID = pid;
+                crocodiles[(j * MAX_CROCODILES) + i] = newCroc; 
+
             }
         }
     }

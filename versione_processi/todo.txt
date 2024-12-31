@@ -1,1 +1,1 @@
-1- Al momento la rana (Player), quando sta sopra al coccodrillo rimane bloccato in mezzo, e torna la se prova a spostarsi ---- Da Risolvere
+Il Player non riesce a stare sul coccodrillo poichè si muove troppo velocemente (achille e la tartaruga style)

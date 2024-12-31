@@ -71,14 +71,8 @@ void run(Game *game) {
             crocodile[message.source -1].cords = message;
         }
 
-        
-        if (isPlayerOnCroc(game)) {
-            // spostamento del coccodrillo (da capire il numero)
-            int new_x = player->cords.x + player->cords.direction;
-            if (new_x >= 0 && new_x < COLS) {
-                player->cords.x = new_x;
-            }
-            mvwprintw(stdscr, 0, COLS/2, "Player is on crocodile");
+        if(isPlayerOnCroc(game)) {
+            mvprintw(0, COLS/2, "Sei sul coccodrillo");
         }
         
 
@@ -124,7 +118,7 @@ void run(Game *game) {
             //exit(0);
 
         }*/
-        mvprintw(0, 0, "x = %d && y = %d", player->cords.x, player->cords.y);
+        //mvprintw(0, 0, "x = %d && y = %d", player->cords.x, player->cords.y);
         usleep(1000);
         refresh(); 
         
