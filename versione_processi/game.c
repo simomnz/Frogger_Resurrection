@@ -72,7 +72,14 @@ void run(Game *game) {
         }
 
         if(isPlayerOnCroc(game)) {
+
+            //si muove troppo velocemente
+            player->cords.x += player->cords.direction;
+
+
             mvprintw(0, COLS/2, "Sei sul coccodrillo");
+
+            
         }
         
 
