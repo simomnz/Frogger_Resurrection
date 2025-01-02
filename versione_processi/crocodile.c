@@ -63,7 +63,7 @@ void createCrocodile(int *pipe, Crocodile *crocodiles) {
             newCroc.cords.y = j + 2;
             newCroc.cords.direction = (j % 2 == 0) ? 1 : -1;
             newCroc.cords.source = (j * MAX_CROCODILES) + i + 1;
-            newCroc.speed = rowspeed;
+            newCroc.cords.speed = rowspeed;
             newCroc.sprite.length = CROCODILE_LENGTH; // Lunghezza fissa
             newCroc.sprite.height = CROCODILE_HEIGHT;
 
@@ -93,18 +93,18 @@ void moveCrocodile(int *pipe, Crocodile *crocodile) {
 
     while (1) {
 
-        crocodile->cords.x += (crocodile->cords.direction * crocodile->speed);
+        crocodile->cords.x += (crocodile->cords.direction * crocodile->cords.speed);
 
         //vari controlli per vedere se esce dallo schermo
 
         //da cambiare con le MACRO
-        if (crocodile->cords.x >= COLS) {
+        if (crocodile->cords.x >= COLS + 1) { 
             //aspetto un quanto di tempo random
 
-            usleep((rand() % 200000) + 100000);
+            usleep((rand() % 200000) + 100000); 
             crocodile->cords.x = 0;
             
-        } else if (crocodile->cords.x < -1) {
+        } else if (crocodile->cords.x < -2) {
             
             //funzionerà con lo sleep?ridondante
 

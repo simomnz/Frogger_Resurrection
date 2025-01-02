@@ -34,6 +34,8 @@ void start(Game *game) {
 
 
 void run(Game *game) {
+
+
     Player *player = &game->player;
     player->lives = 3;
 
@@ -42,6 +44,7 @@ void run(Game *game) {
     player->cords.x = spawnPoint.x;
     player->cords.y = spawnPoint.y;
     player->cords.source = 0;
+    player->cords.speed = 1;
     printFrog(player->cords.x, player->cords.y);
     
     pid_t pidPlayer = fork();
@@ -71,22 +74,24 @@ void run(Game *game) {
             crocodile[message.source -1].cords = message;
         }
 
+        
         if(isPlayerOnCroc(game)) {
 
             //si muove troppo velocemente
-            player->cords.x += player->cords.direction;
-
+            player->cords.x += player->cords.direction * player->cords.speed;
 
             mvprintw(0, COLS/2, "Sei sul coccodrillo");
-
             
         }
         
 
-
-
+        
 
         writeData(game->gameToPipe[1], &player->cords, sizeof(Coordinates));
+        
+
+        
+
         // mvprintw(1, 0, "Scrivo x = %d && y = %d", player->cords.x, player->cords.y);
 
 

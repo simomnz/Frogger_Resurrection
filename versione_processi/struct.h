@@ -12,6 +12,7 @@ typedef struct {
     short y;
     short direction;
     unsigned short source;
+    short speed;
 } Coordinates;
 
 typedef struct {
@@ -31,7 +32,6 @@ typedef struct {
 typedef struct {
     pid_t PID;
     Coordinates cords;
-    short speed;
     Sprite sprite;
 } Crocodile;
 

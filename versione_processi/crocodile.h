@@ -23,10 +23,12 @@
 
 
 
-int getRespawnCrocTime();
+
 
 
 void createCrocodile(int *pipe, Crocodile *crocodiles);
 
+
 void moveCrocodile(int *pipe, Crocodile *crocodile );
+
 

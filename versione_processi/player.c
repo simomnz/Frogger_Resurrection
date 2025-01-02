@@ -7,6 +7,7 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
     usleep(1000);
     // Coordinates message;
     while (1) {
+        
         readData(gameToPlayerFd, &player->cords, sizeof(Coordinates));
         int input = getch();
 
@@ -48,6 +49,8 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
         //la funzione dovrebbe successivamente chiamare sendPlayerCords per inviare l'input al server   
         writeData(pipeFd, &player->cords, sizeof(Coordinates));
         // sendPlayerCords(sockfd, player);
+        
+        
         
         // mvprintw(0, 50, "Player legge x = %d && y = %d", player->cords.x, player->cords.y);
     }
@@ -92,6 +95,7 @@ int isPlayerOnCroc(Game *game) {
         if (game->player.cords.y == croc->cords.y && game->player.cords.x >= startX && game->player.cords.x < endX) {
             game->player.isOnCrocodile = 1;
             game->player.cords.direction = croc->cords.direction;
+            game->player.cords.speed = croc->cords.speed;
             return true;
         }
     }
