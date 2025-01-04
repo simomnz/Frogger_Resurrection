@@ -56,7 +56,7 @@ void createCrocodile(int *pipe, Crocodile *crocodiles) {
 
     for (int j = 0; j < LINES - 4; j++) {
         int rowspeed = 1; // Velocità fissa per ora
-
+        // muschio selvaggio
         for (int i = 0; i < MAX_CROCODILES; i++) {
             // Inizializza i valori prima di fork()
             newCroc.cords.x = rand() % (COLS - 1) + 1;
