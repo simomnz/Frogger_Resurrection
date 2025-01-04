@@ -56,54 +56,37 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
     }
 }
 
-//perchè passare il numero di coccodrilli? già presente in game
 int isPlayerOnCroc(Game *game) {
-    
-    //da cambiare
     int totalCrocodiles = (LINES - 4) * MAX_CROCODILES;
-    
 
     for (int i = 0; i < totalCrocodiles; i++) {
-
         Crocodile *croc = &game->crocodiles[i];
-        unsigned short onX = 0; 
         
-        int startX, endX;
-
-        if (croc->cords.direction == 1) { 
-            startX = croc->cords.x;
-            endX = croc->cords.x + croc->sprite.length;
-        } else if (croc->cords.direction == -1)
-        {
-            startX = croc->cords.x - croc->sprite.length +1;
-            endX = croc->cords.x +1;
+        // Se va verso destra
+        int leftX = croc->cords.x;
+        int rightX = croc->cords.x + croc->sprite.length - 1;
+        
+        if (croc->cords.direction == -1) {
+            // Se va verso sinistra, invertiamo
+            leftX = croc->cords.x - (croc->sprite.length - 1);
+            rightX = croc->cords.x;
         }
 
-        //debug
-        mvprintw(0, 0, "startX: %d, endX: %d, y: %d, length: %d", startX, endX, croc->cords.y,croc->sprite.length);
-        mvprintw(1, 0, "player x: %d, y: %d", game->player.cords.x, game->player.cords.y);
 
-        //se metti questo esplode tutto (balordo)
-        /*
-        if (game->player.cords.x < startX) {
-            game->player.cords.x = startX;
-        } else if (game->player.cords.x >= endX) {
-            game->player.cords.x = endX - 1;
-        }
-        */
-        //unsigned short onY = (game->player.cords.y == croc->cords.y);  
-        if (game->player.cords.y == croc->cords.y && game->player.cords.x >= startX && game->player.cords.x < endX) {
+        if (game->player.cords.y == croc->cords.y && 
+            game->player.cords.x >= leftX && 
+            game->player.cords.x <= rightX) {
+            
+            int relativeX = game->player.cords.x - leftX;
+            
             game->player.isOnCrocodile = 1;
-            game->player.cords.direction = croc->cords.direction;
-            game->player.cords.speed = croc->cords.speed;
-            return true;
+            return croc->cords.x + (croc->cords.direction * croc->cords.speed);
         }
     }
-
+    
     game->player.isOnCrocodile = 0;
-    return false;
+    return game->player.cords.x;
 }
-
 
 int isPlayerOnGrass(Game *game){
     if (game->player.cords.y == LINES_BORDER - 1 || game->player.cords.y == LINES_BORDER - 2) {

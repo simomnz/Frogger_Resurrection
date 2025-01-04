@@ -63,6 +63,8 @@ void run(Game *game) {
 
     Crocodile *crocodile = game->crocodiles;
 
+    int count = 0;
+
     while (game->isRunning) {
         clear();
         // recvPlayerCords(player, game->serverSocket);
@@ -75,19 +77,16 @@ void run(Game *game) {
         }
 
         
-        if(isPlayerOnCroc(game)) {
-
-            //si muove troppo velocemente
-            player->cords.x += player->cords.direction * player->cords.speed;
-
-            mvprintw(0, COLS/2, "Sei sul coccodrillo");
-            
-        }
         
 
         
-
-        writeData(game->gameToPipe[1], &player->cords, sizeof(Coordinates));
+        game->player.cords.x = isPlayerOnCroc(game);
+        
+        mvprintw(0, 10, "isOnCrocodile = %d", player->isOnCrocodile);
+        mvprintw(0, 0, "x = %d " , player->cords.x);
+  
+        
+        writeData(game->gameToPipe[1], &game->player.cords, sizeof(Coordinates));
         
 
         
