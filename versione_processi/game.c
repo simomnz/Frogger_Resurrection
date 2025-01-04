@@ -21,8 +21,7 @@ void start(Game *game) {
     }
     
 
-    createCrocodile(game->pipeFd, game->crocodiles);
-    printCrocodile(game->crocodiles);
+   
 
     /*set all dens as open*/
 
@@ -30,14 +29,17 @@ void start(Game *game) {
         game->closedDen[i] = 0;
     }
 
+    menu(game);
 }
 
 
 void run(Game *game) {
 
 
+    createCrocodile(game->pipeFd, game->crocodiles);
     Player *player = &game->player;
     player->lives = 3;
+    player->score = 0;
 
 
     Coordinates spawnPoint = {(COLS-1)/2, LINES -1};
@@ -76,8 +78,9 @@ void run(Game *game) {
             crocodile[message.source -1].cords = message;
         }
 
-        
-        
+      
+        scoreCounter(player, 0);
+                
 
         
         game->player.cords.x = isPlayerOnCroc(game);
@@ -140,6 +143,13 @@ void run(Game *game) {
 void stop(Game *game) {
     game->isRunning = 0;
     endwin();
+    close(game->serverSocket);
+    close(game->pipeFd[0]);
+    close(game->gameToPipe[1]);
+    close(game->gameToPipe[0]);
+    close(game->pipeFd[1]);
+    exit(0);
+
 }
 
 

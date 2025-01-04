@@ -3,44 +3,38 @@
 
 
 
-short menu()
+short menu(Game *game)
 {   
-    //giusto per capire la situa
-
-    //creao la finestra
-
-    //printo le grafiche
-
-    //printCursor(0, 0);  //cordinate scritta start
+   
 
     int c = 0;
 
     while(1) {
 
-        
+        printMenu();
 
         switch (c)
         {
         case 0:
-            //printo il cursore affiaco a start
+        //Da sostituire con la funzione printCursor
+            mvwprintw(stdscr, 0, 0, ">");
             break;
         case 1:
-            //printo il cursore affianco a score
+            mvwprintw(stdscr, 1, 0, ">");
             break;
         case 2:
-            //printo il cursore affianco a exit
+            mvwprintw(stdscr, 2, 0, ">");
             break;
         }
 
         int ch = getch();
 
-        if(ch == KEY_DOWN && c < 3) {
-
+        if(ch == KEY_DOWN && c < 2) {
             c++;
         }else if (ch == KEY_UP && c > 0) {
-
             c--;
         }
+
         if (ch == '\n') {
 
             //return c; nel caso che vogliamo fare una funzione di gestione del menu
@@ -48,19 +42,47 @@ short menu()
             switch (c)
             {
             case 0:
-                //runGame();  //funzione a caso (giusto per capire)
+                clear();
+                printDifficultyMenu(game);
                 break;
             case 1:
-                //showScore();  //funzione a caso (giusto per capire)
+                //score
                 break;
             case 2:
-                //closeGame();  //funzione a caso (giusto per capire)
+                stop(game);
                 break;
             }
         }
-
+        refresh();
 
 
     }
 
+}
+
+
+void easyDifficult(Game *game) {
+    //game->crocodileNumber = EASY_MODE_CROC_NUM;
+    //game->crocodileSpeed = EASY_MODE_CROC_SPEED;
+    run(game);
+}
+
+void mediumDifficult(Game *game) {
+    //game->crocodileNumber = MEDIUM_MODE_CROC_NUM;
+    //game->crocodileSpeed = MEDIUM_MODE_CROC_SPEED;
+    run(game);
+}
+
+void hardDifficult(Game *game) {
+    //game->crocodileNumber = HARD_MODE_CROC_NUM;
+    //game->crocodileSpeed = HARD_MODE_CROC_SPEED;
+    run(game);
+}
+
+
+//è una merda giusto per mettere un punteggio
+int scoreCounter(Player *player, int points) {
+    player->score += points;
+    player->score = (LINES - player->cords.y) * 10;
+    mvprintw(0, COLS - 10, "Score: %d", player->score);
 }

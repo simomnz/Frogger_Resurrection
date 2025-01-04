@@ -5,7 +5,11 @@
 #include "utils.h"
 #include "windows.h"
 #include "struct.h"
+#include "menu.h"
 
+
+#define RIGHT 1
+#define LEFT -1
 
 
 
@@ -18,7 +22,7 @@ int isPlayerOnDen(Game *game);
 int isPlayerOnGrass(Game *game);
 
 
-void createGrenade(Player *player, int pipe);
+void createGrenade(Player *player, int pipe, int direction);
 
 void moveGrenade(Grenade *grenade, int pipe);
 

@@ -5,6 +5,7 @@
 #include "windows.h"
 #include "sprite.h"
 #include "player.h"
+#include "menu.h"
 
 //da spostare
 

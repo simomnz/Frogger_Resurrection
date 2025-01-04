@@ -34,11 +34,9 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
                 break;
                 
             case ' ':
-
-                //gestione delle granate
-                printf("da implementare");
-                //TODO
-
+                //creare una granata sia a destra che a sinistra
+                createGrenade(player, pipeFd, RIGHT);
+                createGrenade(player, pipeFd, LEFT);
                 break;
             default: 
                 
@@ -115,39 +113,53 @@ int isPlayerOnDen(Game *game) {
 
 //TODO
 
-void moveGrenade(Grenade *grenade, int pipe) {
+void moveGrenade(Grenade *grenade, int pipeFd) {
 
    do
    {
-        grenade->cords.x += grenade->speed;
+        grenade->cords.x += grenade->speed * grenade->cords.direction;
         grenade->lifeSpan--;
 
         if (grenade->lifeSpan == 0) {
-            //TODO
-            //kill(grenade->PID, SIGKILL);
+            grenade->cords.x = -1;
+            grenade->cords.y = -1;
+            exit(0);
         }
+        mvwprintw(stdscr, grenade->cords.y, grenade->cords.x, "-");
 
-        writeData(pipe, grenade, sizeof(Grenade));
+        writeData(pipeFd, &grenade->cords, sizeof(Coordinates));
 
-        //tempo di attesa (da cambiare)
-        //usleep(200000);/* condition */
+        
+        usleep(200000);
 
     }while (grenade->lifeSpan > 0);
    exit(0);
 }
 
-void createGrenade(Player *player, int pipe) {
+void createGrenade(Player *player, int pipeFd, int direction) {
     
     Grenade grenade;
     grenade.cords.x = player->cords.x;
     grenade.cords.y = player->cords.y;
     grenade.sprite.length = 1;   //da cambiare
-    grenade.sprite = player->sprite;   //giusto per non dare errori (da cambiare)
-    grenade.speed = 1;   //da 
-    
+    grenade.speed = 1;   
+
     grenade.lifeSpan = 5;   //da cambiare
 
-    moveGrenade(&grenade, pipe);
+    grenade.cords.direction = direction;
+
+    //grenade.cords.source = 0;
+
+    pid_t pid = fork();
+    if (pid < 0) {
+        perror("Fork failed");
+        exit(1);
+    } else if (pid == 0) { 
+        srand(time(NULL) + getpid()); 
+        moveGrenade(&grenade, pipeFd);
+        exit(0); 
+    }
+
 }
 
 

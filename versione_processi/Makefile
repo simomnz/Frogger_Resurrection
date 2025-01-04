@@ -1,6 +1,6 @@
-frogger: game.o main.o colors.o menu.o player.o socket.o windows.o sprite.o utils.o projectile.o crocodile.o	
-	gcc game.o main.o colors.o player.o socket.o windows.o sprite.o utils.o projectile.o crocodile.o -o frogger -lncurses
-#aggiungere menu.o
+frogger: game.o main.o colors.o menu.o player.o socket.o windows.o sprite.o utils.o crocodile.o	
+	gcc game.o main.o colors.o player.o socket.o windows.o sprite.o utils.o crocodile.o menu.o -o frogger -lncurses
+
 
 main.o: main.c struct.h
 	gcc -c main.c -o main.o
@@ -11,8 +11,8 @@ game.o: game.c struct.h
 colors.o: colors.c struct.h
 	gcc -c colors.c -o colors.o
 
-#menu.o: menu.c struct.h
-#	gcc -c menu.c -o menu.o
+menu.o: menu.c struct.h
+	gcc -c menu.c -o menu.o
 
 player.o: player.c struct.h
 	gcc -c player.c -o player.o
@@ -28,9 +28,6 @@ sprite.o: sprite.c struct.h
 
 utils.o: utils.c struct.h
 	gcc -c utils.c -o utils.o
-
-projectile.o: projectile.c struct.h
-	gcc -c projectile.c -o projectile.o
 
 crocodile.o: crocodile.c struct.h
 	gcc -c crocodile.c -o crocodile.o

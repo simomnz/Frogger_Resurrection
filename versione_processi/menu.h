@@ -17,4 +17,12 @@
 
 
 //resituisce la difficoltà
-short menu();
+short menu(Game *game);
+
+void easyDifficult(Game *game);
+
+void mediumDifficult(Game *game);
+
+void hardDifficult(Game *game);
+
+int scoreCounter(Player *player, int points);
