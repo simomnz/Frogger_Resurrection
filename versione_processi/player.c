@@ -55,6 +55,8 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
     }
 }
 
+
+//non va un cazzo (dio merda)
 int isPlayerOnCroc(Game *game) {
     int totalCrocodiles = (LINES - 4) * MAX_CROCODILES;
 
@@ -86,6 +88,7 @@ int isPlayerOnCroc(Game *game) {
     game->player.isOnCrocodile = 0;
     return game->player.cords.x;
 }
+
 
 int isPlayerOnGrass(Game *game){
     if (game->player.cords.y == LINES - 1 || game->player.cords.y == LINES - 2) {

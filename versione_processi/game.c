@@ -84,12 +84,13 @@ void run(Game *game) {
         if (message.source == 0) {
             player->cords = message;
 
-            //suono del salto, causa segmentetion fault se usato troppo spesso
+            stopSound(jumpSound); //per evitare che il suono si sovrapponga (segmentation fault)
             playSound(jumpSound);
-            //da rimuovere?
 
         } else if (message.source > 0) {
             crocodile[message.source -1].cords = message;
+        }else if (message.source> 500) {
+           //proiettile
         }
 
       

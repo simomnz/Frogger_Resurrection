@@ -60,6 +60,10 @@ void playSound(Mix_Chunk *sound) {
     }
 }
 
+void stopSound(Mix_Chunk *sound) {
+    Mix_HaltChannel(-1);
+}
+
 /* Ferma e libera le risorse audio */
 void stopAudio(Mix_Music *music, Mix_Chunk *sound) {
     stopMusic(); // Ferma la musica se in riproduzione

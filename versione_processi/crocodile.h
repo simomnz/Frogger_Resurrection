@@ -31,4 +31,6 @@ void createCrocodile(int *pipe, Crocodile *crocodiles);
 
 void moveCrocodile(int *pipe, Crocodile *crocodile );
 
+void createProjectile(int *pipe, Crocodile *crocodile);
 
+void moveProjectile(int pipe, Projectile *projectile);

@@ -89,7 +89,7 @@ void createCrocodile(int *pipe, Crocodile *crocodiles) {
 
 void moveCrocodile(int *pipe, Crocodile *crocodile) {
 
-    
+    int projectChance= 0;
 
     while (1) {
 
@@ -111,6 +111,18 @@ void moveCrocodile(int *pipe, Crocodile *crocodile) {
             usleep((rand() % 200000) + 100000);
             crocodile->cords.x = COLS - 1;
         }
+
+        projectChance = rand() % 20;
+        
+        if(projectChance == 1) {
+
+
+            //createProjectile(pipe, crocodile);
+
+        }
+         
+
+
         writeData(pipe[1], &crocodile->cords, sizeof(Coordinates));
 
 
@@ -120,4 +132,49 @@ void moveCrocodile(int *pipe, Crocodile *crocodile) {
 
 
 
+}
+
+
+void createProjectiles(int *pipe, Crocodile *crocodile) {
+   
+    Projectile project;
+    project.cords.x = crocodile->cords.x + crocodile->cords.direction;
+    project.cords.y = crocodile->cords.y;
+    project.cords.direction = crocodile->cords.direction;
+    project.cords.source = crocodile->cords.source;
+    project.speed = crocodile->cords.speed + 2;
+    project.sprite.length = 1;
+
+    project.cords.source = 500 + rand () % 1000; //a caso per ora
+
+
+    pid_t pid = fork();
+
+    if (pid < 0) {
+        perror("Fork failed");
+        exit(1);
+    } else if (pid == 0) {
+        moveProjectile(pipe[1], &project);
+        exit(0);
+    }
+
+}
+
+
+void moveProjectile(int pipe, Projectile *projectile) {
+    while (1) {
+
+        projectile->cords.x += projectile->speed * projectile->cords.direction;
+
+        if (projectile->cords.x >= COLS + 1 || projectile->cords.x < -2) {
+
+            //li butto in basso a sinistra (non obbligatorio)
+            projectile->cords.x = -1;
+            projectile->cords.y = -1;
+            exit(0);
+        }
+
+        writeData(pipe, &projectile->cords, sizeof(Coordinates));
+        usleep(200000);
+    }
 }

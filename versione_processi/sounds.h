@@ -19,3 +19,4 @@ void playSound(Mix_Chunk *sound);
 
 void stopAudio(Mix_Music *music, Mix_Chunk *sound);
 
+void stopSound(Mix_Chunk *sound);
