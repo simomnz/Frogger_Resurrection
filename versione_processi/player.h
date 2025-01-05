@@ -6,6 +6,7 @@
 #include "windows.h"
 #include "struct.h"
 #include "menu.h"
+#include "sounds.h"
 
 
 #define RIGHT 1

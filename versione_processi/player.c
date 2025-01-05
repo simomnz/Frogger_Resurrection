@@ -3,6 +3,7 @@
 
 
 
+
 void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
     usleep(1000);
     // Coordinates message;

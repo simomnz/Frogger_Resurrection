@@ -6,6 +6,7 @@
 #include "sprite.h"
 #include "player.h"
 #include "menu.h"
+#include "sounds.h"
 
 //da spostare
 

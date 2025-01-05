@@ -19,9 +19,11 @@ void start(Game *game) {
         perror("error in pipe creation");
         exit(-1);
     }
-    
 
+    initAudio();
+    
    
+    
 
     /*set all dens as open*/
 
@@ -35,11 +37,15 @@ void start(Game *game) {
 
 void run(Game *game) {
 
+    startMusic(loadMusic("../music/gameMusic.mp3"));
 
+    //Mix_Chunk *jumpSound = loadSound("../music/jumpSound.mp3");
+    
     createCrocodile(game->pipeFd, game->crocodiles);
     Player *player = &game->player;
     player->lives = 3;
     player->score = 0;
+
 
 
     Coordinates spawnPoint = {(COLS-1)/2, LINES -1};
@@ -48,6 +54,9 @@ void run(Game *game) {
     player->cords.source = 0;
     player->cords.speed = 1;
     printFrog(player->cords.x, player->cords.y);
+
+    
+
     
     pid_t pidPlayer = fork();
     if (pidPlayer == 0) {
@@ -142,6 +151,7 @@ void run(Game *game) {
 
 void stop(Game *game) {
     game->isRunning = 0;
+    stopMusic();
     endwin();
     close(game->serverSocket);
     close(game->pipeFd[0]);
