@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include "struct.h"
 #include "crocodile.h"
-#include "windows.h"
 #include "sprite.h"
 #include "player.h"
 #include "menu.h"

@@ -88,7 +88,7 @@ int isPlayerOnCroc(Game *game) {
 }
 
 int isPlayerOnGrass(Game *game){
-    if (game->player.cords.y == LINES_BORDER - 1 || game->player.cords.y == LINES_BORDER - 2) {
+    if (game->player.cords.y == LINES - 1 || game->player.cords.y == LINES - 2) {
         return 1;
     }
     return 0;

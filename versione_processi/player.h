@@ -3,7 +3,6 @@
 #include <ncurses.h>  //per la funzione getch
 #include "socket.h"
 #include "utils.h"
-#include "windows.h"
 #include "struct.h"
 #include "menu.h"
 #include "sounds.h"
