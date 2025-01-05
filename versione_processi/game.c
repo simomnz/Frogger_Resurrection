@@ -39,7 +39,7 @@ void run(Game *game) {
 
     startMusic(loadMusic("../music/gameMusic.mp3"));
 
-    //Mix_Chunk *jumpSound = loadSound("../music/jumpSound.mp3");
+    Mix_Chunk *jumpSound = loadSound("../music/jumpSound.mp3");
     
     createCrocodile(game->pipeFd, game->crocodiles);
     Player *player = &game->player;
@@ -83,6 +83,11 @@ void run(Game *game) {
         // mvprintw(0, 25, "Leggo x = %d && y = %d", player->cords.x, player->cords.y);
         if (message.source == 0) {
             player->cords = message;
+
+            //suono del salto, causa segmentetion fault se usato troppo spesso
+            playSound(jumpSound);
+            //da rimuovere?
+
         } else if (message.source > 0) {
             crocodile[message.source -1].cords = message;
         }
