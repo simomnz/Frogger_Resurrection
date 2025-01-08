@@ -5,7 +5,7 @@
 
 
 
-
+/*
 void createCrocodile(int *pipe, Crocodile *crocodiles) {
     Crocodile newCroc;
     srand(time(NULL));
@@ -13,21 +13,76 @@ void createCrocodile(int *pipe, Crocodile *crocodiles) {
     int randDir = (rand() % 2 == 0) ? 1 : -1;
     for (int j = 0; j < LINES - 4; j++) {
         int rowspeed = 1; // Velocità fissa per ora
+        if((j + 2) % 4 == 0) {
+
+
+            randDir = randDir *(-1);
+            for (int i = 0; i < MAX_CROCODILES; i++) {
+
+                // Inizializza i valori prima di fork()
+                newCroc.cords.x = rand() % (COLS - 1) + 1;
+                
+                
+                    
+                    newCroc.cords.y = j + 2;
+                    newCroc.cords.direction =  randDir;
+                    newCroc.cords.source = (j * MAX_CROCODILES) + i + 1;
+                    newCroc.cords.speed = rowspeed;
+                    newCroc.sprite.length = CROCODILE_LENGTH; // Lunghezza fissa
+                    newCroc.sprite.height = CROCODILE_HEIGHT;
+
+                    pid_t pid = fork();
+                    
+                    if (pid < 0) {
+                        perror("Fork failed");
+                        exit(1);
+                    } else if (pid == 0) { 
+                        srand(time(NULL) + getpid()); 
+                        moveCrocodile(pipe, &newCroc);
+                        exit(0); 
+                    } else { 
+                        newCroc.PID = pid;
+                        crocodiles[(j * MAX_CROCODILES) + i] = newCroc; 
+
+                    }
+                
+                
+                
+
+
+            }
+        }
+
+    }
+}
+*/
+
+
+void createCrocodile(int *pipe, Crocodile *crocodiles) {
+    Crocodile newCroc;
+    srand(time(NULL));
+
+    int randDir = (rand() % 2 == 0) ? 1 : -1;
+    int pidCount = 1;
+
+    for (int j = 4; j < LINES - 4; j = j + 4) {
+
+        int rowspeed = 1; // Velocità fissa per ora
         randDir = randDir *(-1);
         for (int i = 0; i < MAX_CROCODILES; i++) {
 
             // Inizializza i valori prima di fork()
             newCroc.cords.x = rand() % (COLS - 1) + 1;
-            newCroc.cords.y = j + 2;
-
+        
+            newCroc.cords.y = j;
             newCroc.cords.direction =  randDir;
-            newCroc.cords.source = (j * MAX_CROCODILES) + i + 1;
+            newCroc.cords.source = pidCount;
             newCroc.cords.speed = rowspeed;
             newCroc.sprite.length = CROCODILE_LENGTH; // Lunghezza fissa
             newCroc.sprite.height = CROCODILE_HEIGHT;
-
+            pidCount++;
             pid_t pid = fork();
-
+                
             if (pid < 0) {
                 perror("Fork failed");
                 exit(1);
@@ -37,11 +92,19 @@ void createCrocodile(int *pipe, Crocodile *crocodiles) {
                 exit(0); 
             } else { 
                 newCroc.PID = pid;
-                crocodiles[(j * MAX_CROCODILES) + i] = newCroc; 
-
+                crocodiles[pidCount -1] = newCroc; 
             }
+
         }
+                
+                
+                
+
+
+        
     }
+
+    
 }
 
 

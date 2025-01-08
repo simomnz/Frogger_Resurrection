@@ -8,6 +8,9 @@ void start(Game *game) {
     cbreak();       
     keypad(stdscr, TRUE);   
     curs_set(0);
+    start_color();
+    //use_default_colors();
+    setColors();
 
     game->serverSocket = createSocket();
     game->isRunning = 1;
@@ -37,7 +40,10 @@ void start(Game *game) {
 
 void run(Game *game) {
 
-    startMusic(loadMusic("../music/gameMusic.mp3"));
+
+    //ha rotto il cazzo sta musica
+
+    //startMusic(loadMusic("../music/gameMusic.mp3"));
 
     Mix_Chunk *jumpSound = loadSound("../music/jumpSound.mp3");
     
@@ -77,15 +83,17 @@ void run(Game *game) {
     int count = 0;
 
     while (game->isRunning) {
-        clear();
+        erase();
+        
         // recvPlayerCords(player, game->serverSocket);
         readData(game->pipeFd[0], &message, sizeof(Coordinates));
         // mvprintw(0, 25, "Leggo x = %d && y = %d", player->cords.x, player->cords.y);
         if (message.source == 0) {
             player->cords = message;
 
-            stopSound(jumpSound); //per evitare che il suono si sovrapponga (segmentation fault)
-            playSound(jumpSound);
+            //da riattivare
+            //stopSound(jumpSound); 
+            //playSound(jumpSound);
 
         } else if (message.source > 0) {
             crocodile[message.source -1].cords = message;
