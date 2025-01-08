@@ -98,13 +98,12 @@ void run(Game *game) {
                 
 
         
-        game->player.cords.x = isPlayerOnCroc(game);
+        isPlayerOnCroc(game);
         
         mvprintw(0, 10, "isOnCrocodile = %d", player->isOnCrocodile);
         mvprintw(0, 0, "x = %d " , player->cords.x);
   
         
-        writeData(game->gameToPipe[1], &game->player.cords, sizeof(Coordinates));
         
 
         
@@ -135,6 +134,10 @@ void run(Game *game) {
         
         printFrog(player->cords.x, player->cords.y);
         
+        if (player->isOnCrocodile) {
+            player->cords.x += player->cords.direction * player->cords.speed;
+        }
+        writeData(game->gameToPipe[1], &game->player.cords, sizeof(Coordinates));
 
         /*if (game->player.lives > 0) {
             mvprintw(0, 0, "Hai vinto");
