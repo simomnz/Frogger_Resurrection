@@ -34,7 +34,7 @@ void setColors();
 #define CROC_BORDER_GREEN 14
 #define CROC_BORDER_DARK_GREEN 15
 #define CROC_BACK_GREEN 16
-#define CROC_TAMMY_GREEN 17  //colore usato per la pancia del coccodrillo
+#define CROC_TUMMY_GREEN 17  //colore usato per la pancia del coccodrillo
 #define CROC_DETAILS_GREEN 18   //colore usato per i dettagli
 
 
@@ -138,7 +138,6 @@ void setColors();
 #define CROC_1_18 49
 #define CROC_1_19 50
 #define CROC_1_20 51
-#define CROC_1_21 52
 #define CROC_2_1 53
 #define CROC_2_2 54
 #define CROC_2_3 55
