@@ -16,22 +16,22 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
             case 'w':
             case 'W':
             case KEY_UP:
-                player->cords.y -= FROG_HEIGHT;
+                player->cords.y -= 1;//FROG_HEIGHT;
                 break;
             case 's':
             case 'S':
             case KEY_DOWN:
-                player->cords.y += FROG_HEIGHT;
+                player->cords.y += 1;//FROG_HEIGHT;
                 break;
             case 'a':
             case 'A':
             case KEY_LEFT:
-                player->cords.x -= FROG_LENGTH;
+                player->cords.x -= 1; //FROG_LENGTH;
                 break;
             case 'd':
             case 'D':   
             case KEY_RIGHT:
-                player->cords.x += FROG_LENGTH;
+                player->cords.x += 1; //FROG_LENGTH;
                 break;
                 
             case ' ':
@@ -81,12 +81,13 @@ int isPlayerOnCroc(Game *game) {
             int relativeX = game->player.cords.x - leftX;
             
             game->player.isOnCrocodile = 1;
-            int displacement = rightX - game->player.cords.x; 
-            game->player.cords.x = leftX + displacement;
+            // int displacement = rightX - game->player.cords.x; 
+            // game->player.cords.x = leftX + displacement;
             game->player.cords.direction = croc->cords.direction;
             game->player.cords.speed = croc->cords.speed;
             //return game->player.cords.x + (croc->cords.direction * croc->cords.speed);
-            return 1;
+            /* returning the id of the crocodile we are on */
+            return croc->cords.source;
         }
     }
     game->player.cords.direction = 0;

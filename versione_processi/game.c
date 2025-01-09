@@ -80,7 +80,7 @@ void run(Game *game) {
     Crocodile *crocodile = game->crocodiles;
 
     int count = 0;
-
+    int playersCroc = 0;
     while (game->isRunning) {
         erase();
         
@@ -96,8 +96,18 @@ void run(Game *game) {
 
         } else if (message.source > 0) {
             crocodile[message.source -1].cords = message;
-        }else if (message.source> 500) {
+            // if ((crocodile[message.source - 1].PID ==  playersCroc) && (player->isOnCrocodile == 1)) {
+            //     player->cords.x += (crocodile[message.source - 1].cords.direction * crocodile[message.source - 1].cords.speed);
+            // }
+
+            // 2) If that croc’s PID == the croc we’re “on,” move the player
+            if (playersCroc == message.source && player->isOnCrocodile) {
+                player->cords.x += (message.direction * message.speed);
+            }
+
+        }else if (message.source > 500) {
            //proiettile
+           
         }
 
       
@@ -105,10 +115,10 @@ void run(Game *game) {
                 
 
         
-        isPlayerOnCroc(game);
+        playersCroc = isPlayerOnCroc(game);
         
-        //mvprintw(0, 10, "isOnCrocodile = %d", player->isOnCrocodile);
-        //mvprintw(0, 0, "x = %d " , player->cords.x);
+        mvprintw(0, 10, "isOnCrocodile = %d", player->isOnCrocodile);
+        mvprintw(0, 0, "x = %d " , player->cords.x);
   
         
         
@@ -141,9 +151,7 @@ void run(Game *game) {
         
         printFrog(player->cords.x, player->cords.y);
         
-        if (player->isOnCrocodile) {
-            player->cords.x += player->cords.direction * player->cords.speed;
-        }
+        
         writeData(game->gameToPipe[1], &game->player.cords, sizeof(Coordinates));
 
         /*if (game->player.lives > 0) {
