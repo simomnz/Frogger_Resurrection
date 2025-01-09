@@ -17,3 +17,7 @@ void printFrog(int x, int y);
 void printMenu();
 
 void printDifficultyMenu();
+
+void printRiver();
+
+void printGrass();
