@@ -57,7 +57,6 @@ void run(Game *game) {
     Coordinates spawnPoint = {(COLS-1)/2, LINES -1};
     player->cords.x = spawnPoint.x;
     player->cords.y = spawnPoint.y;
-    player->cords.source = 0;
     player->cords.speed = 1;
     printFrog(player->cords.x, player->cords.y);
 
@@ -108,8 +107,8 @@ void run(Game *game) {
         
         isPlayerOnCroc(game);
         
-        mvprintw(0, 10, "isOnCrocodile = %d", player->isOnCrocodile);
-        mvprintw(0, 0, "x = %d " , player->cords.x);
+        //mvprintw(0, 10, "isOnCrocodile = %d", player->isOnCrocodile);
+        //mvprintw(0, 0, "x = %d " , player->cords.x);
   
         
         

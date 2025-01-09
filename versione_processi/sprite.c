@@ -30,8 +30,8 @@ void printCrocodile(Crocodile *crocodile) {
 
 
 void printCrocodile(Crocodile *crocodile) {
-    for (int idx = 0; idx < (MAX_CROCODILES * 12); idx++) {
-        if (crocodile[idx].cords.x > 0 && crocodile[idx].cords.x < COLS) {
+    for (int i = 0; i < (MAX_CROCODILES * 12); i++) {
+        if (crocodile[i].cords.x > 0 && crocodile[i].cords.x < COLS) {
             wchar_t crocodileSprite[CROCODILE_HEIGHT][CROCODILE_LENGTH] = {
                 { L'n', L'n', L'n', L'n', L'n', L'n', L'▄', L'▄', L'▄', L'▄', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n' },
                 { L'▄', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L'▄', L'▄' },
@@ -46,13 +46,13 @@ void printCrocodile(Crocodile *crocodile) {
                 {CROC_3_1, CROC_3_2, CROC_3_3, CROC_3_4, CROC_3_5, CROC_3_6, CROC_3_7, CROC_3_8, CROC_3_9, CROC_3_10, CROC_3_11, CROC_3_12, CROC_3_13, CROC_3_14, CROC_3_15, CROC_3_16, CROC_3_17, CROC_3_18, CROC_3_19, CROC_3_20, CROC_3_21}
             };
 
-            if (crocodile[idx].cords.direction == 1) {  // vanno a destra
+            if (crocodile[i].cords.direction == 1) {  // vanno a destra
                 for (int row = 0; row < CROCODILE_HEIGHT; row++) {
                     for (int col = CROCODILE_LENGTH - 1; col >= 0; col--) {
-                        short xx = crocodile[idx].cords.x + (CROCODILE_LENGTH - col);
-                        if (crocodileSprite[row][col] != L'n' && xx >= 1 && xx < COLS) {
+                        short xx = crocodile[i].cords.x + (CROCODILE_LENGTH - col);
+                        if (crocodileSprite[row][col] != L'n') {
                             USE_COLOR(colors[row][col]);
-                            mvaddch(crocodile[idx].cords.y + row, xx, crocodileSprite[row][col]);
+                            mvaddch(crocodile[i].cords.y + row, xx, crocodileSprite[row][col]);
                             attroff(COLOR_PAIR(colors[row][col]));
                         }
                     }
@@ -60,10 +60,10 @@ void printCrocodile(Crocodile *crocodile) {
             } else {  // vanno a sinistra
                 for (int row = 0; row < CROCODILE_HEIGHT; row++) {
                     for (int col = 0; col < CROCODILE_LENGTH; col++) {
-                        short xx = crocodile[idx].cords.x + col + 1;
-                        if (crocodileSprite[row][col] != L'n' && xx >= 1 && xx < COLS) {
+                        short xx = crocodile[i].cords.x + col + 1;
+                        if (crocodileSprite[row][col] != L'n') {
                             USE_COLOR(colors[row][col]);
-                            mvaddch(crocodile[idx].cords.y + row, xx, crocodileSprite[row][col]);
+                            mvaddch(crocodile[i].cords.y + row, xx, crocodileSprite[row][col]);
                             attroff(COLOR_PAIR(colors[row][col]));
                         }
                     }
@@ -76,10 +76,10 @@ void printCrocodile(Crocodile *crocodile) {
 void printFrog(int x, int y) {
     // Definizione dello sprite della rana
     wchar_t frogSprite[FROG_HEIGHT][FROG_LENGTH] = {
-        {L' ', L'n', L' ', L' ', L' ', L'n', L' '},
-        {L'▀', L' ', L' ', L' ', L' ', L' ', L'▀'},
-        {L'▄', L' ', L' ', L' ', L' ', L' ', L'▄'},
-        {L' ', L'▀', L'▀', L'▀', L'▀', L'▀', L' '}
+        {L' ', L'n', L' ', L' ', L' ', L'n', L' '}, // Riga 0 (superiore)
+        {L'▀', L' ', L' ', L' ', L' ', L' ', L'▀'}, // Riga 1
+        {L'▄', L' ', L' ', L' ', L' ', L' ', L'▄'}, // Riga 2
+        {L' ', L'▀', L'▀', L'▀', L'▀', L'▀', L' '}  // Riga 3 (inferiore)
     };
 
     // Definizione dei colori - nota: cambiato da wchar_t a short perché sono colori
@@ -90,17 +90,19 @@ void printFrog(int x, int y) {
         {FROG_3_1, FROG_3_2, FROG_3_3, FROG_3_4, FROG_3_5, FROG_3_6, FROG_3_7}
     };
 
-    // Stampa dello sprite
+    // Stampa dello sprite con (x, y) come angolo in basso a sinistra
     for (int row = 0; row < FROG_HEIGHT; row++) {
         for (int col = 0; col < FROG_LENGTH; col++) {
-            if (frogSprite[row][col] != L'n' && x + col >= 0 && x + col < COLS) {
+            if (frogSprite[row][col] != L'n') {
                 USE_COLOR(colors[row][col]);
-                mvprintw(y + row, x + col, "%lc", frogSprite[row][col]);
+                // Calcola la coordinata Y in modo che la prima riga dello sprite sia stampata più in alto
+                mvprintw(y - (FROG_HEIGHT - 1 - row), x + col, "%lc", frogSprite[row][col]);
                 attroff(colors[row][col]);
             }
         }
     }
 }
+
 
 
 

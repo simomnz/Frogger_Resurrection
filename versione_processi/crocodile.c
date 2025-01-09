@@ -120,13 +120,13 @@ void moveCrocodile(int *pipe, Crocodile *crocodile) {
         //vari controlli per vedere se esce dallo schermo
 
         //da cambiare con le MACRO
-        if (crocodile->cords.x >= COLS + 1) { 
+        if (crocodile->cords.x >= COLS + 1 + CROCODILE_LENGTH) { 
             //aspetto un quanto di tempo random
 
             usleep((rand() % 200000) + 100000); 
             crocodile->cords.x = 0;
             
-        } else if (crocodile->cords.x < -2) {
+        } else if (crocodile->cords.x < -2 - CROCODILE_LENGTH) {
             
             //funzionerà con lo sleep?ridondante
 

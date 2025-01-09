@@ -16,22 +16,22 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
             case 'w':
             case 'W':
             case KEY_UP:
-                player->cords.y--;
+                player->cords.y -= FROG_HEIGHT;
                 break;
             case 's':
             case 'S':
             case KEY_DOWN:
-                player->cords.y++;
+                player->cords.y += FROG_HEIGHT;
                 break;
             case 'a':
             case 'A':
             case KEY_LEFT:
-                player->cords.x--;
+                player->cords.x -= FROG_LENGTH;
                 break;
             case 'd':
             case 'D':   
             case KEY_RIGHT:
-                player->cords.x++;
+                player->cords.x += FROG_LENGTH;
                 break;
                 
             case ' ':

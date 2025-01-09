@@ -11,7 +11,8 @@
 #define RIGHT 1
 #define LEFT -1
 
-
+#define FROG_HEIGHT 4
+#define FROG_LENGTH 7
 
 
 void movePlayer(Player *player, int sockfdm, int gameToPlayerFd);
