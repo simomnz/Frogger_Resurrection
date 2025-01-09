@@ -58,6 +58,7 @@ void run(Game *game) {
     player->cords.x = spawnPoint.x;
     player->cords.y = spawnPoint.y;
     player->cords.speed = 1;
+    printCrocodile(game->crocodiles);
     printFrog(player->cords.x, player->cords.y);
 
     
@@ -81,9 +82,9 @@ void run(Game *game) {
 
     int count = 0;
     int playersCroc = 0;
+    clear();
     while (game->isRunning) {
-        erase();
-        
+        wbkgd(stdscr, COLOR_PAIR(RIVER));
         // recvPlayerCords(player, game->serverSocket);
         readData(game->pipeFd[0], &message, sizeof(Coordinates));
         // mvprintw(0, 25, "Leggo x = %d && y = %d", player->cords.x, player->cords.y);
@@ -111,15 +112,13 @@ void run(Game *game) {
         }
 
       
-        scoreCounter(player, 0);
+        //scoreCounter(player, 0);
                 
 
         
         playersCroc = isPlayerOnCroc(game);
         
-        mvprintw(0, 10, "isOnCrocodile = %d", player->isOnCrocodile);
-        mvprintw(0, 0, "x = %d " , player->cords.x);
-  
+        
         
         
 
@@ -145,14 +144,23 @@ void run(Game *game) {
             player->lives--;
         }
         */
+        if(player->cords.x < 0) {
+            player->cords.x = 0;
+        } else if (player->cords.x > COLS - FROG_LENGTH) {
+            player->cords.x = COLS - FROG_LENGTH;
+        }
 
-
+        //clear();        
+        werase(stdscr);
+        printRiver();
+        printGrass();
         printCrocodile(game->crocodiles);
         
         printFrog(player->cords.x, player->cords.y);
         
         
         writeData(game->gameToPipe[1], &game->player.cords, sizeof(Coordinates));
+
 
         /*if (game->player.lives > 0) {
             mvprintw(0, 0, "Hai vinto");
@@ -166,7 +174,13 @@ void run(Game *game) {
 
         }*/
         //mvprintw(0, 0, "x = %d && y = %d", player->cords.x, player->cords.y);
+        wnoutrefresh(stdscr); // Se usi finestre aggiuntive, usa wnoutrefresh su quelle
+
+        // Aggiorna effettivamente lo schermo una volta
+        doupdate();
+
         usleep(1000);
+
         refresh(); 
         
     }

@@ -11,10 +11,13 @@ void initColors(short c, short r, short g, short b){
 void setColors()
 {
     init_color(COLOR_BLACK, 0, 0, 0);
-    init_color(COLOR_WHITE, 1000, 1000, 1000);
+    init_color(COLOR_WHITE, 255, 255, 255);
+    init_color(COLOR_BLUE, 0, 0, 255);
+    init_color(COLOR_GREEN, 0, 255, 0);
+    
 
-    init_color(RIVER, 89, 131, 176);
-    init_color(GRASS, 0, 255, 0);
+    init_pair(GRASS, COLOR_GREEN, COLOR_GREEN);
+    init_pair(RIVER, COLOR_BLUE, COLOR_BLUE);
 
 
 

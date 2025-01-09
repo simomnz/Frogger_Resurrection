@@ -12,7 +12,7 @@
 #define MIN_LINE_CROCODILES 4
 #define CROCODILE_SHIFT 1
 
-#define  CROCODILE_LENGTH 21   //valori a caso da cambiare
+#define  CROCODILE_LENGTH 21  //valori a caso da cambiare
 #define  CROCODILE_HEIGHT 4
 
 

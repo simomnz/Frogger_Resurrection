@@ -16,22 +16,22 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
             case 'w':
             case 'W':
             case KEY_UP:
-                player->cords.y -= 1;//FROG_HEIGHT;
+                player->cords.y -= FROG_HEIGHT;
                 break;
             case 's':
             case 'S':
             case KEY_DOWN:
-                player->cords.y += 1;//FROG_HEIGHT;
+                player->cords.y += FROG_HEIGHT;
                 break;
             case 'a':
             case 'A':
             case KEY_LEFT:
-                player->cords.x -= 1; //FROG_LENGTH;
+                player->cords.x -= FROG_LENGTH;
                 break;
             case 'd':
             case 'D':   
             case KEY_RIGHT:
-                player->cords.x += 1; //FROG_LENGTH;
+                player->cords.x += FROG_LENGTH;
                 break;
                 
             case ' ':
@@ -43,9 +43,16 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
                 
                 continue;
         }
-            //flushinp();
+        flushinp();
+
+        if(player->cords.y < 0) {
+            player->cords.y = 0;
+        } else if (player->cords.y > LINES - 1) {
+            player->cords.y = LINES - 1;
+        }
 
         //la funzione dovrebbe successivamente chiamare sendPlayerCords per inviare l'input al server   
+        
         writeData(pipeFd, &player->cords, sizeof(Coordinates));
         // sendPlayerCords(sockfd, player);
         
@@ -66,12 +73,13 @@ int isPlayerOnCroc(Game *game) {
         // Se va verso destra
         int leftX = croc->cords.x;
         int rightX = croc->cords.x + croc->sprite.length - 1;
-        
+        /*
         if (croc->cords.direction == -1) {
             // Se va verso sinistra, invertiamo
             leftX = croc->cords.x - (croc->sprite.length - 1);
             rightX = croc->cords.x;
         }
+        */
 
 
         if (game->player.cords.y == croc->cords.y && 
