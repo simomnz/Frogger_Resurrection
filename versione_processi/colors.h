@@ -23,19 +23,20 @@ void setColors();
 
 
 
+#define GRASS 10
 #define RIVER 11
 
 //Crocodiles
 
 
 
-#define CROC_GREEN 12
+#define CROC_GRAY 12
 #define CROC_YELLOW 13
-#define CROC_BORDER_GREEN 14
-#define CROC_BORDER_DARK_GREEN 15
-#define CROC_BACK_GREEN 16
-#define CROC_TUMMY_GREEN 17  //colore usato per la pancia del coccodrillo
-#define CROC_DETAILS_GREEN 18   //colore usato per i dettagli
+#define CROC_BORDER_GRAY 14
+#define CROC_BORDER_DARK_GRAY 15
+#define CROC_BACK_GRAY 16
+#define CROC_TUMMY_GRAY 17  //colore usato per la pancia del coccodrillo
+#define CROC_DETAILS_GRAY 18   //colore usato per i dettagli
 
 
 //Frog
@@ -49,7 +50,7 @@ void setColors();
 
 //Den
 
-#define DEN_BORDER_GREEN 14
+#define DEN_BORDER_GREEN 44 //no
 #define DEN_MIDDLE_GREEN 24
 #define DEN_DETAILS_GREEN 25
 #define DEN_BODY_GREEN 26
