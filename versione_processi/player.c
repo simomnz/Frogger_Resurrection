@@ -45,8 +45,8 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
         }
         flushinp();
 
-        if(player->cords.y < 0) {
-            player->cords.y = 0;
+        if(player->cords.y < 0 + FROG_HEIGHT) {
+            player->cords.y = 0 + FROG_HEIGHT;
         } else if (player->cords.y > LINES - 1) {
             player->cords.y = LINES - 1;
         }
@@ -70,9 +70,9 @@ int isPlayerOnCroc(Game *game) {
     for (int i = 0; i < totalCrocodiles; i++) {
         Crocodile *croc = &game->crocodiles[i];
         
-        // Se va verso destra
         int leftX = croc->cords.x;
         int rightX = croc->cords.x + croc->sprite.length - 1;
+
         /*
         if (croc->cords.direction == -1) {
             // Se va verso sinistra, invertiamo
@@ -106,7 +106,7 @@ int isPlayerOnCroc(Game *game) {
 
 
 int isPlayerOnGrass(Game *game){
-    if (game->player.cords.y == LINES - 1 || game->player.cords.y == LINES - 2) {
+    if (game->player.cords.y > LINES - 5 || game->player.cords.y < 9) {
         return 1;
     }
     return 0;
@@ -116,14 +116,18 @@ int isPlayerOnGrass(Game *game){
 
 int isPlayerOnDen(Game *game) {
     
-    for (int i = 0; i < 5; i++) {
+    int distance = (COLS - (DEN_LENGTH * 5)) / 6; //distanza tra le tane
+    int denX;
+    for (int i = 1; i < 6; i++) {
+        denX = (DEN_LENGTH + distance) * i;   //i calcoli sono giusti fidati 
 
-        //da cambiare e implementare l'array closedDen
-        if (game->player.cords.x == COLS)  {
-            return 1;
+        //non l'ho provato, se da errori è la y==4;
+        if (game->player.cords.y == 4 && game->player.cords.x >= denX - DEN_LENGTH && game->player.cords.x <= denX) {
+            return i;  //ritorna l'id della tana (da sottrarre -1)
         }
     }
-    return 0;
+    
+    //return 0;
 }
 
 

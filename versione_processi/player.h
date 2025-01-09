@@ -15,6 +15,10 @@
 #define FROG_LENGTH 7
 
 
+#define DEN_LENGTH 7
+#define DEN_HEIGHT 4
+
+
 void movePlayer(Player *player, int sockfdm, int gameToPlayerFd);
 
 int isPlayerOnCroc(Game *game);

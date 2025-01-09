@@ -83,6 +83,6 @@ void hardDifficult(Game *game) {
 //è una merda giusto per mettere un punteggio
 int scoreCounter(Player *player, int points) {
     player->score += points;
-    player->score = (LINES - player->cords.y)/4 * 10;
-    mvprintw(0, COLS - 10, "Score: %d", player->score);
+    player->score += (LINES - player->cords.y)/4 * 10;
+    //mvprintw(0, COLS - 15, "Score: %d", player->score);
 }

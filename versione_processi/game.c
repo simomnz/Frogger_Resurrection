@@ -111,8 +111,6 @@ void run(Game *game) {
            
         }
 
-      
-        //scoreCounter(player, 0);
                 
 
         
@@ -127,23 +125,18 @@ void run(Game *game) {
         // mvprintw(1, 0, "Scrivo x = %d && y = %d", player->cords.x, player->cords.y);
 
 
-        /*
-        }else if (isPlayerOnDen(game)) {
-            // TODO
-            // update score
-            // update screenprintFrog(player);
-            // create global variable for spawn point
-            //let the frog restart from spawnpoint
-            // player->lives--; (?)
+        //se vuoi fai funzione isPlayerOnWater
+       if(player->isOnCrocodile == 0 && !isPlayerOnGrass(game)) {  //aggiungere is player on den (in realtà non necessario)
+            player->lives--;
+            scoreCounter(player, 0);
             player->cords.x = spawnPoint.x;
             player->cords.y = spawnPoint.y;
 
-        }else if (!isPlayerOnGrass(game)) {
-            player->cords.x = spawnPoint.x;
-            player->cords.y = spawnPoint.y;
-            player->lives--;
+            //TODO
+            //reset del tempo
         }
-        */
+
+
         if(player->cords.x < 0) {
             player->cords.x = 0;
         } else if (player->cords.x > COLS - FROG_LENGTH) {
@@ -152,14 +145,18 @@ void run(Game *game) {
 
         //clear();        
         werase(stdscr);
-        printRiver();
-        printGrass();
+        //printRiver();
+        //printGrass();
+        printDen();
         printCrocodile(game->crocodiles);
         
         printFrog(player->cords.x, player->cords.y);
+        //mvprintw(1, COLS - 15, "Score: %d", player->score);
+
         
         
         writeData(game->gameToPipe[1], &game->player.cords, sizeof(Coordinates));
+        
 
 
         /*if (game->player.lives > 0) {

@@ -14,6 +14,8 @@ void printCrocodile(Crocodile *crocodile);
 
 void printFrog(int x, int y);
 
+void printDen();
+
 void printMenu();
 
 void printDifficultyMenu();

@@ -44,7 +44,7 @@ void printCrocodile(Crocodile *crocodile) {
         {CROC_3_1, CROC_3_2, CROC_3_3, CROC_3_4, CROC_3_5, CROC_3_6, CROC_3_7, CROC_3_8, CROC_3_9, CROC_3_10, CROC_3_11, CROC_3_12, CROC_3_13, CROC_3_14, CROC_3_15, CROC_3_16, CROC_3_17, CROC_3_18, CROC_3_19, CROC_3_20, CROC_3_21}
     };
     
-    for (int i = 0; i < (MAX_CROCODILES * ((COLS - 12) / 4)); i++) {
+    for (int i = 0; i < (MAX_CROCODILES * ((COLS - 16) / 4)); i++) {
         
         int baseY = crocodile[i].cords.y - (CROCODILE_HEIGHT - 1); // Aggiustiamo y per l'altezza dello sprite
         if (crocodile[i].cords.direction == 1) { // vanno a destra
@@ -100,6 +100,45 @@ void printFrog(int x, int y) {
                 USE_COLOR(colors[row][col]);
                 mvprintw(y - (FROG_HEIGHT - 1 - row), x + col, "%lc", frogSprite[row][col]);
                 //attroff(COLOR_PAIR(colors[row][col]));
+            }
+        }
+    }
+}
+
+void printDen() {
+    wchar_t denSprite[DEN_HEIGHT][DEN_LENGTH] = {
+        {L'▄', L' ', L' ', L' ', L' ', L' ', L'▄'}, // Riga 0 (superiore)
+        {L'▀', L' ', L' ', L' ', L' ', L' ', L'▀'}, // Riga 1
+        {L' ', L' ', L' ', L' ', L' ', L' ', L' '}, // Riga 2
+        {L'n', L'▀', L' ', L' ', L' ', L'▀', L'n'}  // Riga 3 (inferiore)
+    };
+
+    short colors[DEN_HEIGHT][DEN_LENGTH] = {
+        {DEN_0_1, DEN_0_2, DEN_0_3, DEN_0_4, DEN_0_5, DEN_0_6, DEN_0_7},
+        {DEN_1_1, DEN_1_2, DEN_1_3, DEN_1_4, DEN_1_5, DEN_1_6, DEN_1_7},
+        {DEN_2_1, DEN_2_2, DEN_2_3, DEN_2_4, DEN_2_5, DEN_2_6, DEN_2_7},
+        {DEN_3_1, DEN_3_2, DEN_3_3, DEN_3_4, DEN_3_5, DEN_3_6, DEN_3_7}
+    };
+
+    // Calcolo delle posizioni
+    int numDens = 5; // Numero di tane
+    int distance = (COLS - (DEN_LENGTH * numDens)) / (numDens + 1); // Spaziatura tra le tane
+    int y = 4; // Posizione verticale fissa
+    int startX = distance; // Posizione iniziale per la prima tana
+
+    for (int den = 0; den < numDens; den++) { // Itera per ogni tana
+        int currentX = startX + den * (DEN_LENGTH + distance); // Posizione x della tana corrente
+
+        for (int row = 0; row < DEN_HEIGHT; row++) {
+            for (int col = 0; col < DEN_LENGTH; col++) {
+                if (denSprite[row][col] != L'n') {
+                    // Imposta il colore
+                    USE_COLOR(colors[row][col]);
+                    // Stampa il carattere nella posizione corretta
+                    mvprintw(y - DEN_HEIGHT + row, currentX + col, "%lc", denSprite[row][col]);
+                    // Disattiva il colore
+                    attroff(COLOR_PAIR(colors[row][col]));
+                }
             }
         }
     }

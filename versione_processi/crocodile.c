@@ -63,9 +63,10 @@ void createCrocodile(int *pipe, Crocodile *crocodiles) {
     srand(time(NULL));
 
     int randDir = (rand() % 2 == 0) ? 1 : -1;
-    for (int j = 0; j < LINES - 12; j++) { // Evita righe 0-4 e LINES-5 a LINES-1
+    int sourceCounter = 1;
+    for (int j = 0; j < LINES - 16; j++) { // Evita righe 0-4 e LINES-5 a LINES-1
         int rowspeed = 1;
-        int rowSpawn = j +4;
+        int rowSpawn = j + 8;
         if ((rowSpawn + 4) % 4 == 0) {
             randDir = randDir * (-1);
             for (int i = 0; i < MAX_CROCODILES; i++) {
