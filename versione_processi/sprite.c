@@ -2,10 +2,11 @@
 
 
 
-
+/*
 void printFrog(int x, int y) {
     mvprintw(y, x, "#"); //player->sprite.texture);
 }
+*/
 
 /*
 void printCrocodile(Crocodile *crocodile) { 
@@ -72,8 +73,34 @@ void printCrocodile(Crocodile *crocodile) {
     }
 }
 
+void printFrog(int x, int y) {
+    // Definizione dello sprite della rana
+    wchar_t frogSprite[FROG_HEIGHT][FROG_LENGTH] = {
+        {L' ', L'n', L' ', L' ', L' ', L'n', L' '},
+        {L'▀', L' ', L' ', L' ', L' ', L' ', L'▀'},
+        {L'▄', L' ', L' ', L' ', L' ', L' ', L'▄'},
+        {L' ', L'▀', L'▀', L'▀', L'▀', L'▀', L' '}
+    };
 
+    // Definizione dei colori - nota: cambiato da wchar_t a short perché sono colori
+    short colors[FROG_HEIGHT][FROG_LENGTH] = {
+        {FROG_0_1, FROG_0_2, FROG_0_3, FROG_0_4, FROG_0_5, FROG_0_6, FROG_0_7},
+        {FROG_1_1, FROG_1_2, FROG_1_3, FROG_1_4, FROG_1_5, FROG_1_6, FROG_1_7},
+        {FROG_2_1, FROG_2_2, FROG_2_3, FROG_2_4, FROG_2_5, FROG_2_6, FROG_2_7},
+        {FROG_3_1, FROG_3_2, FROG_3_3, FROG_3_4, FROG_3_5, FROG_3_6, FROG_3_7}
+    };
 
+    // Stampa dello sprite
+    for (int row = 0; row < FROG_HEIGHT; row++) {
+        for (int col = 0; col < FROG_LENGTH; col++) {
+            if (frogSprite[row][col] != L'n' && x + col >= 0 && x + col < COLS) {
+                USE_COLOR(colors[row][col]);
+                mvprintw(y + row, x + col, "%lc", frogSprite[row][col]);
+                attroff(colors[row][col]);
+            }
+        }
+    }
+}
 
 
 
