@@ -10,16 +10,12 @@
 #define CROCODILE_RESPAWN_MIN 2
 #define MAX_LINE_CROCODILES 10
 #define MIN_LINE_CROCODILES 4
-#define CROCODILE_SHIFT 1
+#define CROCODILE_SHIFT 15
 
-#define  CROCODILE_LENGTH 21  //valori a caso da cambiare
+#define  CROCODILE_LENGTH 21  
 #define  CROCODILE_HEIGHT 4
 
 
-//DA TOGLIERE
-
-#define SCREEN_WIDTH 100
-#define SCREEN_HEIGHT 30
 
 
 
@@ -34,3 +30,4 @@ void moveCrocodile(int *pipe, Crocodile *crocodile );
 void createProjectile(int *pipe, Crocodile *crocodile);
 
 void moveProjectile(int pipe, Projectile *projectile);
+

@@ -54,7 +54,7 @@ void printCrocodile(Crocodile *crocodile) {
                     if (crocodileSprite[row][col] != L'n') {
                         USE_COLOR(colors[row][col]);
                         mvaddch(baseY + row, xx, crocodileSprite[row][col]);
-                        attroff(COLOR_PAIR(colors[row][col]));
+                        //attroff(COLOR_PAIR(colors[row][col]));
                     }
                 }
             }
@@ -65,7 +65,7 @@ void printCrocodile(Crocodile *crocodile) {
                     if (crocodileSprite[row][col] != L'n') {
                         USE_COLOR(colors[row][col]);
                         mvaddch(baseY + row, xx, crocodileSprite[row][col]);
-                        attroff(COLOR_PAIR(colors[row][col]));
+                        //attroff(COLOR_PAIR(colors[row][col]));
                     }
                 }
             }
@@ -99,7 +99,7 @@ void printFrog(int x, int y) {
             if (frogSprite[row][col] != L'n') {
                 USE_COLOR(colors[row][col]);
                 mvprintw(y - (FROG_HEIGHT - 1 - row), x + col, "%lc", frogSprite[row][col]);
-                attroff(COLOR_PAIR(colors[row][col]));
+                //attroff(COLOR_PAIR(colors[row][col]));
             }
         }
     }
@@ -208,7 +208,7 @@ void printGrass() {
             mvprintw(i, j, " ");
         }
     }
-    attroff(COLOR_PAIR(GRASS));
+    //attroff(COLOR_PAIR(GRASS));
 
 }
 
