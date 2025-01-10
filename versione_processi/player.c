@@ -114,7 +114,7 @@ int isPlayerOnGrass(Game *game){
 }
 
 
-int isPlayerOnDen(Game *game) {
+int isPlayerOnDen(Game *game) { 
     
     int distance = (COLS - (DEN_LENGTH * 5)) / 6; //distanza tra le tane
     int denX;
@@ -122,12 +122,14 @@ int isPlayerOnDen(Game *game) {
         denX = (DEN_LENGTH + distance) * i;   //i calcoli sono giusti fidati 
 
         //non l'ho provato, se da errori è la y==4;
-        if (game->player.cords.y == 4 && game->player.cords.x >= denX - DEN_LENGTH && game->player.cords.x <= denX) {
-            return i;  //ritorna l'id della tana (da sottrarre -1)
+        if (game->player.cords.y == 4 && game->player.cords.x >= denX - DEN_LENGTH && game->player.cords.x <= denX && game->closedDen[i - 1] == 0) {
+            game->closedDen[i - 1] = 1;
+            return i;  //ritorna l'id della tana 
         }
+
     }
     
-    //return 0;
+    return 0;
 }
 
 

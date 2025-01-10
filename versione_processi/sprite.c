@@ -242,27 +242,26 @@ void printDifficultyMenu(Game *game) {
 
 void printRiver() {
                 
-    USE_COLOR(RIVER);
+    //USE_COLOR(RIVER);
+    attron(COLOR_PAIR(RIVER));
     for (int i = 4; i < LINES -4; i++) {
         for (int j = 0; j < COLS; j++) {
             mvprintw(i, j, " ");
         }
     }
-    attroff(COLOR_PAIR(RIVER));
+    //attroff(COLOR_PAIR(RIVER));
 
 }
 
 void printGrass() {
                 
-    USE_COLOR(GRASS);
+    //USE_COLOR(GRASS);
+    attron(COLOR_PAIR(GRASS));
     for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < COLS; j++) {
-            mvprintw(i, j, " "); //primo parametro è la riga, il secondo la colonna
-        }
+        
     }
     for(int i = LINES -1; i > LINES - 5; i--) {
         for (int j = 0; j < COLS; j++) {
-            USE_COLOR(GRASS);
             mvprintw(i, j, " ");
         }
     }

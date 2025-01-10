@@ -33,6 +33,7 @@ void start(Game *game) {
     for (int i = 0; i < 5; i++) {
         game->closedDen[i] = 0;
     }
+    
 
     menu(game);
 }
@@ -82,7 +83,9 @@ void run(Game *game) {
 
     int count = 0;
     int playersCroc = 0;
+    int playersDen = 0;
     clear();
+    bkgd(COLOR_PAIR(RIVER));
     while (game->isRunning) {
         wbkgd(stdscr, COLOR_PAIR(RIVER));
         // recvPlayerCords(player, game->serverSocket);
@@ -110,11 +113,20 @@ void run(Game *game) {
            //proiettile
            
         }
-
-                
-
+       
+        
         
         playersCroc = isPlayerOnCroc(game);
+        
+        playersDen = isPlayerOnDen(game);
+
+
+        //funzionante   
+        if(playersDen) {
+            scoreCounter(player, 100);
+            player->cords.x = spawnPoint.x;
+            player->cords.y = spawnPoint.y;
+        }
         
         
         
@@ -126,6 +138,8 @@ void run(Game *game) {
 
 
         //se vuoi fai funzione isPlayerOnWater
+
+        /*
        if(player->isOnCrocodile == 0 && !isPlayerOnGrass(game)) {  //aggiungere is player on den (in realtà non necessario)
             player->lives--;
             scoreCounter(player, 0);
@@ -133,8 +147,9 @@ void run(Game *game) {
             player->cords.y = spawnPoint.y;
 
             //TODO
-            //reset del tempo
+            // reset del tempo
         }
+        */
 
 
         if(player->cords.x < 0) {
@@ -143,10 +158,10 @@ void run(Game *game) {
             player->cords.x = COLS - FROG_LENGTH;
         }
 
-        //clear();        
+        clear();        
         werase(stdscr);
-        //printRiver();
-        //printGrass();
+        printRiver();
+        printGrass();
         printDen();
         printCrocodile(game->crocodiles);
         

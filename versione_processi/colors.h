@@ -23,8 +23,8 @@ void setColors();
 
 
 
-#define GRASS 10
-#define RIVER 11
+#define GRASS 10000
+#define RIVER 11000
 
 //Crocodiles
 
