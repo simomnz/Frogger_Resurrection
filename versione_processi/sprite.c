@@ -144,19 +144,38 @@ void printDen() {
     }
 }
 
+void printFrogger() {
 
+    wchar_t froggerSprite[FROGGER_HEIGHT][FROGGER_LENGTH] = {
+        {L'▄', L' ', L' ', L' ', L' ', L'n', L'▄', L' ', L' ', L' ', L' ', L'n', L'▄', L' ', L' ', L' ', L' ', L'n', L'▄', L' ', L' ', L' ', L' ', L'n', L'▄', L' ', L' ', L' ', L' ', L'n', L'▄', L' ', L' ', L' ', L' ', L'n', L'▄', L' ', L' ', L' ', L' ', L'n'},
+        {L' ', L' ', L' ', L'▄', L'▄', L'n', L' ', L' ', L'▄', L' ', L' ', L'n', L' ', L' ', L'n', L' ', L' ', L'n', L' ', L' ', L'n', L'n', L'n', L'n', L' ', L' ', L'n', L'n', L'n', L'n', L' ', L' ', L' ', L'▄', L'▄', L'n', L' ', L' ', L'▄', L' ', L'▀', L'n'},
+        {L' ', L' ', L' ', L'▀', L'▀', L'n', L' ', L' ', L'▀', L' ', L'▀', L'n', L' ', L' ', L'n', L' ', L' ', L'n', L' ', L' ', L'▄', L' ', L' ', L'n', L' ', L' ', L'▄', L' ', L' ', L'n', L' ', L' ', L' ', L'▀', L'▀', L'n', L' ', L' ', L'n', L' ', L' ', L'n'},
+        {L' ', L' ', L' ', L'n', L'n', L'n', L' ', L' ', L'n', L' ', L' ', L'n', L' ', L' ', L' ', L' ', L' ', L'n', L' ', L' ', L' ', L' ', L' ', L'n', L' ', L' ', L' ', L' ', L' ', L'n', L' ', L' ', L' ', L' ', L' ', L'n', L' ', L' ', L'n', L' ', L' ', L'n'}
+    };
 
+    short colors[FROGGER_HEIGHT][FROGGER_LENGTH] = {
+        {FROGGER_0_1, FROGGER_0_2, FROGGER_0_3, FROGGER_0_4, FROGGER_0_5, FROGGER_0_6, FROGGER_0_7, FROGGER_0_8, FROGGER_0_9, FROGGER_0_10, FROGGER_0_11, FROGGER_0_12, FROGGER_0_13, FROGGER_0_14, FROGGER_0_15, FROGGER_0_16, FROGGER_0_17, FROGGER_0_18, FROGGER_0_19, FROGGER_0_20, FROGGER_0_21, FROGGER_0_22, FROGGER_0_23, FROGGER_0_24, FROGGER_0_25, FROGGER_0_26, FROGGER_0_27, FROGGER_0_28, FROGGER_0_29, FROGGER_0_30, FROGGER_0_31, FROGGER_0_32, FROGGER_0_33, FROGGER_0_34, FROGGER_0_35, FROGGER_0_36, FROGGER_0_37, FROGGER_0_38, FROGGER_0_39, FROGGER_0_40, FROGGER_0_41, FROGGER_0_42},
+        {FROGGER_1_1, FROGGER_1_2, FROGGER_1_3, FROGGER_1_4, FROGGER_1_5, FROGGER_1_6, FROGGER_1_7, FROGGER_1_8, FROGGER_1_9, FROGGER_1_10, FROGGER_1_11, FROGGER_1_12, FROGGER_1_13, FROGGER_1_14, FROGGER_1_15, FROGGER_1_16, FROGGER_1_17, FROGGER_1_18, FROGGER_1_19, FROGGER_1_20, FROGGER_1_21, FROGGER_1_22, FROGGER_1_23, FROGGER_1_24, FROGGER_1_25, FROGGER_1_26, FROGGER_1_27, FROGGER_1_28, FROGGER_1_29, FROGGER_1_30, FROGGER_1_31, FROGGER_1_32, FROGGER_1_33, FROGGER_1_34, FROGGER_1_35, FROGGER_1_36, FROGGER_1_37, FROGGER_1_38, FROGGER_1_39, FROGGER_1_40, FROGGER_1_41, FROGGER_1_42},
+        {FROGGER_2_1, FROGGER_2_2, FROGGER_2_3, FROGGER_2_4, FROGGER_2_5, FROGGER_2_6, FROGGER_2_7, FROGGER_2_8, FROGGER_2_9, FROGGER_2_10, FROGGER_2_11, FROGGER_2_12, FROGGER_2_13, FROGGER_2_14, FROGGER_2_15, FROGGER_2_16, FROGGER_2_17, FROGGER_2_18, FROGGER_2_19, FROGGER_2_20, FROGGER_2_21, FROGGER_2_22, FROGGER_2_23, FROGGER_2_24, FROGGER_2_25, FROGGER_2_26, FROGGER_2_27, FROGGER_2_28, FROGGER_2_29, FROGGER_2_30, FROGGER_2_31, FROGGER_2_32, FROGGER_2_33, FROGGER_2_34, FROGGER_2_35, FROGGER_2_36, FROGGER_2_37, FROGGER_2_38, FROGGER_2_39, FROGGER_2_40, FROGGER_2_41, FROGGER_2_42},
+        {FROGGER_3_1, FROGGER_3_2, FROGGER_3_3, FROGGER_3_4, FROGGER_3_5, FROGGER_3_6, FROGGER_3_7, FROGGER_3_8, FROGGER_3_9, FROGGER_3_10, FROGGER_3_11, FROGGER_3_12, FROGGER_3_13, FROGGER_3_14, FROGGER_3_15, FROGGER_3_16, FROGGER_3_17, FROGGER_3_18, FROGGER_3_19, FROGGER_3_20, FROGGER_3_21, FROGGER_3_22, FROGGER_3_23, FROGGER_3_24, FROGGER_3_25, FROGGER_3_26, FROGGER_3_27, FROGGER_3_28, FROGGER_3_29, FROGGER_3_30, FROGGER_3_31, FROGGER_3_32, FROGGER_3_33, FROGGER_3_34, FROGGER_3_35, FROGGER_3_36, FROGGER_3_37, FROGGER_3_38, FROGGER_3_39, FROGGER_3_40, FROGGER_3_41, FROGGER_3_42}
+    };
 
+    
+
+      for (int row = 0; row < FROGGER_HEIGHT; row++) {
+        for (int col = 0; col < FROGGER_LENGTH; col++) {
+            if (froggerSprite[row][col] != L'n') {
+                USE_COLOR(colors[row][col]);
+                mvprintw((LINES/2) - (FROGGER_HEIGHT - 1 - row), (COLS/7) + col, "%lc", froggerSprite[row][col]);
+                attroff(COLOR_PAIR(colors[row][col]));
+            }
+        }
+    }
+}
 
 void printMenu() {
-    /*
-mvprintw(0, 0, "██████╗░██╗░░░░░░█████╗░██╗░░░██╗");
-mvprintw(1, 0, "██╔══██╗██║░░░░░██╔══██╗╚██╗░██╔╝");
-mvprintw(2, 0, "██████╔╝██║░░░░░███████║░╚████╔╝░");
-mvprintw(3, 0, "██╔═══╝░██║░░░░░██╔══██║░░╚██╔╝░░");
-mvprintw(4, 0, "██║░░░░░███████╗██║░░██║░░░██║░░░");
-mvprintw(5, 0, "╚═╝░░░░░╚══════╝╚═╝░░╚═╝░░░╚═╝░░░");
-*/
+
+    //printFrogger();
     mvprintw(0, 0, "1. Start");
     mvprintw(1, 0, "2. Score");
     mvprintw(2, 0, "3. Exit");

@@ -5,7 +5,8 @@
 
 
 #define PLAY_X 
-
+#define FROGGER_HEIGHT 4
+#define FROGGER_LENGTH 42
 
 
 
@@ -23,3 +24,4 @@ void printDifficultyMenu();
 void printRiver();
 
 void printGrass();
+void printFrogger();

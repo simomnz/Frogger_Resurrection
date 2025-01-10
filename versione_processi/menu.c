@@ -17,13 +17,13 @@ short menu(Game *game)
         {
         case 0:
         //Da sostituire con la funzione printCursor
-            mvwprintw(stdscr, 0, 0, ">");
+            //mvwprintw(stdscr, 0, 0, ">");
             break;
         case 1:
-            mvwprintw(stdscr, 1, 0, ">");
+            //mvwprintw(stdscr, 1, 0, ">");
             break;
         case 2:
-            mvwprintw(stdscr, 2, 0, ">");
+            //mvwprintw(stdscr, 2, 0, ">");
             break;
         }
 
