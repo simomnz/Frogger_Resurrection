@@ -129,7 +129,7 @@ void run(Game *game) {
 
         //se vuoi fai funzione isPlayerOnWater       
          
-        if(player->isOnCrocodile == 0 && !isPlayerOnGrass(game)) {  //aggiungere is player on den (in realtà non necessario)
+        if(player->isOnCrocodile == 0 && !isPlayerOnGrass(game) && GODMODE) {  //aggiungere is player on den (in realtà non necessario)
             if (player->lives == 0) break;
 
             player->lives--;
@@ -165,6 +165,7 @@ void run(Game *game) {
         printScoreBoard(player->score, player->lives);
         printFrog(player->cords.x, player->cords.y);
         
+
 
         
 
