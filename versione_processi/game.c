@@ -8,9 +8,10 @@ void start(Game *game) {
     cbreak();       
     keypad(stdscr, TRUE);   
     curs_set(0);
-    start_color();
+    start_color();  
     //use_default_colors();
     setColors();
+    wrongTerminalSize(game);
 
     game->serverSocket = createSocket();
     game->isRunning = 1;

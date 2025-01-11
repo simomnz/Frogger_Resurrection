@@ -22,3 +22,5 @@ void mediumDifficult(Game *game);
 void hardDifficult(Game *game);
 
 int scoreCounter(Player *player, int points);
+
+void wrongTerminalSize(Game *game);

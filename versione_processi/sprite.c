@@ -44,7 +44,7 @@ void printCrocodile(Crocodile *crocodile) {
         {CROC_3_1, CROC_3_2, CROC_3_3, CROC_3_4, CROC_3_5, CROC_3_6, CROC_3_7, CROC_3_8, CROC_3_9, CROC_3_10, CROC_3_11, CROC_3_12, CROC_3_13, CROC_3_14, CROC_3_15, CROC_3_16, CROC_3_17, CROC_3_18, CROC_3_19, CROC_3_20, CROC_3_21}
     };
     
-    for (int i = 0; i < (MAX_CROCODILES * 100); i++) {
+    for (int i = 0; i < (MAX_CROCODILES * ((COLS -20)/4)); i++) {
         
         int baseY = crocodile[i].cords.y - (CROCODILE_HEIGHT - 1); // Aggiustiamo y per l'altezza dello sprite
         if (crocodile[i].cords.direction == 1) { // vanno a destra

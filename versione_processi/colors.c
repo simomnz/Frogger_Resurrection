@@ -17,6 +17,7 @@ void setColors()
     init_color(RED, 255, 0, 0);
     init_color(BLUE, 0, 0, 255);
     init_color(SCORE, 126, 252, 236);
+
     
     
 
@@ -71,11 +72,11 @@ void setColors()
     init_pair(CROC_0_20, 0, 0);
     init_pair(CROC_0_21, 0, 0);
     init_pair(CROC_1_0, CROC_BORDER_GRAY, 0);
-    init_pair(CROC_1_1, COLOR_WHITE, CROC_BORDER_GRAY);
+    init_pair(CROC_1_1, WHITE, CROC_BORDER_GRAY);
     init_pair(CROC_1_2, CROC_GRAY, CROC_BORDER_GRAY);
-    init_pair(CROC_1_3, COLOR_WHITE, CROC_BORDER_GRAY);
+    init_pair(CROC_1_3, WHITE, CROC_BORDER_GRAY);
     init_pair(CROC_1_4, CROC_GRAY, CROC_BORDER_GRAY);
-    init_pair(CROC_1_5, COLOR_WHITE, CROC_BORDER_GRAY);
+    init_pair(CROC_1_5, WHITE, CROC_BORDER_GRAY);
     init_pair(CROC_1_6, CROC_GRAY, CROC_GRAY);
     init_pair(CROC_1_7, CROC_GRAY, COLOR_BLACK);
     init_pair(CROC_1_8, CROC_GRAY, CROC_YELLOW);
@@ -95,11 +96,11 @@ void setColors()
 
     init_pair(CROC_2_1, CROC_BORDER_GRAY, 0);
     init_pair(CROC_2_2, CROC_BORDER_GRAY, CROC_GRAY);
-    init_pair(CROC_2_3, CROC_BORDER_GRAY, COLOR_WHITE);
+    init_pair(CROC_2_3, CROC_BORDER_GRAY, WHITE);
     init_pair(CROC_2_4, CROC_BORDER_GRAY, CROC_GRAY);
-    init_pair(CROC_2_5, CROC_BORDER_GRAY, COLOR_WHITE);
+    init_pair(CROC_2_5, CROC_BORDER_GRAY, WHITE);
     init_pair(CROC_2_6, CROC_BORDER_GRAY, CROC_GRAY);
-    init_pair(CROC_2_7, CROC_BORDER_GRAY, COLOR_WHITE);
+    init_pair(CROC_2_7, CROC_BORDER_GRAY, WHITE);
     init_pair(CROC_2_8, CROC_GRAY, CROC_GRAY);
     init_pair(CROC_2_9, CROC_DETAILS_GRAY, CROC_GRAY);
     init_pair(CROC_2_10, CROC_DETAILS_GRAY, CROC_GRAY);

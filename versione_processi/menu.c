@@ -83,3 +83,24 @@ int scoreCounter(Player *player, int points) {
     player->score += (LINES - player->cords.y)/4 * 10;
     //mvprintw(0, COLS - 15, "Score: %d", player->score);
 }
+
+
+
+void wrongTerminalSize(Game *game) {
+
+    if ((LINES - 1) % 4 != 0) {
+        clear();
+        mvprintw(0, 0, "Error: The terminal must have a number of rows such that (LINES - 1) %% 4 == 0.");
+        mvprintw(1, 0, "Currently, the terminal has %d rows and %d columns.", LINES, COLS);
+        mvprintw(2, 0, "Please resize the terminal and restart the program.");
+        mvprintw(3, 0, "You can see your terminal size with stty size.");
+        mvprintw(4, 0, "Press any key to exit...");
+        refresh();
+        timeout(-1);
+        getch();
+
+        stop(game);
+        
+
+    }
+}
