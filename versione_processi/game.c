@@ -34,7 +34,6 @@ void start(Game *game) {
         game->closedDen[i] = 0;
     }
     
-
     menu(game);
 }
 
@@ -48,7 +47,7 @@ void run(Game *game) {
 
     Mix_Chunk *jumpSound = loadSound("../music/jumpSound.mp3");
     
-    createCrocodile(game->pipeFd, game->crocodiles);
+    createCrocodile(game->pipeFd, game->crocodiles, game);
     Player *player = &game->player;
     player->lives = 3;
     player->score = 0;
@@ -59,8 +58,7 @@ void run(Game *game) {
     player->cords.x = spawnPoint.x;
     player->cords.y = spawnPoint.y;
     player->cords.speed = 1;
-    printCrocodile(game->crocodiles);
-    printFrog(player->cords.x, player->cords.y);
+  
 
     
 
@@ -84,8 +82,7 @@ void run(Game *game) {
     int count = 0;
     int playersCroc = 0;
     int playersDen = 0;
-    clear();
-    bkgd(COLOR_PAIR(RIVER));
+    //clear();
     while (game->isRunning) {
         wbkgd(stdscr, COLOR_PAIR(RIVER));
         // recvPlayerCords(player, game->serverSocket);
@@ -113,7 +110,6 @@ void run(Game *game) {
            //proiettile
            
         }
-       
         
         
         playersCroc = isPlayerOnCroc(game);
@@ -134,22 +130,22 @@ void run(Game *game) {
 
         
 
-        // mvprintw(1, 0, "Scrivo x = %d && y = %d", player->cords.x, player->cords.y);
 
-
-        //se vuoi fai funzione isPlayerOnWater
-
-        /*
-       if(player->isOnCrocodile == 0 && !isPlayerOnGrass(game)) {  //aggiungere is player on den (in realtà non necessario)
+        //se vuoi fai funzione isPlayerOnWater       
+        /* 
+        if(player->isOnCrocodile == 0 && !isPlayerOnGrass(game)) {  //aggiungere is player on den (in realtà non necessario)
             player->lives--;
             scoreCounter(player, 0);
             player->cords.x = spawnPoint.x;
             player->cords.y = spawnPoint.y;
+            //resetCrocodile(game->crocodiles, game->pipeFd);
 
             //TODO
             // reset del tempo
         }
         */
+        
+       
 
 
         if(player->cords.x < 0) {
@@ -158,15 +154,20 @@ void run(Game *game) {
             player->cords.x = COLS - FROG_LENGTH;
         }
 
-        clear();        
+        //clear();        
         werase(stdscr);
-        printRiver();
-        printGrass();
-        printDen();
-        printCrocodile(game->crocodiles);
         
+        printRiver();
+        printCrocodile(game->crocodiles);
+        printGrass();
+        printDenRiver();
+        printDen();
+        //aggiungere timer
+        printScoreBoard(player->score, player->lives);
         printFrog(player->cords.x, player->cords.y);
-        //mvprintw(1, COLS - 15, "Score: %d", player->score);
+        
+
+        
 
         
         
@@ -185,10 +186,8 @@ void run(Game *game) {
             //exit(0);
 
         }*/
-        //mvprintw(0, 0, "x = %d && y = %d", player->cords.x, player->cords.y);
-        wnoutrefresh(stdscr); // Se usi finestre aggiuntive, usa wnoutrefresh su quelle
+        wnoutrefresh(stdscr); 
 
-        // Aggiorna effettivamente lo schermo una volta
         doupdate();
 
         usleep(1000);
@@ -200,6 +199,7 @@ void run(Game *game) {
 }
 
 void stop(Game *game) {
+
     game->isRunning = 0;
     stopMusic();
     endwin();

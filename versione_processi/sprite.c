@@ -44,7 +44,7 @@ void printCrocodile(Crocodile *crocodile) {
         {CROC_3_1, CROC_3_2, CROC_3_3, CROC_3_4, CROC_3_5, CROC_3_6, CROC_3_7, CROC_3_8, CROC_3_9, CROC_3_10, CROC_3_11, CROC_3_12, CROC_3_13, CROC_3_14, CROC_3_15, CROC_3_16, CROC_3_17, CROC_3_18, CROC_3_19, CROC_3_20, CROC_3_21}
     };
     
-    for (int i = 0; i < (MAX_CROCODILES * ((COLS - 16) / 4)); i++) {
+    for (int i = 0; i < (MAX_CROCODILES * 100); i++) {
         
         int baseY = crocodile[i].cords.y - (CROCODILE_HEIGHT - 1); // Aggiustiamo y per l'altezza dello sprite
         if (crocodile[i].cords.direction == 1) { // vanno a destra
@@ -123,7 +123,7 @@ void printDen() {
     // Calcolo delle posizioni
     int numDens = 5; // Numero di tane
     int distance = (COLS - (DEN_LENGTH * numDens)) / (numDens + 1); // Spaziatura tra le tane
-    int y = 4; // Posizione verticale fissa
+    int y = 8; // Posizione verticale fissa
     int startX = distance; // Posizione iniziale per la prima tana
 
     for (int den = 0; den < numDens; den++) { // Itera per ogni tana
@@ -144,6 +144,8 @@ void printDen() {
     }
 }
 
+
+/*
 void printFrogger() {
 
     wchar_t froggerSprite[FROGGER_HEIGHT][FROGGER_LENGTH] = {
@@ -172,15 +174,121 @@ void printFrogger() {
         }
     }
 }
-
+*/
+/*
 void printMenu() {
 
-    //printFrogger();
-    mvprintw(0, 0, "1. Start");
-    mvprintw(1, 0, "2. Score");
-    mvprintw(2, 0, "3. Exit");
+    printStart();
+    printScore();
+    printExit();
 }
 
+void printStart() {
+
+    
+}
+*/
+
+void printCenteredArt(const char *art[], int numRows, int startRow, int color) {
+    switch (color)
+    {
+    case 1 :
+        USE_COLOR(BLUE_SIGN);
+        break;
+    case 2 :
+        USE_COLOR(YELLOW_SIGN);
+        break;
+    case 3 :
+        USE_COLOR(RED_SIGN);
+        break;
+    }
+    for (int i = 0; i < numRows; i++) {
+        int len = strlen(art[i]);
+        int startCol = (COLS - len) / 2; // Calcola colonna per centrare orizzontalmente
+        mvprintw(startRow + i, startCol, "%s", art[i]);
+    }
+}
+
+void printMenu() {
+    // Definizione delle pixel art
+
+    USE_COLOR(MENU);
+    for (int i = 0; i < LINES; i++) {
+        for (int j = 0; j < COLS; j++) {
+            mvprintw(i, j, " ");
+        }
+    }
+    attroff(COLOR_PAIR(MENU));
+
+    const char *startArt[] = {
+        "   SSSSSSSSSSSSSSS TTTTTTTTTTTTTTTTTTTTTTT         AAA               RRRRRRRRRRRRRRRRR   TTTTTTTTTTTTTTTTTTTTTTT",
+        " SS:::::::::::::::ST:::::::::::::::::::::T        A:::A              R::::::::::::::::R  T:::::::::::::::::::::T",
+        "S:::::SSSSSS::::::ST:::::::::::::::::::::T       A:::::A             R::::::RRRRRR:::::R T:::::::::::::::::::::T",
+        "S:::::S     SSSSSSST:::::TT:::::::TT:::::T      A:::::::A            RR:::::R     R:::::RT:::::TT:::::::TT:::::T",
+        "S:::::S            TTTTTT  T:::::T  TTTTTT     A:::::::::A             R::::R     R:::::RTTTTTT  T:::::T  TTTTTT",
+        "S:::::S                    T:::::T            A:::::A:::::A            R::::R     R:::::R        T:::::T        ",
+        " S::::SSSS                 T:::::T           A:::::A A:::::A           R::::RRRRRR:::::R         T:::::T        ",
+        "  SS::::::SSSSS            T:::::T          A:::::A   A:::::A          R:::::::::::::RR          T:::::T        ",
+        "    SSS::::::::SS          T:::::T         A:::::A     A:::::A         R::::RRRRRR:::::R         T:::::T        ",
+        "       SSSSSS::::S         T:::::T        A:::::AAAAAAAAA:::::A        R::::R     R:::::R        T:::::T        ",
+        "            S:::::S        T:::::T       A:::::::::::::::::::::A       R::::R     R:::::R        T:::::T        ",
+        "            S:::::S        T:::::T      A:::::AAAAAAAAAAAAA:::::A      R::::R     R:::::R        T:::::T        ",
+        "SSSSSSS     S:::::S      TT:::::::TT   A:::::A             A:::::A   RR:::::R     R:::::R      TT:::::::TT      ",
+        "S::::::SSSSSS:::::S      T:::::::::T  A:::::A               A:::::A  R::::::R     R:::::R      T:::::::::T      ",
+        "S:::::::::::::::SS       T:::::::::T A:::::A                 A:::::A R::::::R     R:::::R      T:::::::::T      ",
+        " SSSSSSSSSSSSSSS         TTTTTTTTTTTAAAAAAA                   AAAAAAARRRRRRRR     RRRRRRR      TTTTTTTTTTT      ",
+    };
+
+    const char *scoreArt[] = {
+        "SSSSSSSSSSSSSSS         CCCCCCCCCCCCC     OOOOOOOOO     RRRRRRRRRRRRRRRRR   EEEEEEEEEEEEEEEEEEEEEE",
+        " SS:::::::::::::::S     CCC::::::::::::C   OO:::::::::OO   R::::::::::::::::R  E::::::::::::::::::::E",
+        "S:::::SSSSSS::::::S   CC:::::::::::::::C OO:::::::::::::OO R::::::RRRRRR:::::R E::::::::::::::::::::E",
+        "S:::::S     SSSSSSS  C:::::CCCCCCCC::::CO:::::::OOO:::::::ORR:::::R     R:::::REE::::::EEEEEEEEE::::E",
+        "S:::::S             C:::::C       CCCCCCO::::::O   O::::::O  R::::R     R:::::R  E:::::E       EEEEEE",
+        "S:::::S            C:::::C              O:::::O     O:::::O  R::::R     R:::::R  E:::::E             ",
+        " S::::SSSS         C:::::C              O:::::O     O:::::O  R::::RRRRRR:::::R   E::::::EEEEEEEEEE   ",
+        "  SS::::::SSSSS    C:::::C              O:::::O     O:::::O  R:::::::::::::RR    E:::::::::::::::E   ",
+        "    SSS::::::::SS  C:::::C              O:::::O     O:::::O  R::::RRRRRR:::::R   E:::::::::::::::E   ",
+        "       SSSSSS::::S C:::::C              O:::::O     O:::::O  R::::R     R:::::R  E::::::EEEEEEEEEE   ",
+        "            S:::::SC:::::C              O:::::O     O:::::O  R::::R     R:::::R  E:::::E             ",
+        "            S:::::S C:::::C       CCCCCCO::::::O   O::::::O  R::::R     R:::::R  E:::::E       EEEEEE",
+        "SSSSSSS     S:::::S  C:::::CCCCCCCC::::CO:::::::OOO:::::::ORR:::::R     R:::::REE::::::EEEEEEEE:::::E",
+        "S::::::SSSSSS:::::S   CC:::::::::::::::C OO:::::::::::::OO R::::::R     R:::::RE::::::::::::::::::::E",
+        "S:::::::::::::::SS      CCC::::::::::::C   OO:::::::::OO   R::::::R     R:::::RE::::::::::::::::::::E",
+        " SSSSSSSSSSSSSSS           CCCCCCCCCCCCC     OOOOOOOOO     RRRRRRRR     RRRRRRREEEEEEEEEEEEEEEEEEEEEE",
+    };
+
+    const char *exitArt[] = {
+        "EEEEEEEEEEEEEEEEEEEEEEXXXXXXX       XXXXXXXIIIIIIIIIITTTTTTTTTTTTTTTTTTTTTTT",
+        "E::::::::::::::::::::EX:::::X       X:::::XI::::::::IT:::::::::::::::::::::T",
+        "E::::::::::::::::::::EX:::::X       X:::::XI::::::::IT:::::::::::::::::::::T",
+        "EE::::::EEEEEEEEE::::EX::::::X     X::::::XII::::::IIT:::::TT:::::::TT:::::T",
+        "  E:::::E       EEEEEEXXX:::::X   X:::::XXX  I::::I  TTTTTT  T:::::T  TTTTTT",
+        "  E:::::E                X:::::X X:::::X     I::::I          T:::::T        ",
+        "  E::::::EEEEEEEEEE       X:::::X:::::X      I::::I          T:::::T        ",
+        "  E:::::::::::::::E        X:::::::::X       I::::I          T:::::T        ",
+        "  E:::::::::::::::E        X:::::::::X       I::::I          T:::::T        ",
+        "  E::::::EEEEEEEEEE       X:::::X:::::X      I::::I          T:::::T        ",
+        "  E:::::E                X:::::X X:::::X     I::::I          T:::::T        ",
+        "  E:::::E       EEEEEEXXX:::::X   X:::::XXX  I::::I          T:::::T        ",
+        "EE::::::EEEEEEEE:::::EX::::::X     X::::::XII::::::II      TT:::::::TT      ",
+        "E::::::::::::::::::::EX:::::X       X:::::XI::::::::I      T:::::::::T      ",
+        "E::::::::::::::::::::EX:::::X       X:::::XI::::::::I      T:::::::::T      ",
+        "EEEEEEEEEEEEEEEEEEEEEEXXXXXXX       XXXXXXXIIIIIIIIII      TTTTTTTTTTT      ",
+    };
+
+
+    // Calcola le posizioni verticali per ogni blocco di pixel art
+    int startArtRow = (LINES - (sizeof(startArt) / sizeof(startArt[0]) + sizeof(scoreArt) / sizeof(scoreArt[0]) + sizeof(exitArt) / sizeof(exitArt[0]))) / 4;
+    int scoreArtRow = startArtRow + sizeof(startArt) / sizeof(startArt[0]) + startArtRow;
+    int exitArtRow = scoreArtRow + sizeof(scoreArt) / sizeof(scoreArt[0]) + startArtRow;
+
+    // Stampa le tre arti centrate, una sotto l'altra
+    printCenteredArt(startArt, sizeof(startArt) / sizeof(startArt[0]), startArtRow, 1);
+    printCenteredArt(scoreArt, sizeof(scoreArt) / sizeof(scoreArt[0]), scoreArtRow, 2);
+    printCenteredArt(exitArt, sizeof(exitArt) / sizeof(exitArt[0]), exitArtRow, 3);
+    refresh();
+}
 
 
 
@@ -189,20 +297,99 @@ void printDifficultyMenu(Game *game) {
     int c = 0;
     while (1)
     {
-        mvprintw(0, 0, "1. Easy");
-        mvprintw(1, 0, "2. Medium");
-        mvprintw(2, 0, "3. Hard");
+       USE_COLOR(MENU);
+        for (int i = 0; i < LINES; i++) {
+            for (int j = 0; j < COLS; j++) {
+                mvprintw(i, j, " ");
+            }
+        }
+        attroff(COLOR_PAIR(MENU));
+
+        const char *easyArt[] = {
+            "                                                                                                ",
+            "                                                                                                ",
+            "EEEEEEEEEEEEEEEEEEEEEE               AAA                  SSSSSSSSSSSSSSS YYYYYYY       YYYYYYY",
+            "E::::::::::::::::::::E              A:::A               SS:::::::::::::::SY:::::Y       Y:::::Y",
+            "E::::::::::::::::::::E             A:::::A             S:::::SSSSSS::::::SY:::::Y       Y:::::Y",
+            "EE::::::EEEEEEEEE::::E            A:::::::A            S:::::S     SSSSSSSY::::::Y     Y::::::Y",
+            "  E:::::E       EEEEEE           A:::::::::A           S:::::S            YYY:::::Y   Y:::::YYY",
+            "  E:::::E                       A:::::A:::::A          S:::::S               Y:::::Y Y:::::Y   ",
+            "  E::::::EEEEEEEEEE            A:::::A A:::::A          S::::SSSS             Y:::::Y:::::Y    ",
+            "  E:::::::::::::::E           A:::::A   A:::::A          SS::::::SSSSS         Y:::::::::Y     ",
+            "  E:::::::::::::::E          A:::::A     A:::::A           SSS::::::::SS        Y:::::::Y      ",
+            "  E::::::EEEEEEEEEE         A:::::AAAAAAAAA:::::A             SSSSSS::::S        Y:::::Y       ",
+            "  E:::::E                  A:::::::::::::::::::::A                 S:::::S       Y:::::Y       ",
+            "  E:::::E       EEEEEE    A:::::AAAAAAAAAAAAA:::::A                S:::::S       Y:::::Y       ",
+            "EE::::::EEEEEEEE:::::E   A:::::A             A:::::A   SSSSSSS     S:::::S       Y:::::Y       ",
+            "E::::::::::::::::::::E  A:::::A               A:::::A  S::::::SSSSSS:::::S    YYYY:::::YYYY    ",
+            "E::::::::::::::::::::E A:::::A                 A:::::A S:::::::::::::::SS     Y:::::::::::Y    ",
+            "EEEEEEEEEEEEEEEEEEEEEEAAAAAAA                   AAAAAAA SSSSSSSSSSSSSSS       YYYYYYYYYYYYY    "
+        };
+
+        const char *mediumArt[] = {
+            "                                                                                                                                         ",
+            "                                                                                                                                         ",
+            "MMMMMMMM               MMMMMMMMEEEEEEEEEEEEEEEEEEEEEEDDDDDDDDDDDDD        IIIIIIIIIIUUUUUUUU     UUUUUUUUMMMMMMMM               MMMMMMMM",
+            "M:::::::M             M:::::::ME::::::::::::::::::::ED::::::::::::DDD     I::::::::IU::::::U     U::::::UM:::::::M             M:::::::M",
+            "M::::::::M           M::::::::ME::::::::::::::::::::ED:::::::::::::::DD   I::::::::IU::::::U     U::::::UM::::::::M           M::::::::M",
+            "M:::::::::M         M:::::::::MEE::::::EEEEEEEEE::::EDDD:::::DDDDD:::::D  II::::::IIUU:::::U     U:::::UUM:::::::::M         M:::::::::M",
+            "M::::::::::M       M::::::::::M  E:::::E       EEEEEE  D:::::D    D:::::D   I::::I   U:::::U     U:::::U M::::::::::M       M::::::::::M",
+            "M:::::::::::M     M:::::::::::M  E:::::E               D:::::D     D:::::D  I::::I   U:::::D     D:::::U M:::::::::::M     M:::::::::::M",
+            "M:::::::M::::M   M::::M:::::::M  E::::::EEEEEEEEEE     D:::::D     D:::::D  I::::I   U:::::D     D:::::U M:::::::M::::M   M::::M:::::::M",
+            "M::::::M M::::M M::::M M::::::M  E:::::::::::::::E     D:::::D     D:::::D  I::::I   U:::::D     D:::::U M::::::M M::::M M::::M M::::::M",
+            "M::::::M  M::::M::::M  M::::::M  E:::::::::::::::E     D:::::D     D:::::D  I::::I   U:::::D     D:::::U M::::::M  M::::M::::M  M::::::M",
+            "M::::::M   M:::::::M   M::::::M  E::::::EEEEEEEEEE     D:::::D     D:::::D  I::::I   U:::::D     D:::::U M::::::M   M:::::::M   M::::::M",
+            "M::::::M    M:::::M    M::::::M  E:::::E               D:::::D     D:::::D  I::::I   U:::::D     D:::::U M::::::M    M:::::M    M::::::M",
+            "M::::::M     MMMMM     M::::::M  E:::::E       EEEEEE  D:::::D    D:::::D   I::::I   U::::::U   U::::::U M::::::M     MMMMM     M::::::M",
+            "M::::::M               M::::::MEE::::::EEEEEEEE:::::EDDD:::::DDDDD:::::D  II::::::II U:::::::UUU:::::::U M::::::M               M::::::M",
+            "M::::::M               M::::::ME::::::::::::::::::::ED:::::::::::::::DD   I::::::::I  UU:::::::::::::UU  M::::::M               M::::::M",
+            "M::::::M               M::::::ME::::::::::::::::::::ED::::::::::::DDD     I::::::::I    UU:::::::::UU    M::::::M               M::::::M",
+            "MMMMMMMM               MMMMMMMMEEEEEEEEEEEEEEEEEEEEEEDDDDDDDDDDDDD        IIIIIIIIII      UUUUUUUUU      MMMMMMMM               MMMMMMMM"
+        };
+
+        const char *hardArt[] = {
+            "                                                                                                 ",
+            "                                                                                                 ",
+            "HHHHHHHHH     HHHHHHHHH               AAA               RRRRRRRRRRRRRRRRR   DDDDDDDDDDDDD        ",
+            "H:::::::H     H:::::::H              A:::A              R::::::::::::::::R  D::::::::::::DDD     ",
+            "H:::::::H     H:::::::H             A:::::A             R::::::RRRRRR:::::R D:::::::::::::::DD   ",
+            "HH::::::H     H::::::HH            A:::::::A            RR:::::R     R:::::RDD:::::DDDDD:::::D  ",
+            "  H:::::H     H:::::H             A:::::::::A             R::::R     R:::::R  D:::::D    D:::::D ",
+            "  H:::::H     H:::::H            A:::::A:::::A            R::::R     R:::::R  D:::::D     D:::::D",
+            "  H::::::HHHHH::::::H           A:::::A A:::::A           R::::RRRRRR:::::R   D:::::D     D:::::D",
+            "  H:::::::::::::::::H          A:::::A   A:::::A          R:::::::::::::RR    D:::::D     D:::::D",
+            "  H:::::::::::::::::H         A:::::A     A:::::A         R::::RRRRRR:::::R   D:::::D     D:::::D",
+            "  H::::::HHHHH::::::H        A:::::AAAAAAAAA:::::A        R::::R     R:::::R  D:::::D     D:::::D",
+            "  H:::::H     H:::::H       A:::::::::::::::::::::A       R::::R     R:::::R  D:::::D     D:::::D",
+            "  H:::::H     H:::::H      A:::::AAAAAAAAAAAAA:::::A      R::::R     R:::::R  D:::::D    D:::::D ",
+            "HH::::::H     H::::::HH   A:::::A             A:::::A   RR:::::R     R:::::RDD:::::DDDDD:::::D  ",
+            "H:::::::H     H:::::::H  A:::::A               A:::::A  R::::::R     R:::::RD:::::::::::::::DD   ",
+            "H:::::::H     H:::::::H A:::::A                 A:::::A R::::::R     R:::::RD::::::::::::DDD     ",
+            "HHHHHHHHH     HHHHHHHHHAAAAAAA                   AAAAAAARRRRRRRR     RRRRRRRDDDDDDDDDDDDD        "
+        };
+
+        // Calcola le posizioni verticali per ogni blocco di pixel art
+        int easyArtRow = (LINES - (sizeof(easyArt) / sizeof(easyArt[0]) + sizeof(mediumArt) / sizeof(mediumArt[0]) + sizeof(hardArt) / sizeof(hardArt[0]))) / 4;
+        int mediumArtRow = easyArtRow + sizeof(easyArt) / sizeof(easyArt[0]) + easyArtRow;
+        int hardArtRow = mediumArtRow + sizeof(mediumArt) / sizeof(mediumArt[0]) + easyArtRow;
+
+        // Stampa le tre arti centrate, una sotto l'altra
+        printCenteredArt(easyArt, sizeof(easyArt) / sizeof(easyArt[0]), easyArtRow, 1);
+        printCenteredArt(mediumArt, sizeof(mediumArt) / sizeof(mediumArt[0]), mediumArtRow, 2);
+        printCenteredArt(hardArt, sizeof(hardArt) / sizeof(hardArt[0]), hardArtRow, 3);
+        refresh();
+
         switch (c) {
 
             case 0:
-            //Da sostituire con la funzione printCursor
-                mvwprintw(stdscr, 0, 0, ">");
+                printFrog(10, LINES/5);
+
                 break;
             case 1:
-                mvwprintw(stdscr, 1, 0, ">");
+                printFrog(10, LINES/2);
                 break;
             case 2:
-                mvwprintw(stdscr, 2, 0, ">");
+                printFrog(10, LINES -12);
                 break;
         }
 
@@ -213,7 +400,6 @@ void printDifficultyMenu(Game *game) {
             c--;
         }
         if (ch == '\n') {
-            //return c; nel caso che vogliamo fare una funzione di gestione del menu
             switch (c)
             {
             case 0:
@@ -227,11 +413,7 @@ void printDifficultyMenu(Game *game) {
                 break;
             }
         }
-        refresh();
 
-
-        
-     
     }
     
     
@@ -242,22 +424,36 @@ void printDifficultyMenu(Game *game) {
 
 void printRiver() {
                 
-    //USE_COLOR(RIVER);
-    attron(COLOR_PAIR(RIVER));
-    for (int i = 4; i < LINES -4; i++) {
+    USE_COLOR(RIVER);
+    for (int i = 12; i < LINES -4; i++) {
         for (int j = 0; j < COLS; j++) {
             mvprintw(i, j, " ");
         }
     }
-    //attroff(COLOR_PAIR(RIVER));
+    attroff(COLOR_PAIR(RIVER));
+    
+
+}
+
+void printDenRiver() {
+                
+    USE_COLOR(RIVER);
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < COLS; j++) {
+            mvprintw(i, j, " ");
+        }
+    }
+    attroff(COLOR_PAIR(GRASS));
 
 }
 
 void printGrass() {
                 
-    //USE_COLOR(GRASS);
-    attron(COLOR_PAIR(GRASS));
-    for (int i = 0; i < 4; i++) {
+    USE_COLOR(GRASS);
+    for (int i = 8; i < 13; i++) {
+        for (int j = 0; j < COLS; j++) {
+            mvprintw(i, j, " ");
+        }
         
     }
     for(int i = LINES -1; i > LINES - 5; i--) {
@@ -269,3 +465,9 @@ void printGrass() {
 
 }
 
+
+void printScoreBoard(int score, int lives) {
+    USE_COLOR(WRITES);
+    mvprintw(0, 0, "LIVES: %d", lives);
+    mvprintw(0, COLS/2 -5, "SCORE: %d", score);
+}

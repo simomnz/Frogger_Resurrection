@@ -11,13 +11,26 @@ void initColors(short c, short r, short g, short b){
 void setColors()
 {
     init_color(COLOR_BLACK, 0, 0, 0);
-    init_color(COLOR_WHITE, 255, 255, 255);
-    init_color(COLOR_BLUE, 0, 0, 255);
-    init_color(COLOR_GREEN, 0, 255, 0);
+    init_color(WHITE, 254, 254, 254); 
+    init_color(GRASS_GREEN, 129, 212, 26);
+    init_color(RIVER_BLUE, 89, 131, 176);
+    init_color(RED, 255, 0, 0);
+    init_color(BLUE, 0, 0, 255);
+    init_color(SCORE, 126, 252, 236);
+    
     
 
-    init_pair(GRASS, COLOR_GREEN, COLOR_GREEN);
-    init_pair(RIVER, COLOR_BLUE, COLOR_BLUE);
+    init_pair(GRASS, GRASS_GREEN, GRASS_GREEN);
+    init_pair(RIVER, RIVER_BLUE, RIVER_BLUE);
+
+    init_pair(RED_SIGN, RED, WHITE);
+    init_pair(BLUE_SIGN, BLUE, WHITE);
+    init_pair(YELLOW_SIGN, SCORE, WHITE);
+
+    init_pair(MENU, WHITE, WHITE);
+    init_pair(WRITES, WHITE, RIVER_BLUE);
+
+
 
 
 
@@ -297,8 +310,10 @@ void setColors()
 
     //frogger
 
+
     init_color(FROGGER_GREEN, 129, 212, 26);
     init_color(FROGGER_DARK_GREEN, 0, 169, 51);
+    /*
     //F_0
     init_pair(FROGGER_0_1, FROGGER_DARK_GREEN, 0);
     init_pair(FROGGER_0_2, FROGGER_GREEN, FROGGER_GREEN);
@@ -500,6 +515,7 @@ void setColors()
     init_pair(FROGGER_3_40, FROGGER_DARK_GREEN, FROGGER_DARK_GREEN);
     init_pair(FROGGER_3_41, FROGGER_DARK_GREEN, FROGGER_GREEN);
     init_pair(FROGGER_3_42, 0, 0);
+    */
 
     
 

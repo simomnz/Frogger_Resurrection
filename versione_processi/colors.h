@@ -23,8 +23,25 @@ void setColors();
 
 
 
-#define GRASS 10000
-#define RIVER 11000
+#define GRASS 1
+#define RIVER 2
+
+#define GRASS_GREEN 1
+#define RIVER_BLUE 2
+
+#define RED_SIGN 3
+#define BLUE_SIGN 4
+#define YELLOW_SIGN 5
+#define MENU 6
+#define WRITES 7
+
+#define RED 3
+#define BLUE 4
+#define SCORE 5
+#define WHITE 7
+
+
+
 
 //Crocodiles
 
@@ -324,6 +341,9 @@ void setColors();
 
 
 //lettere del menu
+
+
+/*
 
 #define FROGGER_0_1 205
 #define FROGGER_0_2 206
@@ -991,3 +1011,5 @@ void setColors();
 #define EXIT_4_26 860
 #define EXIT_4_27 861
 #define EXIT_4_28 862
+
+*/

@@ -1,1 +1,5 @@
-Il Player non riesce a stare sul coccodrillo poichè si muove troppo velocemente (achille e la tartaruga style)
+Problema con la creazione dei coccodrilli (probabilmente trascurabile), al momento l'array non viene inizializzato a dovere (una volta ogni 4)
+
+Implementare timer per partita
+
+Implementare granate e proiettili

@@ -122,7 +122,7 @@ int isPlayerOnDen(Game *game) {
         denX = (DEN_LENGTH + distance) * i;   //i calcoli sono giusti fidati 
 
         //non l'ho provato, se da errori è la y==4;
-        if (game->player.cords.y == 4 && game->player.cords.x >= denX - DEN_LENGTH && game->player.cords.x <= denX && game->closedDen[i - 1] == 0) {
+        if (game->player.cords.y == 8 && game->player.cords.x >= denX - DEN_LENGTH -3 && game->player.cords.x <= denX + DEN_LENGTH && game->closedDen[i - 1] == 0) {
             game->closedDen[i - 1] = 1;
             return i;  //ritorna l'id della tana 
         }

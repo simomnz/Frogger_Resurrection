@@ -16,14 +16,13 @@ short menu(Game *game)
         switch (c)
         {
         case 0:
-        //Da sostituire con la funzione printCursor
-            //mvwprintw(stdscr, 0, 0, ">");
+            printFrog(10, LINES/5);
             break;
         case 1:
-            //mvwprintw(stdscr, 1, 0, ">");
+            printFrog(10, LINES/2);
             break;
         case 2:
-            //mvwprintw(stdscr, 2, 0, ">");
+            printFrog(10, LINES - 12);
             break;
         }
 
@@ -62,20 +61,18 @@ short menu(Game *game)
 
 
 void easyDifficult(Game *game) {
-    //game->crocodileNumber = EASY_MODE_CROC_NUM;
-    //game->crocodileSpeed = EASY_MODE_CROC_SPEED;
+
+    game->crocSpeed = EASY_MODE_CROC_SPEED;
     run(game);
 }
 
 void mediumDifficult(Game *game) {
-    //game->crocodileNumber = MEDIUM_MODE_CROC_NUM;
-    //game->crocodileSpeed = MEDIUM_MODE_CROC_SPEED;
+    game->crocSpeed = MEDIUM_MODE_CROC_SPEED;
     run(game);
 }
 
 void hardDifficult(Game *game) {
-    //game->crocodileNumber = HARD_MODE_CROC_NUM;
-    //game->crocodileSpeed = HARD_MODE_CROC_SPEED;
+    game->crocSpeed = HARD_MODE_CROC_SPEED;
     run(game);
 }
 

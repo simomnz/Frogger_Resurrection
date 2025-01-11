@@ -22,10 +22,12 @@
 
 
 
-void createCrocodile(int *pipe, Crocodile *crocodiles);
+void createCrocodile(int *pipe, Crocodile *crocodiles, Game *game);
 
 
-void moveCrocodile(int *pipe, Crocodile *crocodile );
+void moveCrocodile(int *pipe, Crocodile *crocodile);
+
+void resetCrocodile(Crocodile *crocodile, int *pipeFd);
 
 void createProjectile(int *pipe, Crocodile *crocodile);
 

@@ -59,4 +59,5 @@ typedef struct {
     Crocodile crocodiles[MAX_CROCODILES];
     int serverSocket;
     unsigned short int closedDen[5];
+    unsigned short int crocSpeed;
 } Game;

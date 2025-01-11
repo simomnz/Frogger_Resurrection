@@ -58,15 +58,17 @@ void createCrocodile(int *pipe, Crocodile *crocodiles) {
 */
 
 
-void createCrocodile(int *pipe, Crocodile *crocodiles) {
+void createCrocodile(int *pipe, Crocodile *crocodiles, Game *game) {
     Crocodile newCroc;
     srand(time(NULL));
 
     int randDir = (rand() % 2 == 0) ? 1 : -1;
-    int sourceCounter = 1;
-    for (int j = 0; j < LINES - 16; j++) { // Evita righe 0-4 e LINES-5 a LINES-1
-        int rowspeed = 1;
-        int rowSpawn = j + 8;
+
+    
+    for (int j = 0; j < LINES - 20; j++) { // Evita righe 0-4 e LINES-5 a LINES-1
+        int rowspeed = rand () % 2 + game->crocSpeed; // Velocità casuale
+        int rowSpawn = j + 12;
+        
         if ((rowSpawn + 4) % 4 == 0) {
             randDir = randDir * (-1);
             for (int i = 0; i < MAX_CROCODILES; i++) {
@@ -162,8 +164,59 @@ void moveCrocodile(int *pipe, Crocodile *crocodile) {
 
 
 }
+/*
+void resetCrocodile(Crocodile *crocodile, int *pipeFd) {
 
+    srand(time(NULL));
+    int reverse = rand() % 2;
+    int direction = (reverse == 1) ? 1 : -1;
+    int validPosition = 0;
 
+    for (int i = 0; i < MAX_CROCODILES * ((LINES - 20) /4); i++)
+    {
+        crocodile[i].cords.direction = crocodile[i].cords.direction * direction;
+        
+        while (!validPosition) {
+            // Genera una X casuale (evitando spawn oltre lo schermo)
+            int newX = rand() % (COLS - CROCODILE_LENGTH - 1);
+            if (newX < 0) {
+                newX = 0;
+            }
+
+            // Imposta di default che la posizione è valida
+            validPosition = 1;
+
+            // (Opzionale) controlla se si sovrappone ad altri coccodrilli nella stessa riga
+            for (int j = 0; j < MAX_CROCODILES * ((LINES - 20)/4) ; j++) {
+                if (j == i) {
+                    // Non confrontare il coccodrillo con se stesso
+                    continue;
+                }
+                // Verifica che sia un coccodrillo attivo
+                if (crocodile[j].PID != 0) {
+                    // Stessa riga?
+                    if (crocodile[j].cords.y == crocodile[i].cords.y) {
+                        // Se la distanza in X è troppo piccola, c'è sovrapposizione
+                        int distX = abs(crocodile[j].cords.x - newX);
+                        if (distX < (CROCODILE_LENGTH + CROCODILE_SHIFT)) {
+                            validPosition = 0;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            
+            if (validPosition) {
+                crocodile[i].cords.x = newX;
+            }
+        }
+        moveCrocodile(pipeFd, &crocodile[i]);
+    }
+    
+}
+
+*/
 
 void createProjectiles(int *pipe, Crocodile *crocodile) {
    
