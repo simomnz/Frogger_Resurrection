@@ -188,6 +188,12 @@ void printStart() {
     
 }
 */
+void printTime(time_t time) {
+    USE_COLOR(WRITES);
+     // non so perchè non printi un cazzo
+    mvprintw(0, COLS - 10, "TIME: %ld", time);
+}
+
 
 void printCenteredArt(const char *art[], int numRows, int startRow, int color) {
     switch (color)

@@ -79,6 +79,7 @@ void run(Game *game) {
     Coordinates message; // = {0, 0, 0, 0};
 
     Crocodile *crocodile = game->crocodiles;
+    
     time_t currentTime = time(NULL) + 30, mancheTime;
 
     int count = 0;
@@ -159,8 +160,8 @@ void run(Game *game) {
         printGrass();
         printDenRiver();
         printDen();
-        mancheTime = time(NULL); // non so perchè non printi un cazzo
-        mvprintw(0, COLS - 10, "time: %d", currentTime - mancheTime);
+        mancheTime = time(NULL);
+        printTime(currentTime - mancheTime);
         printScoreBoard(player->score, player->lives);
         printFrog(player->cords.x, player->cords.y);
         

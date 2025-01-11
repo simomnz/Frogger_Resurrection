@@ -29,6 +29,7 @@ void printFrogger();
 
 void printDenRiver();
 
+void printTime(time_t time);
 
 void printCenteredArt(const char *art[], int numRows, int startRow, int color);
 
