@@ -63,16 +63,19 @@ short menu(Game *game)
 void easyDifficult(Game *game) {
 
     game->crocSpeed = EASY_MODE_CROC_SPEED;
+    game->currentTime = time(NULL) + 60;
     run(game);
 }
 
 void mediumDifficult(Game *game) {
     game->crocSpeed = MEDIUM_MODE_CROC_SPEED;
+    game->currentTime = time(NULL) + 40;
     run(game);
 }
 
 void hardDifficult(Game *game) {
     game->crocSpeed = HARD_MODE_CROC_SPEED;
+    game->currentTime = time(NULL) + 30;
     run(game);
 }
 

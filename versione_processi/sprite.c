@@ -190,7 +190,6 @@ void printStart() {
 */
 void printTime(time_t time) {
     USE_COLOR(WRITES);
-     // non so perchè non printi un cazzo
     mvprintw(0, COLS - 10, "TIME: %ld", time);
 }
 
@@ -481,10 +480,8 @@ void printScoreBoard(int score, int lives) {
 
 void printGrenade(int x, int y) {
     wchar_t grenadeSprite[GRENADE_HEIGHT][GRENADE_LENGTH] = {
-        {L'▄', L' ', L' '}, // Riga 0 (superiore)
-        {L' ', L' ', L' '}, // Riga 1
-        {L' ', L' ', L' '}, // Riga 2
-        {L' ', L' ', L' '}  // Riga 3 (inferiore)
+        {L'▄', L' ', L' '},
+        {L' ', L' ', L' '}
     };
     
     short colors[GRENADE_HEIGHT][GRENADE_LENGTH] = {

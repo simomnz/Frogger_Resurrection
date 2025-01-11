@@ -60,4 +60,5 @@ typedef struct {
     int serverSocket;
     unsigned short int closedDen[5];
     unsigned short int crocSpeed;
+    time_t currentTime;
 } Game;

@@ -80,7 +80,7 @@ void run(Game *game) {
 
     Crocodile *crocodile = game->crocodiles;
     
-    time_t currentTime = time(NULL) + 30, mancheTime;
+    time_t mancheTime;
 
     int count = 0;
     int playersCroc = 0;
@@ -161,7 +161,7 @@ void run(Game *game) {
         printDenRiver();
         printDen();
         mancheTime = time(NULL);
-        printTime(currentTime - mancheTime);
+        printTime(game->currentTime - mancheTime);
         printScoreBoard(player->score, player->lives);
         printFrog(player->cords.x, player->cords.y);
         
