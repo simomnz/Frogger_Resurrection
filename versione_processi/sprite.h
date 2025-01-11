@@ -4,9 +4,13 @@
 #include "menu.h"
 
 
-#define PLAY_X 
-#define FROGGER_HEIGHT 4
-#define FROGGER_LENGTH 42
+
+
+
+#define EXPLOSION_LENGHT 4
+#define EXPLOSION_HEIGHT 2
+
+
 
 
 
@@ -34,6 +38,14 @@ void printTime(time_t time);
 void printCenteredArt(const char *art[], int numRows, int startRow, int color);
 
 void printScoreBoard(int score, int lives);
+
+void printGrenade(int x, int y);
+
+void printProjectile(int x, int y);
+
+void printExplosion(int x, int y);
+
+void printShield(int x, int y);
 
 /*
 void printStart();

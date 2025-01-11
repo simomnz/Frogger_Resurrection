@@ -18,6 +18,12 @@
 #define DEN_LENGTH 7
 #define DEN_HEIGHT 4
 
+#define GRENADE_LENGTH 3
+#define GRENADE_HEIGHT 2
+
+#define SHIELD_LENGHT 13
+#define SHIELD_HEIGHT 6
+
 
 void movePlayer(Player *player, int sockfdm, int gameToPlayerFd);
 

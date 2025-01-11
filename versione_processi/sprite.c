@@ -477,3 +477,108 @@ void printScoreBoard(int score, int lives) {
     mvprintw(0, 0, "LIVES: %d", lives);
     mvprintw(0, COLS/2 -5, "SCORE: %d", score);
 }
+
+
+void printGrenade(int x, int y) {
+    wchar_t grenadeSprite[GRENADE_HEIGHT][GRENADE_LENGTH] = {
+        {L'▄', L' ', L' '}, // Riga 0 (superiore)
+        {L' ', L' ', L' '}, // Riga 1
+        {L' ', L' ', L' '}, // Riga 2
+        {L' ', L' ', L' '}  // Riga 3 (inferiore)
+    };
+    
+    short colors[GRENADE_HEIGHT][GRENADE_LENGTH] = {
+        {GRENADE_0_1, GRENADE_0_2, GRENADE_0_3},
+        {GRENADE_1_1, GRENADE_1_2, GRENADE_1_3}
+    };
+
+    for (int row = 0; row < GRENADE_HEIGHT; row++) {
+        for (int col = 0; col < GRENADE_LENGTH; col++) {
+            if (grenadeSprite[row][col] != L'n') {
+                USE_COLOR(colors[row][col]);
+                mvprintw(y + row, x + col, "%lc", grenadeSprite[row][col]);
+                attroff(COLOR_PAIR(colors[row][col]));
+            }
+        }
+    }
+
+
+
+}
+
+
+void printProjectile(int x, int y) {
+    wchar_t projectileSprite[PROJECTILE_HEIGHT][PROJECTILE_LENGTH] = {
+        {L'▀', L'▀', L'▀'}, 
+    };
+
+    short colors[PROJECTILE_HEIGHT][PROJECTILE_LENGTH] = {
+        {PROJECTILE_0_1, PROJECTILE_0_2, PROJECTILE_0_3}
+    };
+
+    for (int row = 0; row < PROJECTILE_HEIGHT; row++) {
+        for (int col = 0; col < PROJECTILE_LENGTH; col++) {
+            if (projectileSprite[row][col] != L'n') {
+                USE_COLOR(colors[row][col]);
+                mvprintw(y + row, x + col, "%lc", projectileSprite[row][col]);
+                attroff(COLOR_PAIR(colors[row][col]));
+            }
+        }
+    } 
+}
+
+
+void printExplosion(int x, int y) {
+
+    wchar_t explosionSprite[EXPLOSION_HEIGHT][EXPLOSION_LENGHT] = {
+        {L' ', L' ', L' '}, 
+        {L' ', L' ', L' '}, 
+    };
+
+    short colors[EXPLOSION_HEIGHT][EXPLOSION_LENGHT] = {
+        {EXPLOSION_0_1, EXPLOSION_0_2, EXPLOSION_0_3},
+        {EXPLOSION_1_1, EXPLOSION_1_2, EXPLOSION_1_3}
+    };
+
+    for (int row = 0; row < EXPLOSION_HEIGHT; row++) {
+        for (int col = 0; col < EXPLOSION_LENGHT; col++) {
+            if (explosionSprite[row][col] != L'n') {
+                USE_COLOR(colors[row][col]);
+                mvprintw(y + row, x + col, "%lc", explosionSprite[row][col]);
+                attroff(COLOR_PAIR(colors[row][col]));
+            }
+        }
+    }
+}
+
+void printShield(int x, int y) {
+    wchar_t shieldSprite[SHIELD_HEIGHT][SHIELD_LENGHT] = {
+        //è una matrice 13x6
+        {L'n', L' ', L' ', L' ', L' ', L'n'}, 
+        {L' ', L'n', L'n', L'n', L'n', L' '}, 
+        {L' ', L'n', L'n', L'n', L'n', L' '}, 
+        {L' ', L'n', L'n', L'n', L'n', L' '}, 
+        {L' ', L'n', L'n', L'n', L'n', L' '}, 
+        {L'n', L' ', L' ', L' ', L' ', L'n'},  
+    };
+
+    short colors[SHIELD_HEIGHT][SHIELD_LENGHT] = {
+        {0, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, 0},
+        {SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER},
+        {SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER},
+        {SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER},
+        {SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER},
+        {0, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, 0}
+    };
+
+    for (int row = 0; row < SHIELD_HEIGHT; row++) {
+        for (int col = 0; col < SHIELD_LENGHT; col++) {
+            if (shieldSprite[row][col] != L'n') {
+                USE_COLOR(colors[row][col]);
+                mvprintw(y + row, x + col, "%lc", shieldSprite[row][col]);
+                attroff(COLOR_PAIR(colors[row][col]));
+            }
+        }
+    } 
+
+}

@@ -15,6 +15,9 @@
 #define  CROCODILE_LENGTH 21  
 #define  CROCODILE_HEIGHT 4
 
+#define PROJECTILE_LENGTH 3
+#define PROJECTILE_HEIGHT 1
+
 
 
 

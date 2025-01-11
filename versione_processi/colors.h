@@ -338,6 +338,9 @@ void setColors();
 #define EXPLOSION_1_4 204
 
 
+#define SHIELD_BORDER 206
+
+
 
 
 //lettere del menu
