@@ -79,6 +79,7 @@ void run(Game *game) {
     Coordinates message; // = {0, 0, 0, 0};
 
     Crocodile *crocodile = game->crocodiles;
+    time_t currentTime = time(NULL) + 30, mancheTime;
 
     int count = 0;
     int playersCroc = 0;
@@ -124,17 +125,12 @@ void run(Game *game) {
             player->cords.x = spawnPoint.x;
             player->cords.y = spawnPoint.y;
         }
-        
-        
-        
-        
-
-        
-
 
         //se vuoi fai funzione isPlayerOnWater       
-        /* 
+         
         if(player->isOnCrocodile == 0 && !isPlayerOnGrass(game)) {  //aggiungere is player on den (in realtà non necessario)
+            if (player->lives == 0) break;
+
             player->lives--;
             scoreCounter(player, 0);
             player->cords.x = spawnPoint.x;
@@ -144,7 +140,7 @@ void run(Game *game) {
             //TODO
             // reset del tempo
         }
-        */
+        
         
        
 
@@ -163,7 +159,8 @@ void run(Game *game) {
         printGrass();
         printDenRiver();
         printDen();
-        //aggiungere timer
+        mancheTime = time(NULL); // non so perchè non printi un cazzo
+        mvprintw(0, COLS - 10, "time: %d", currentTime - mancheTime);
         printScoreBoard(player->score, player->lives);
         printFrog(player->cords.x, player->cords.y);
         

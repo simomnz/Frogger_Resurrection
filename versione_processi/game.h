@@ -1,5 +1,8 @@
 #pragma once
+
 #include <stdio.h>
+#include <time.h>
+
 #include "struct.h"
 #include "crocodile.h"
 #include "sprite.h"
