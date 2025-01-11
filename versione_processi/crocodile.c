@@ -164,6 +164,7 @@ void moveCrocodile(int *pipe, Crocodile *crocodile) {
 
 
 }
+
 /*
 void resetCrocodile(Crocodile *crocodile, int *pipeFd) {
 

@@ -309,6 +309,8 @@ void setColors()
 
     initColors(SHIELD_YELLOW, 255, 255, 166);
 
+    init_pair(SHIELD_BORDER, SHIELD_YELLOW, SHIELD_YELLOW);
+
     //frogger
 
 
