@@ -229,11 +229,11 @@ void setColors()
     initColors(FROG_LEG_GREEN, 6, 118, 6);
 
     init_pair(OCC_DEN_0_1, 0, 0);
-    init_pair(OCC_DEN_0_2, COLOR_BLACK, FROG_GREEN);
-    init_pair(OCC_DEN_0_3, FROG_ORANGE, FROG_GREEN);
-    init_pair(OCC_DEN_0_4, FROG_MIDDLE_EYE_GREEN, 0);
-    init_pair(OCC_DEN_0_5, FROG_ORANGE, FROG_GREEN);
-    init_pair(OCC_DEN_0_6, COLOR_BLACK, FROG_GREEN);
+    init_pair(OCC_DEN_0_2, FROG_GREEN, COLOR_BLACK);
+    init_pair(OCC_DEN_0_3, FROG_GREEN, FROG_ORANGE);
+    init_pair(OCC_DEN_0_4, FROG_MIDDLE_EYE_GREEN, FROG_MIDDLE_EYE_GREEN);
+    init_pair(OCC_DEN_0_5, FROG_GREEN, FROG_ORANGE);
+    init_pair(OCC_DEN_0_6, FROG_GREEN, COLOR_BLACK);
     init_pair(OCC_DEN_0_7, 0, 0);
     init_pair(OCC_DEN_1_1, 0, 0);
     init_pair(OCC_DEN_1_2, FROG_DETAILS_GREEN, FROG_DETAILS_GREEN);

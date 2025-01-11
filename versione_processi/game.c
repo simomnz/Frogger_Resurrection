@@ -159,7 +159,7 @@ void run(Game *game) {
         printCrocodile(game->crocodiles);
         printGrass();
         printDenRiver();
-        printDen();
+        printDen(game);
         mancheTime = time(NULL);
         printTime(game->currentTime - mancheTime);
         printScoreBoard(player->score, player->lives);

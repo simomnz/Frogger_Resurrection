@@ -105,20 +105,35 @@ void printFrog(int x, int y) {
     }
 }
 
-void printDen() {
-    wchar_t denSprite[DEN_HEIGHT][DEN_LENGTH] = {
+void printDen(Game *game) {
+    wchar_t denOpenSprite[DEN_HEIGHT][DEN_LENGTH] = {
         {L'▄', L' ', L' ', L' ', L' ', L' ', L'▄'}, // Riga 0 (superiore)
         {L'▀', L' ', L' ', L' ', L' ', L' ', L'▀'}, // Riga 1
         {L' ', L' ', L' ', L' ', L' ', L' ', L' '}, // Riga 2
         {L'n', L'▀', L' ', L' ', L' ', L'▀', L'n'}  // Riga 3 (inferiore)
     };
 
-    short colors[DEN_HEIGHT][DEN_LENGTH] = {
+    short colorsOpen[DEN_HEIGHT][DEN_LENGTH] = {
         {DEN_0_1, DEN_0_2, DEN_0_3, DEN_0_4, DEN_0_5, DEN_0_6, DEN_0_7},
         {DEN_1_1, DEN_1_2, DEN_1_3, DEN_1_4, DEN_1_5, DEN_1_6, DEN_1_7},
         {DEN_2_1, DEN_2_2, DEN_2_3, DEN_2_4, DEN_2_5, DEN_2_6, DEN_2_7},
         {DEN_3_1, DEN_3_2, DEN_3_3, DEN_3_4, DEN_3_5, DEN_3_6, DEN_3_7}
     };
+
+    wchar_t denClosedSprite[DEN_HEIGHT][DEN_LENGTH] = {
+        {L'n', L' ', L' ', L'▄', L' ', L' ', L'n'}, // Riga 0 (superiore)
+        {L'n', L' ', L' ', L' ', L' ', L' ', L'n'}, // Riga 1
+        {L'▄', L' ', L' ', L' ', L' ', L' ', L'▄'}, // Riga 2
+        {L' ', L' ', L' ', L' ', L' ', L' ', L' '}  // Riga 3 (inferiore)
+    };
+
+    short colorsClosed[DEN_HEIGHT][DEN_LENGTH] = {
+        {OCC_DEN_0_1, OCC_DEN_0_2, OCC_DEN_0_3, OCC_DEN_0_4, OCC_DEN_0_5, OCC_DEN_0_6, OCC_DEN_0_7},
+        {OCC_DEN_1_1, OCC_DEN_1_2, OCC_DEN_1_3, OCC_DEN_1_4, OCC_DEN_1_5, OCC_DEN_1_6, OCC_DEN_1_7},
+        {OCC_DEN_2_1, OCC_DEN_2_2, OCC_DEN_2_3, OCC_DEN_2_4, OCC_DEN_2_5, OCC_DEN_2_6, OCC_DEN_2_7},
+        {OCC_DEN_3_1, OCC_DEN_3_2, OCC_DEN_3_3, OCC_DEN_3_4, OCC_DEN_3_5, OCC_DEN_3_6, OCC_DEN_3_7}
+    };
+
 
     // Calcolo delle posizioni
     int numDens = 5; // Numero di tane
@@ -128,16 +143,29 @@ void printDen() {
 
     for (int den = 0; den < numDens; den++) { // Itera per ogni tana
         int currentX = startX + den * (DEN_LENGTH + distance); // Posizione x della tana corrente
+        if(game->closedDen[den] == 0) {
 
-        for (int row = 0; row < DEN_HEIGHT; row++) {
-            for (int col = 0; col < DEN_LENGTH; col++) {
-                if (denSprite[row][col] != L'n') {
-                    // Imposta il colore
-                    USE_COLOR(colors[row][col]);
-                    // Stampa il carattere nella posizione corretta
-                    mvprintw(y - DEN_HEIGHT + row, currentX + col, "%lc", denSprite[row][col]);
-                    // Disattiva il colore
-                    attroff(COLOR_PAIR(colors[row][col]));
+            for (int row = 0; row < DEN_HEIGHT; row++) {
+                for (int col = 0; col < DEN_LENGTH; col++) {
+                    if (denOpenSprite[row][col] != L'n') {
+                        // Imposta il colore
+                        USE_COLOR(colorsOpen[row][col]);
+                        // Stampa il carattere nella posizione corretta
+                        mvprintw(y - DEN_HEIGHT + row, currentX + col, "%lc", denOpenSprite[row][col]);
+                        // Disattiva il colore
+                        attroff(COLOR_PAIR(colorsOpen[row][col]));
+                    }
+                }
+            }
+        }else {
+            for (int row = 0; row < DEN_HEIGHT; row++) {
+                for (int col = 0; col < DEN_LENGTH; col++) {
+                    if (denClosedSprite[row][col] != L'n') {
+                        // Imposta il colore
+                        USE_COLOR(colorsClosed[row][col]);
+                        mvprintw(y - DEN_HEIGHT + row, currentX + col, "%lc", denClosedSprite[row][col]);
+                        attroff(COLOR_PAIR(colorsClosed[row][col]));
+                    }
                 }
             }
         }
@@ -579,3 +607,4 @@ void printShield(int x, int y) {
     } 
 
 }
+

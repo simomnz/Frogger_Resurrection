@@ -10,9 +10,12 @@
 #include "menu.h"
 #include "sounds.h"
 
-//da spostare
+
+
 
 #define GODMODE 0 //0 se attivo, 1 se disattivo
+
+
 
 void start(Game *game);
 

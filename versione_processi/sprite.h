@@ -19,7 +19,7 @@ void printCrocodile(Crocodile *crocodile);
 
 void printFrog(int x, int y);
 
-void printDen();
+void printDen(Game *game);
 
 void printMenu();
 
