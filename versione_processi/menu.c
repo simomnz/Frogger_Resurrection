@@ -89,6 +89,7 @@ int scoreCounter(Player *player, int points) {
 void wrongTerminalSize(Game *game) {
 
     if ((LINES - 1) % 4 != 0) {
+        /*
         clear();
         mvprintw(0, 0, "Error: The terminal must have a number of rows such that (LINES - 1) %% 4 == 0.");
         mvprintw(1, 0, "Currently, the terminal has %d rows and %d columns.", LINES, COLS);
@@ -100,7 +101,23 @@ void wrongTerminalSize(Game *game) {
         getch();
 
         stop(game);
+        */
+        int valid_lines = LINES - ((LINES - 1) % 4);
         
+        // Show an error message (idk why it doesn't get printed)
+        clear();
+        mvprintw(0, 0, "Error: Terminal dimensions are invalid.");
+        mvprintw(1, 0, "LINES = %d, but it must satisfy (LINES - 1) %% 4 == 0.", LINES);
+        mvprintw(2, 0, "Resizing to %d rows to compensate.", valid_lines);
+        mvprintw(3, 0, "Please resize your terminal for the best experience.");
+        mvprintw(4, 0, "Press any key to continue...");
+        refresh();
+        getch();
+
+        // Resize stdscr to valid dimensions
+        resizeterm(valid_lines, COLS);
+        clear();
+        refresh();
 
     }
 }

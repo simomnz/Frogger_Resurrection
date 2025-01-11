@@ -89,11 +89,10 @@ int isPlayerOnCroc(Game *game) {
             int relativeX = game->player.cords.x - leftX;
             
             game->player.isOnCrocodile = 1;
-            // int displacement = rightX - game->player.cords.x; 
-            // game->player.cords.x = leftX + displacement;
+           
             game->player.cords.direction = croc->cords.direction;
             game->player.cords.speed = croc->cords.speed;
-            //return game->player.cords.x + (croc->cords.direction * croc->cords.speed);
+            
             /* returning the id of the crocodile we are on */
             return croc->cords.source;
         }
