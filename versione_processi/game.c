@@ -79,6 +79,9 @@ void run(Game *game) {
     Coordinates message; // = {0, 0, 0, 0};
 
     Crocodile *crocodile = game->crocodiles;
+
+    Grenade grenadeLeft;
+    Grenade grenadeRight;
     
     time_t mancheTime;
 
@@ -87,7 +90,7 @@ void run(Game *game) {
     int playersDen = 0;
     //clear();
     while (game->isRunning) {
-        wbkgd(stdscr, COLOR_PAIR(RIVER));
+        //wbkgd(stdscr, COLOR_PAIR(RIVER));
         // recvPlayerCords(player, game->serverSocket);
         readData(game->pipeFd[0], &message, sizeof(Coordinates));
         // mvprintw(0, 25, "Leggo x = %d && y = %d", player->cords.x, player->cords.y);
@@ -98,7 +101,7 @@ void run(Game *game) {
             //stopSound(jumpSound); 
             //playSound(jumpSound);
 
-        } else if (message.source > 0) {
+        } else if (message.source > 0 && message.source < 200) {
             crocodile[message.source -1].cords = message;
             // if ((crocodile[message.source - 1].PID ==  playersCroc) && (player->isOnCrocodile == 1)) {
             //     player->cords.x += (crocodile[message.source - 1].cords.direction * crocodile[message.source - 1].cords.speed);
@@ -109,9 +112,16 @@ void run(Game *game) {
                 player->cords.x += (message.direction * message.speed);
             }
 
-        }else if (message.source > 500) {
-           //proiettile
-           
+        }else if (message.source > 200) {
+            if(message.x == -1 && message.y == -1) {
+              player->hasLaunchedGrenade = 0;
+            } 
+            
+            if(message.source == 201) {
+                grenadeLeft.cords = message;
+            } else if (message.source == 203) {
+                grenadeRight.cords = message;
+            }
         }
         
         
@@ -161,6 +171,8 @@ void run(Game *game) {
         printDenRiver();
         printDen(game);
         mancheTime = time(NULL);
+        printGrenade(grenadeLeft.cords.x, grenadeLeft.cords.y);
+        printGrenade(grenadeRight.cords.x, grenadeRight.cords.y);
         printTime(game->currentTime - mancheTime);
         printScoreBoard(player->score, player->lives);
         printFrog(player->cords.x, player->cords.y);

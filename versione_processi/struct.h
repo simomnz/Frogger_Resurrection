@@ -27,6 +27,7 @@ typedef struct {
     short lives;
     short score;
     unsigned short int isOnCrocodile;
+    unsigned short int hasLaunchedGrenade;
 } Player;
 
 typedef struct {
@@ -56,7 +57,7 @@ typedef struct {
     int gameToPipe[2];
     unsigned int isRunning;
     Player player;
-    Crocodile crocodiles[MAX_CROCODILES];
+    Crocodile crocodiles[100];
     int serverSocket;
     unsigned short int closedDen[5];
     unsigned short int crocSpeed;

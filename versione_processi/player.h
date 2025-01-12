@@ -24,6 +24,9 @@
 #define SHIELD_LENGHT 13
 #define SHIELD_HEIGHT 6
 
+#define GRENAD_LEFT_SOURCE 201
+#define GRENAD_RIGHT_SOURCE 203
+
 
 void movePlayer(Player *player, int sockfdm, int gameToPlayerFd);
 

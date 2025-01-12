@@ -35,9 +35,11 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
                 break;
                 
             case ' ':
-                //creare una granata sia a destra che a sinistra
-                createGrenade(player, pipeFd, RIGHT);
-                createGrenade(player, pipeFd, LEFT);
+                if(!player->hasLaunchedGrenade) {
+                    player->hasLaunchedGrenade = 1;
+                    createGrenade(player, pipeFd, RIGHT);
+                    createGrenade(player, pipeFd, LEFT);
+                }
                 break;
             default: 
                 
@@ -147,9 +149,9 @@ void moveGrenade(Grenade *grenade, int pipeFd) {
         if (grenade->lifeSpan == 0) {
             grenade->cords.x = -1;
             grenade->cords.y = -1;
-            exit(0);
+            
         }
-        mvwprintw(stdscr, grenade->cords.y, grenade->cords.x, "-");
+        
 
         writeData(pipeFd, &grenade->cords, sizeof(Coordinates));
 
@@ -163,16 +165,20 @@ void moveGrenade(Grenade *grenade, int pipeFd) {
 void createGrenade(Player *player, int pipeFd, int direction) {
     
     Grenade grenade;
-    grenade.cords.x = player->cords.x;
-    grenade.cords.y = player->cords.y;
+    grenade.cords.x = player->cords.x + (GRENADE_LENGTH * direction);
+    grenade.cords.y = player->cords.y - FROG_HEIGHT / 2;
     grenade.sprite.length = 1;   //da cambiare
-    grenade.speed = 1;   
+    grenade.speed = 5;   
 
-    grenade.lifeSpan = 5;   //da cambiare
+    grenade.lifeSpan = FROG_LENGTH * 2;   //da cambiare
 
     grenade.cords.direction = direction;
 
-    //grenade.cords.source = 0;
+    if (direction == LEFT) {
+        grenade.cords.source = GRENAD_LEFT_SOURCE; // 201
+    } else if (direction == RIGHT) {
+        grenade.cords.source = GRENAD_RIGHT_SOURCE; // 203
+    } 
 
     pid_t pid = fork();
     if (pid < 0) {
