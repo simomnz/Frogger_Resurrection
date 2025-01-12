@@ -154,7 +154,7 @@ void run(Game *game) {
             
             if(player->isOnCrocodile == 0 && !isPlayerOnGrass(game) && GODMODE) {  //aggiungere is player on den (in realtà non necessario)
                 if (player->lives == 0) {
-                    resetCrocodile(game->crocodiles);
+                    resetCrocodile(game->crocodiles, game);
                     break;
                 }
 
@@ -162,7 +162,7 @@ void run(Game *game) {
                 scoreCounter(player, 0);
                 player->cords.x = spawnPoint.x;
                 player->cords.y = spawnPoint.y;
-                resetCrocodile(game->crocodiles);
+                resetCrocodile(game->crocodiles, game);
                 createCrocodile(game->pipeFd, game->crocodiles, game);
                 clear();
 

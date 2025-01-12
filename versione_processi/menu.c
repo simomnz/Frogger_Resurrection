@@ -16,13 +16,13 @@ short menu(Game *game)
         switch (c)
         {
         case 0:
-            printFrog(10, LINES/5);
+            printFrog(10, GAME_LINES/5);
             break;
         case 1:
-            printFrog(10, LINES/2);
+            printFrog(10, GAME_LINES/2);
             break;
         case 2:
-            printFrog(10, LINES - 12);
+            printFrog(10, GAME_LINES - 12);
             break;
         }
 
@@ -65,7 +65,7 @@ void easyDifficult(Game *game) {
 
     game->crocSpeed = EASY_MODE_CROC_SPEED;
     game->currentTime = time(NULL) + 60;
-    game->numCroc = 100;
+    game->numCroc = 26;
     game->crocodiles = malloc(sizeof(Crocodile) * game->numCroc);
     // run(game);
 }
@@ -73,12 +73,18 @@ void easyDifficult(Game *game) {
 void mediumDifficult(Game *game) {
     game->crocSpeed = MEDIUM_MODE_CROC_SPEED;
     game->currentTime = time(NULL) + 40;
+    game->numCroc = 26;
+    game->crocodiles = malloc(sizeof(Crocodile) * game->numCroc);
+
     // run(game);
 }
 
 void hardDifficult(Game *game) {
     game->crocSpeed = HARD_MODE_CROC_SPEED;
     game->currentTime = time(NULL) + 30;
+    game->numCroc = 26;
+    game->crocodiles = malloc(sizeof(Crocodile) * game->numCroc);
+
     // run(game);
 }
 
@@ -86,7 +92,7 @@ void hardDifficult(Game *game) {
 //è una merda giusto per mettere un punteggio
 int scoreCounter(Player *player, int points) {
     player->score += points;
-    player->score += (LINES - player->cords.y)/4 * 10;
+    player->score += (GAME_LINES - player->cords.y)/4 * 10;
     //mvprintw(0, COLS - 15, "Score: %d", player->score);
 }
 
@@ -94,11 +100,11 @@ int scoreCounter(Player *player, int points) {
 
 void wrongTerminalSize(Game *game) {
 
-    if ((LINES - 1) % 4 != 0) {
+    if ((GAME_LINES - 1) % 4 != 0) {
         /*
         clear();
-        mvprintw(0, 0, "Error: The terminal must have a number of rows such that (LINES - 1) %% 4 == 0.");
-        mvprintw(1, 0, "Currently, the terminal has %d rows and %d columns.", LINES, COLS);
+        mvprintw(0, 0, "Error: The terminal must have a number of rows such that (GAME_LINES - 1) %% 4 == 0.");
+        mvprintw(1, 0, "Currently, the terminal has %d rows and %d columns.", GAME_LINES, COLS);
         mvprintw(2, 0, "Please resize the terminal and restart the program.");
         mvprintw(3, 0, "You can see your terminal size with stty size.");
         mvprintw(4, 0, "Press any key to exit...");
@@ -108,10 +114,10 @@ void wrongTerminalSize(Game *game) {
 
         stop(game);
         */
-        int valid_lines = 69; // LINES - ((LINES - 1) % 4);
+        int valid_GAME_LINES = 69; // GAME_LINES - ((GAME_LINES - 1) % 4);
         int valid_clm = 255;
         // Resize stdscr to valid dimensions
-        resizeterm(valid_lines, COLS);
+        resizeterm(valid_GAME_LINES, COLS);
         clear();
         refresh();
 
