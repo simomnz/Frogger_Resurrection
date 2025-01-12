@@ -86,7 +86,7 @@ void run(Game *game) {
             exit(0);
         }
 
-        close(game->pipeFd[1]);
+        //close(game->pipeFd[1]);
         close(game->gameToPipe[0]);
 
         
