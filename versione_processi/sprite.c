@@ -10,7 +10,7 @@ void printFrog(int x, int y) {
 
 
 void printCrocodile(Crocodile *crocodile) { 
-    for (int i = 0; i < (MAX_CROCODILES * (LINES -4)); i++) {
+    for (int i = 0; i < (MAX_CROCODILES * (GAME_LINES -4)); i++) {
         if (crocodile[i].cords.x > 0 && crocodile[i].cords.x < COLS) {
 
             //da cambiare con gli sprite
@@ -196,7 +196,7 @@ void printFrogger() {
         for (int col = 0; col < FROGGER_LENGTH; col++) {
             if (froggerSprite[row][col] != L'n') {
                 USE_COLOR(colors[row][col]);
-                mvprintw((LINES/2) - (FROGGER_HEIGHT - 1 - row), (COLS/7) + col, "%lc", froggerSprite[row][col]);
+                mvprintw((GAME_LINES/2) - (FROGGER_HEIGHT - 1 - row), (COLS/7) + col, "%lc", froggerSprite[row][col]);
                 attroff(COLOR_PAIR(colors[row][col]));
             }
         }
@@ -246,7 +246,7 @@ void printMenu() {
     // Definizione delle pixel art
 
     USE_COLOR(MENU);
-    for (int i = 0; i < LINES; i++) {
+    for (int i = 0; i < GAME_LINES; i++) {
         for (int j = 0; j < COLS; j++) {
             mvprintw(i, j, " ");
         }
@@ -312,7 +312,7 @@ void printMenu() {
 
 
     // Calcola le posizioni verticali per ogni blocco di pixel art
-    int startArtRow = (LINES - (sizeof(startArt) / sizeof(startArt[0]) + sizeof(scoreArt) / sizeof(scoreArt[0]) + sizeof(exitArt) / sizeof(exitArt[0]))) / 4;
+    int startArtRow = (GAME_LINES - (sizeof(startArt) / sizeof(startArt[0]) + sizeof(scoreArt) / sizeof(scoreArt[0]) + sizeof(exitArt) / sizeof(exitArt[0]))) / 4;
     int scoreArtRow = startArtRow + sizeof(startArt) / sizeof(startArt[0]) + startArtRow;
     int exitArtRow = scoreArtRow + sizeof(scoreArt) / sizeof(scoreArt[0]) + startArtRow;
 
@@ -331,7 +331,7 @@ void printDifficultyMenu(Game *game) {
     while (1)
     {
        USE_COLOR(MENU);
-        for (int i = 0; i < LINES; i++) {
+        for (int i = 0; i < GAME_LINES; i++) {
             for (int j = 0; j < COLS; j++) {
                 mvprintw(i, j, " ");
             }
@@ -402,7 +402,7 @@ void printDifficultyMenu(Game *game) {
         };
 
         // Calcola le posizioni verticali per ogni blocco di pixel art
-        int easyArtRow = (LINES - (sizeof(easyArt) / sizeof(easyArt[0]) + sizeof(mediumArt) / sizeof(mediumArt[0]) + sizeof(hardArt) / sizeof(hardArt[0]))) / 4;
+        int easyArtRow = (GAME_LINES - (sizeof(easyArt) / sizeof(easyArt[0]) + sizeof(mediumArt) / sizeof(mediumArt[0]) + sizeof(hardArt) / sizeof(hardArt[0]))) / 4;
         int mediumArtRow = easyArtRow + sizeof(easyArt) / sizeof(easyArt[0]) + easyArtRow;
         int hardArtRow = mediumArtRow + sizeof(mediumArt) / sizeof(mediumArt[0]) + easyArtRow;
 
@@ -415,14 +415,14 @@ void printDifficultyMenu(Game *game) {
         switch (c) {
 
             case 0:
-                printFrog(10, LINES/5);
+                printFrog(10, GAME_LINES/5);
 
                 break;
             case 1:
-                printFrog(10, LINES/2);
+                printFrog(10, GAME_LINES/2);
                 break;
             case 2:
-                printFrog(10, LINES -12);
+                printFrog(10, GAME_LINES -12);
                 break;
         }
 
@@ -437,12 +437,15 @@ void printDifficultyMenu(Game *game) {
             {
             case 0:
                 easyDifficult(game);
+                return;
                 break;
             case 1:
                 mediumDifficult(game);
+                return;
                 break;
             case 2:
                 hardDifficult(game);
+                return;
                 break;
             }
         }
@@ -458,7 +461,7 @@ void printDifficultyMenu(Game *game) {
 void printRiver() {
                 
     USE_COLOR(RIVER);
-    for (int i = 12; i < LINES -4; i++) {
+    for (int i = 12; i < GAME_LINES -4; i++) {
         for (int j = 0; j < COLS; j++) {
             mvprintw(i, j, " ");
         }
@@ -489,7 +492,7 @@ void printGrass() {
         }
         
     }
-    for(int i = LINES -1; i > LINES - 5; i--) {
+    for(int i = GAME_LINES -1; i > GAME_LINES - 5; i--) {
         for (int j = 0; j < COLS; j++) {
             mvprintw(i, j, " ");
         }

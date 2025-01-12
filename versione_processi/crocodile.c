@@ -65,13 +65,13 @@ void createCrocodile(int *pipe, Crocodile *crocodiles, Game *game) {
     int randDir = (rand() % 2 == 0) ? 1 : -1;
 
     
-    for (int j = 0; j < LINES - 20; j++) { // Evita righe 0-4 e LINES-5 a LINES-1
+    for (int j = 0; j < GAME_LINES - 20; j++) { // Evita righe 0-4 e LINES-5 a LINES-1
         int rowspeed = rand () % 2 + game->crocSpeed; // Velocità casuale
         int rowSpawn = j + 12;
-        
+        // if index % (numCroc per riga) != 0 = nesimo coccodrillo sulla stessa riga index - 1 
         if ((rowSpawn + 4) % 4 == 0) {
             randDir = randDir * (-1);
-            for (int i = 0; i < MAX_CROCODILES; i++) {
+            for (int i = 0; i < game->numCroc / (GAME_LINES - 20); i++) {
                 // Inizializza i valori prima di fork()
               int validPosition = 0;
 
@@ -89,7 +89,7 @@ void createCrocodile(int *pipe, Crocodile *crocodiles, Game *game) {
                     validPosition = 1;
 
                     // Controlla se la posizione è occupata
-                    for (int k = 0; k < MAX_CROCODILES * (LINES - 12); k++) {
+                    for (int k = 0; k < game->numCroc; k++) {
                         if (crocodiles[k].cords.y == newCroc.cords.y && 
                             abs(crocodiles[k].cords.x - newCroc.cords.x) < (CROCODILE_LENGTH) + CROCODILE_SHIFT) {
                             validPosition = 0;
@@ -104,7 +104,7 @@ void createCrocodile(int *pipe, Crocodile *crocodiles, Game *game) {
                     exit(1);
                 } else if (pid == 0) {
                     srand(time(NULL) + getpid());
-                    moveCrocodile(pipe, &newCroc);
+                    moveCrocodile(pipe, newCroc);
                     exit(0);
                 } else {
                     newCroc.PID = pid;
@@ -118,29 +118,35 @@ void createCrocodile(int *pipe, Crocodile *crocodiles, Game *game) {
 
 
 
-void moveCrocodile(int *pipe, Crocodile *crocodile) {
+void moveCrocodile(int *pipe, Crocodile crocodile) {
 
-    int projectChance= 0;
-
+    int projectChance = 0;
+    // open(pipe[1]);
+    close(pipe[0]);
+    Coordinates msg;
     while (1) {
-
-        crocodile->cords.x += (crocodile->cords.direction * crocodile->cords.speed);
+        // readData(pipeToCroc, &msg, sizeof(Coordinates));
+        // if (msg.source == crocodile.cords.source) {
+        //     crocodile.cords = msg;
+        // }
+        
+        crocodile.cords.x += (crocodile.cords.direction * crocodile.cords.speed);
 
         //vari controlli per vedere se esce dallo schermo
 
         //da cambiare con le MACRO
-        if (crocodile->cords.x >= COLS + 1 + CROCODILE_LENGTH) { 
+        if (crocodile.cords.x >= COLS + 1 + CROCODILE_LENGTH) { 
             //aspetto un quanto di tempo random
 
             usleep((rand() % 200000) + 100000); 
-            crocodile->cords.x = 0 - CROCODILE_LENGTH;
+            crocodile.cords.x = 0 - CROCODILE_LENGTH;
             
-        } else if (crocodile->cords.x < -2 - CROCODILE_LENGTH) {
+        } else if (crocodile.cords.x < -2 - CROCODILE_LENGTH) {
             
             //funzionerà con lo sleep?ridondante
 
             usleep((rand() % 200000) + 100000);
-            crocodile->cords.x = COLS - 1 + CROCODILE_LENGTH;
+            crocodile.cords.x = COLS - 1 + CROCODILE_LENGTH;
         }
 
         projectChance = rand() % 20;
@@ -154,7 +160,7 @@ void moveCrocodile(int *pipe, Crocodile *crocodile) {
          
 
 
-        writeData(pipe[1], &crocodile->cords, sizeof(Coordinates));
+        writeData(pipe[1], &crocodile.cords, sizeof(Coordinates));
 
 
         
@@ -165,59 +171,23 @@ void moveCrocodile(int *pipe, Crocodile *crocodile) {
 
 }
 
-/*
-void resetCrocodile(Crocodile *crocodile, int *pipeFd) {
+
+
+void resetCrocodile(Crocodile *crocodile, Game *game) {
 
     srand(time(NULL));
     int reverse = rand() % 2;
     int direction = (reverse == 1) ? 1 : -1;
     int validPosition = 0;
 
-    for (int i = 0; i < MAX_CROCODILES * ((LINES - 20) /4); i++)
-    {
-        crocodile[i].cords.direction = crocodile[i].cords.direction * direction;
-        
-        while (!validPosition) {
-            // Genera una X casuale (evitando spawn oltre lo schermo)
-            int newX = rand() % (COLS - CROCODILE_LENGTH - 1);
-            if (newX < 0) {
-                newX = 0;
-            }
-
-            // Imposta di default che la posizione è valida
-            validPosition = 1;
-
-            // (Opzionale) controlla se si sovrappone ad altri coccodrilli nella stessa riga
-            for (int j = 0; j < MAX_CROCODILES * ((LINES - 20)/4) ; j++) {
-                if (j == i) {
-                    // Non confrontare il coccodrillo con se stesso
-                    continue;
-                }
-                // Verifica che sia un coccodrillo attivo
-                if (crocodile[j].PID != 0) {
-                    // Stessa riga?
-                    if (crocodile[j].cords.y == crocodile[i].cords.y) {
-                        // Se la distanza in X è troppo piccola, c'è sovrapposizione
-                        int distX = abs(crocodile[j].cords.x - newX);
-                        if (distX < (CROCODILE_LENGTH + CROCODILE_SHIFT)) {
-                            validPosition = 0;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            
-            if (validPosition) {
-                crocodile[i].cords.x = newX;
-            }
+    for (int i = 0; i < game->numCroc; i++) {
+        if (crocodile[i].PID) {
+            kill(crocodile[i].PID, SIGKILL);
         }
-        moveCrocodile(pipeFd, &crocodile[i]);
     }
-    
 }
 
-*/
+
 
 void createProjectiles(int *pipe, Crocodile *crocodile) {
    

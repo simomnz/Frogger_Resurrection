@@ -1,6 +1,8 @@
 #pragma once
-#include "struct.h"
+
 #include <ncurses.h>
+
+#include "struct.h"
 #include "menu.h"
 
 
@@ -9,7 +11,8 @@
 
 #define EXPLOSION_LENGHT 4
 #define EXPLOSION_HEIGHT 2
-
+#define GAME_LINES 69
+#define GAME_COLS 255
 
 
 

@@ -43,18 +43,19 @@ short menu(Game *game)
             case 0:
                 clear();
                 printDifficultyMenu(game);
+                return 1;
                 break;
             case 1:
                 //score
+                // return 1;
                 break;
             case 2:
-                stop(game);
+                return 0;
+                // stop(game);
                 break;
             }
         }
         refresh();
-
-
     }
 
 }
@@ -64,19 +65,21 @@ void easyDifficult(Game *game) {
 
     game->crocSpeed = EASY_MODE_CROC_SPEED;
     game->currentTime = time(NULL) + 60;
-    run(game);
+    game->numCroc = 100;
+    game->crocodiles = malloc(sizeof(Crocodile) * game->numCroc);
+    // run(game);
 }
 
 void mediumDifficult(Game *game) {
     game->crocSpeed = MEDIUM_MODE_CROC_SPEED;
     game->currentTime = time(NULL) + 40;
-    run(game);
+    // run(game);
 }
 
 void hardDifficult(Game *game) {
     game->crocSpeed = HARD_MODE_CROC_SPEED;
     game->currentTime = time(NULL) + 30;
-    run(game);
+    // run(game);
 }
 
 
@@ -105,18 +108,8 @@ void wrongTerminalSize(Game *game) {
 
         stop(game);
         */
-        int valid_lines = LINES - ((LINES - 1) % 4);
-        
-        // Show an error message (idk why it doesn't get printed)
-        clear();
-        mvprintw(0, 0, "Error: Terminal dimensions are invalid.");
-        mvprintw(1, 0, "LINES = %d, but it must satisfy (LINES - 1) %% 4 == 0.", LINES);
-        mvprintw(2, 0, "Resizing to %d rows to compensate.", valid_lines);
-        mvprintw(3, 0, "Please resize your terminal for the best experience.");
-        mvprintw(4, 0, "Press any key to continue...");
-        refresh();
-        getch();
-
+        int valid_lines = 69; // LINES - ((LINES - 1) % 4);
+        int valid_clm = 255;
         // Resize stdscr to valid dimensions
         resizeterm(valid_lines, COLS);
         clear();

@@ -49,8 +49,8 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
 
         if(player->cords.y < 0 + FROG_HEIGHT) {
             player->cords.y = 0 + FROG_HEIGHT;
-        } else if (player->cords.y > LINES - 1) {
-            player->cords.y = LINES - 1;
+        } else if (player->cords.y > GAME_LINES - 1) {
+            player->cords.y = GAME_LINES - 1;
         }
 
         //la funzione dovrebbe successivamente chiamare sendPlayerCords per inviare l'input al server   
@@ -67,7 +67,7 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
 
 //non va un cazzo (dio merda)
 int isPlayerOnCroc(Game *game) {
-    int totalCrocodiles = (LINES - 4) * MAX_CROCODILES;
+    int totalCrocodiles = (GAME_LINES - 4) * MAX_CROCODILES;
 
     for (int i = 0; i < totalCrocodiles; i++) {
         Crocodile *croc = &game->crocodiles[i];
@@ -107,7 +107,7 @@ int isPlayerOnCroc(Game *game) {
 
 
 int isPlayerOnGrass(Game *game){
-    if (game->player.cords.y > LINES - 5 || game->player.cords.y < 9) {
+    if (game->player.cords.y > GAME_LINES - 5 || game->player.cords.y < 13) {
         return 1;
     }
     return 0;

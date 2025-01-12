@@ -1,8 +1,11 @@
 #pragma once
+
 #include <time.h>
 #include <stdlib.h>
 #include <ncurses.h>
 #include <unistd.h>
+#include <signal.h>
+
 #include "struct.h"
 
 
@@ -28,9 +31,9 @@
 void createCrocodile(int *pipe, Crocodile *crocodiles, Game *game);
 
 
-void moveCrocodile(int *pipe, Crocodile *crocodile);
+void moveCrocodile(int *pipe, Crocodile crocodile);
 
-void resetCrocodile(Crocodile *crocodile, int *pipeFd);
+void resetCrocodile(Crocodile *crocodile, Game *game);
 
 void createProjectile(int *pipe, Crocodile *crocodile);
 

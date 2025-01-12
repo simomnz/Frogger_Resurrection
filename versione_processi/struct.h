@@ -57,9 +57,10 @@ typedef struct {
     int gameToPipe[2];
     unsigned int isRunning;
     Player player;
-    Crocodile crocodiles[100];
+    Crocodile *crocodiles;
     int serverSocket;
     unsigned short int closedDen[5];
     unsigned short int crocSpeed;
     time_t currentTime;
+    unsigned int numCroc;
 } Game;
