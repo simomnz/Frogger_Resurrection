@@ -102,6 +102,7 @@ void run(Game *game) {
         int count = 0;
         int playersCroc = 0;
         int playersDen = 0;
+        time_t timeCounter = time(NULL) + game->timeDifficulty;
         while (1) {
             
         
@@ -152,9 +153,10 @@ void run(Game *game) {
 
             //se vuoi fai funzione isPlayerOnWater       
             
-            if(player->isOnCrocodile == 0 && !isPlayerOnGrass(game) && GODMODE) {  //aggiungere is player on den (in realtà non necessario)
+            if(player->isOnCrocodile == 0 && !isPlayerOnGrass(game) && GODMODE || (timeCounter - mancheTime) <= 0) {  //aggiungere is player on den (in realtà non necessario)
                 if (player->lives == 0) {
                     resetCrocodile(game->crocodiles, game);
+                    free(game->crocodiles);
                     break;
                 }
 
@@ -168,6 +170,7 @@ void run(Game *game) {
 
                 //TODO
                 // reset del tempo
+                timeCounter = time(NULL) + game->timeDifficulty;
             }
             
             
@@ -188,10 +191,10 @@ void run(Game *game) {
             printGrass();
             printDenRiver();
             printDen(game);
-            mancheTime = time(NULL);
             printGrenade(grenadeLeft.cords.x, grenadeLeft.cords.y);
             printGrenade(grenadeRight.cords.x, grenadeRight.cords.y);
-            printTime(game->currentTime - mancheTime);
+            mancheTime = time(NULL);
+            printTime(timeCounter - mancheTime);
             printScoreBoard(player->score, player->lives);
             printFrog(player->cords.x, player->cords.y);
             

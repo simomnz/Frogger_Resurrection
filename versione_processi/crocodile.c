@@ -187,6 +187,7 @@ void resetCrocodile(Crocodile *crocodile, Game *game) {
             kill(crocodile[i].PID, SIGKILL);
         }
     }
+    
 }
 
 
