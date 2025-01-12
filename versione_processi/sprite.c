@@ -581,22 +581,21 @@ void printExplosion(int x, int y) {
 
 void printShield(int x, int y) {
     wchar_t shieldSprite[SHIELD_HEIGHT][SHIELD_LENGHT] = {
-        //è una matrice 13x6
-        {L'n', L' ', L' ', L' ', L' ', L'n'}, 
-        {L' ', L'n', L'n', L'n', L'n', L' '}, 
-        {L' ', L'n', L'n', L'n', L'n', L' '}, 
-        {L' ', L'n', L'n', L'n', L'n', L' '}, 
-        {L' ', L'n', L'n', L'n', L'n', L' '}, 
-        {L'n', L' ', L' ', L' ', L' ', L'n'},  
+        {L'n', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L'n'}, 
+        {L' ', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L' '}, 
+        {L' ', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L' '}, 
+        {L' ', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L' '}, 
+        {L' ', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L' '}, 
+        {L'n', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L'n'},  
     };
 
     short colors[SHIELD_HEIGHT][SHIELD_LENGHT] = {
-        {0, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, 0},
-        {SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER},
-        {SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER},
-        {SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER},
-        {SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER},
-        {0, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, 0}
+        {0, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, 0},
+        {SHIELD_BORDER, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SHIELD_BORDER},
+        {SHIELD_BORDER, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SHIELD_BORDER},
+        {SHIELD_BORDER, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SHIELD_BORDER},
+        {SHIELD_BORDER, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, SHIELD_BORDER},
+        {0, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, 0}
     };
 
     for (int row = 0; row < SHIELD_HEIGHT; row++) {
