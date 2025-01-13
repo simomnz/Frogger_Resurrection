@@ -5,7 +5,8 @@ void start(Game *game) {
     initscr();   
     nodelay(stdscr, TRUE);   
     noecho();       
-    cbreak();       
+    cbreak();
+    mousemask(ALL_MOUSE_EVENTS, NULL);
     keypad(stdscr, TRUE);   
     curs_set(0);
     start_color();  
@@ -106,6 +107,8 @@ void run(Game *game) {
         int playersCroc = 0;
         int playersDen = 0;
         int clearCounter = 0;
+        int grenadeLeftHit = 0;
+        int grenadeRightHit = 0;
         time_t timeCounter = time(NULL) + game->timeDifficulty;
 
         while (1) {
@@ -218,6 +221,39 @@ void run(Game *game) {
             printTime(timeCounter - mancheTime);
             printScoreBoard(player->score, player->lives);
 
+            grenadeLeftHit = doesProjectileHitGrenade(game, grenadeLeft);
+            grenadeRightHit = doesProjectileHitGrenade(game, grenadeRight);
+
+            if(grenadeLeftHit >= 0) {
+                //kill(grenadeLeft.PID, SIGKILL);
+                ///waitpid(grenadeLeft.PID, NULL, 0);
+                kill(game->projectiles[grenadeLeftHit].PID, SIGKILL);
+                waitpid(game->projectiles[grenadeLeftHit].PID, NULL, 0);
+                printExplosion(grenadeLeft.cords.x, grenadeLeft.cords.y);
+                game->projectiles[grenadeLeftHit].cords.x = -10;
+                game->projectiles[grenadeLeftHit].cords.y = -10;
+                grenadeLeft.cords.x = -10;
+                grenadeLeft.cords.y = -10;
+                refresh();
+                usleep(5);
+            }
+
+            if(grenadeRightHit >= 0) {
+                kill(grenadeRight.PID, SIGKILL);
+                waitpid(grenadeRight.PID, NULL, 0);
+                kill(game->projectiles[grenadeRightHit].PID, SIGKILL);
+                waitpid(game->projectiles[grenadeRightHit].PID, NULL, 0);
+                printExplosion(grenadeRight.cords.x, grenadeRight.cords.y);
+                game->projectiles[grenadeRightHit].cords.x = -10;
+                game->projectiles[grenadeRightHit].cords.y = -10;
+                grenadeRight.cords.x = -10;
+                grenadeRight.cords.y = -10;
+
+                refresh();
+                usleep(5);
+            }
+
+
             int projectHit = doesProjectileHitPlayer(game);
 
             if(projectHit >= 0) {
@@ -225,6 +261,11 @@ void run(Game *game) {
                 kill(game->projectiles[projectHit].PID, SIGKILL);
                 waitpid(game->projectiles[projectHit].PID, NULL, 0);
                 game->projectiles[projectHit].cords.x = -10;
+                game->projectiles[projectHit].cords.y = -10;
+                printShield(player->cords.x, player->cords.y);
+                printFrog(player->cords.x, player->cords.y);
+                refresh();
+                usleep(5);
                 player->cords.x = spawnPoint.x;
                 player->cords.y = spawnPoint.y;
             }

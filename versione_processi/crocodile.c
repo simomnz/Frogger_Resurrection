@@ -151,15 +151,17 @@ void moveCrocodile(int *pipe, Crocodile crocodile, Game *game) {
             crocodile.cords.x = COLS - 1 + CROCODILE_LENGTH;
         }
 
-        projectChance = rand() % 200;
+        projectChance = rand() % 300;
         
         // TODO trovare una soluzione per settare crocodile.cords.flag
+        
         if(projectChance == 1 && crocodile.cords.flag == 0) {
             crocodile.cords.flag = 1;
         }
          
 
         writeData(pipe[1], &crocodile.cords, sizeof(Coordinates));
+        
         crocodile.cords.flag = 0;
         usleep(200000);
     }   

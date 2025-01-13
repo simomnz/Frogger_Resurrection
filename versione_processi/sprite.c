@@ -559,15 +559,16 @@ void printShield(int x, int y) {
         {0, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, SHIELD_BORDER, 0}
     };
 
+    int startY = y + 1;
+    int startX = x - 3;
+
     for (int row = 0; row < SHIELD_HEIGHT; row++) {
         for (int col = 0; col < SHIELD_LENGHT; col++) {
             if (shieldSprite[row][col] != L'n') {
                 USE_COLOR(colors[row][col]);
-                mvprintw(y + row, x + col, "%lc", shieldSprite[row][col]);
+                mvprintw(startY - row, startX + col, "%lc", shieldSprite[row][col]);
                 attroff(COLOR_PAIR(colors[row][col]));
             }
         }
     } 
-
 }
-

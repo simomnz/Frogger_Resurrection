@@ -44,5 +44,5 @@ void moveGrenade(Grenade *grenade, int pipe);
 
 int doesProjectileHitPlayer(Game *game);
 
-void doesProjectileHitGrenade(Game *game);
+int doesProjectileHitGrenade(Game *game, Grenade grenade);
 
