@@ -147,13 +147,15 @@ void run(Game *game) {
             //funzionante   
             if(playersDen) {
                 scoreCounter(player, 100);
+                scoreCounter(player, (GAME_LINES - player->cords.y)/4 * 10);
+                scoreCounter(player, (timeCounter - mancheTime) * 10);
                 player->cords.x = spawnPoint.x;
                 player->cords.y = spawnPoint.y;
             }
 
             //se vuoi fai funzione isPlayerOnWater       
             
-            if(player->isOnCrocodile == 0 && !isPlayerOnGrass(game) && GODMODE || (timeCounter - mancheTime) <= 0) {  //aggiungere is player on den (in realtà non necessario)
+            if(player->isOnCrocodile == 0 && !isPlayerOnGrass(game) && GODMODE || (timeCounter - mancheTime) == 0) {  //aggiungere is player on den (in realtà non necessario)
                 if (player->lives == 0) {
                     resetCrocodile(game->crocodiles, game);
                     free(game->crocodiles);
@@ -161,7 +163,7 @@ void run(Game *game) {
                 }
 
                 player->lives--;
-                scoreCounter(player, 0);
+                scoreCounter(player, (GAME_LINES - player->cords.y)/4 * 10);
                 player->cords.x = spawnPoint.x;
                 player->cords.y = spawnPoint.y;
                 resetCrocodile(game->crocodiles, game);

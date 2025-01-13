@@ -64,7 +64,7 @@ short menu(Game *game)
 void easyDifficult(Game *game) {
 
     game->crocSpeed = EASY_MODE_CROC_SPEED;
-    game->timeDifficulty = 60;
+    game->timeDifficulty = 180;
     game->numCroc = 26;
     game->crocodiles = malloc(sizeof(Crocodile) * game->numCroc);
     // run(game);
@@ -72,7 +72,7 @@ void easyDifficult(Game *game) {
 
 void mediumDifficult(Game *game) {
     game->crocSpeed = MEDIUM_MODE_CROC_SPEED;
-    game->timeDifficulty = 40;
+    game->timeDifficulty = 120;
     game->numCroc = 26;
     game->crocodiles = malloc(sizeof(Crocodile) * game->numCroc);
 
@@ -81,7 +81,7 @@ void mediumDifficult(Game *game) {
 
 void hardDifficult(Game *game) {
     game->crocSpeed = HARD_MODE_CROC_SPEED;
-    game->timeDifficulty = 30;
+    game->timeDifficulty = 60;
     game->numCroc = 26;
     game->crocodiles = malloc(sizeof(Crocodile) * game->numCroc);
 
@@ -92,7 +92,6 @@ void hardDifficult(Game *game) {
 //è una merda giusto per mettere un punteggio
 int scoreCounter(Player *player, int points) {
     player->score += points;
-    player->score += (GAME_LINES - player->cords.y)/4 * 10;
     //mvprintw(0, COLS - 15, "Score: %d", player->score);
 }
 

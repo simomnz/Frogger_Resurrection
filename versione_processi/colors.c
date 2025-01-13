@@ -10,13 +10,13 @@ void initColors(short c, short r, short g, short b){
 
 void setColors()
 {
-    init_color(COLOR_BLACK, 0, 0, 0);
-    init_color(WHITE, 254, 254, 254); 
-    init_color(GRASS_GREEN, 129, 212, 26);
-    init_color(RIVER_BLUE, 89, 131, 176);
-    init_color(RED, 255, 0, 0);
-    init_color(BLUE, 0, 0, 255);
-    init_color(SCORE, 126, 252, 236);
+    initColors(COLOR_BLACK, 0, 0, 0);
+    initColors(WHITE, 254, 254, 254); 
+    initColors(GRASS_GREEN, 129, 212, 26);
+    initColors(RIVER_BLUE, 89, 131, 176);
+    initColors(RED, 255, 0, 0);
+    initColors(BLUE, 0, 0, 255);
+    initColors(SCORE, 126, 252, 236);
 
     
     
@@ -231,7 +231,7 @@ void setColors()
     init_pair(OCC_DEN_0_1, 0, 0);
     init_pair(OCC_DEN_0_2, FROG_GREEN, COLOR_BLACK);
     init_pair(OCC_DEN_0_3, FROG_GREEN, FROG_ORANGE);
-    init_pair(OCC_DEN_0_4, FROG_MIDDLE_EYE_GREEN, FROG_MIDDLE_EYE_GREEN);
+    init_pair(OCC_DEN_0_4, FROG_MIDDLE_EYE_GREEN, 0);
     init_pair(OCC_DEN_0_5, FROG_GREEN, FROG_ORANGE);
     init_pair(OCC_DEN_0_6, FROG_GREEN, COLOR_BLACK);
     init_pair(OCC_DEN_0_7, 0, 0);
@@ -280,9 +280,9 @@ void setColors()
 
     //projectile
 
-    init_color(PROJECTILE_DARK_YELLOW, 202, 153, 5);
-    init_color(PROJECTILE_YELLOW, 220, 166, 5);
-    init_color(PROJECTILE_LIGHT_YELLOW, 240, 180, 3);
+    initColors(PROJECTILE_DARK_YELLOW, 202, 153, 5);
+    initColors(PROJECTILE_YELLOW, 220, 166, 5);
+    initColors(PROJECTILE_LIGHT_YELLOW, 240, 180, 3);
 
     init_pair(PROJECTILE_0_1, PROJECTILE_DARK_YELLOW, 0);
     init_pair(PROJECTILE_0_2, PROJECTILE_YELLOW, 0);
@@ -314,8 +314,8 @@ void setColors()
     //frogger
 
 
-    init_color(FROGGER_GREEN, 129, 212, 26);
-    init_color(FROGGER_DARK_GREEN, 0, 169, 51);
+    initColors(FROGGER_GREEN, 129, 212, 26);
+    initColors(FROGGER_DARK_GREEN, 0, 169, 51);
     /*
     //F_0
     init_pair(FROGGER_0_1, FROGGER_DARK_GREEN, 0);
