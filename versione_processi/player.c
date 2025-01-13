@@ -12,6 +12,8 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
         readData(gameToPlayerFd, &player->cords, sizeof(Coordinates));
         int input = getch();
 
+        // TODO add cooldown to flag
+        player->cords.flag = 0;
         switch (input) {
             case 'w':
             case 'W':
@@ -37,8 +39,8 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
             case ' ':
                 if(!player->cords.flag) {
                     player->cords.flag = 1;
-                    createGrenade(player, pipeFd, RIGHT);
-                    createGrenade(player, pipeFd, LEFT);
+                    // createGrenade(player, pipeFd, RIGHT);
+                    // createGrenade(player, pipeFd, LEFT);
                 }
                 break;
             default: 
@@ -164,7 +166,7 @@ void moveGrenade(Grenade *grenade, int pipeFd) {
    exit(0);
 }
 
-void createGrenade(Player *player, int pipeFd, int direction) {
+Grenade createGrenade(Player *player, int pipeFd, int direction) {
     
     Grenade grenade;
     grenade.cords.x = player->cords.x + (GRENADE_LENGTH * direction);
@@ -191,7 +193,8 @@ void createGrenade(Player *player, int pipeFd, int direction) {
         moveGrenade(&grenade, pipeFd);
         exit(0); 
     }
-
+    grenade.PID = pid;
+    return grenade;
 }
 
 

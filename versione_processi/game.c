@@ -118,7 +118,10 @@ void run(Game *game) {
             // mvprintw(0, 25, "Leggo x = %d && y = %d", player->cords.x, player->cords.y);
             if (message.source == 0) {
                 player->cords = message;
-
+                if (message.flag == 1) {
+                    grenadeRight = createGrenade(player, game->pipeFd[1], 1);
+                    grenadeLeft = createGrenade(player, game->pipeFd[1], -1);
+                }
                 //da riattivare
                 //stopSound(jumpSound); 
                 //playSound(jumpSound);
@@ -220,13 +223,13 @@ void run(Game *game) {
             printProjectile(game->projectiles);
             printTime(timeCounter - mancheTime);
             printScoreBoard(player->score, player->lives);
-
+            // refresh();
             grenadeLeftHit = doesProjectileHitGrenade(game, grenadeLeft);
             grenadeRightHit = doesProjectileHitGrenade(game, grenadeRight);
 
             if(grenadeLeftHit >= 0) {
-                //kill(grenadeLeft.PID, SIGKILL);
-                ///waitpid(grenadeLeft.PID, NULL, 0);
+                kill(grenadeLeft.PID, SIGKILL);
+                waitpid(grenadeLeft.PID, NULL, 0);
                 kill(game->projectiles[grenadeLeftHit].PID, SIGKILL);
                 waitpid(game->projectiles[grenadeLeftHit].PID, NULL, 0);
                 printExplosion(grenadeLeft.cords.x, grenadeLeft.cords.y);
