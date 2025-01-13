@@ -125,6 +125,9 @@ void run(Game *game) {
                 // if ((crocodile[message.source - 1].PID ==  playersCroc) && (player->isOnCrocodile == 1)) {
                 //     player->cords.x += (crocodile[message.source - 1].cords.direction * crocodile[message.source - 1].cords.speed);
                 // }
+                if (crocodile[message.source - 1].cords.flag == 1) {
+                    createProjectile(game->pipeFd, crocodile[message.source - 1], game);
+                }
 
                 // 2) If that croc’s PID == the croc we’re “on,” move the player
                 if (playersCroc == message.source && player->isOnCrocodile) {
@@ -143,9 +146,9 @@ void run(Game *game) {
                 }
             }else if (message.source >= 300 && message.source < 350) { //proiettile
                 
-                if (message.x == -10 && message.y == -10) {
-                    crocodile[message.source - 301].cords.flag = 0;
-                }
+                // if (message.x == -10 && message.y == -10) {
+                //     crocodile[message.source - 301].cords.flag = 0;
+                // }
                 projectile[message.source - 301].cords = message;
             }
             
@@ -166,6 +169,7 @@ void run(Game *game) {
             }
 
             //se vuoi fai funzione isPlayerOnWater       
+            
             
             if(player->isOnCrocodile == 0 && !isPlayerOnGrass(game) && GODMODE || (timeCounter - mancheTime) == 0) {  //aggiungere is player on den (in realtà non necessario)
                 if (player->lives == 0) {
@@ -216,12 +220,13 @@ void run(Game *game) {
 
             int projectHit = doesProjectileHitPlayer(game);
 
-            if(projectHit != (-1)) {
+            if(projectHit >= 0) {
                 player->lives--;
                 kill(game->projectiles[projectHit].PID, SIGKILL);
                 waitpid(game->projectiles[projectHit].PID, NULL, 0);
-                //player->cords.x = spawnPoint.x;
-                //player->cords.y = spawnPoint.y;
+                game->projectiles[projectHit].cords.x = -10;
+                player->cords.x = spawnPoint.x;
+                player->cords.y = spawnPoint.y;
             }
 
 

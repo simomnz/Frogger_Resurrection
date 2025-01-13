@@ -153,23 +153,16 @@ void moveCrocodile(int *pipe, Crocodile crocodile, Game *game) {
 
         projectChance = rand() % 200;
         
+        // TODO trovare una soluzione per settare crocodile.cords.flag
         if(projectChance == 1 && crocodile.cords.flag == 0) {
-
             crocodile.cords.flag = 1;
-            createProjectile(pipe, crocodile, game);
-
         }
          
 
-
         writeData(pipe[1], &crocodile.cords, sizeof(Coordinates));
-
-
-        
+        crocodile.cords.flag = 0;
         usleep(200000);
     }   
-
-
 
 }
 
@@ -218,7 +211,7 @@ void createProjectile(int *pipe, Crocodile crocodile, Game *game) {
         exit(0);
     }else {
         project.PID = pid;
-        game->projectiles[crocodile.cords.source -1] = project;
+        game->projectiles[crocodile.cords.source - 1] = project;
     }
 
 }
