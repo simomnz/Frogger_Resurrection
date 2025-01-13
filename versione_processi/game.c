@@ -102,10 +102,11 @@ void run(Game *game) {
         int count = 0;
         int playersCroc = 0;
         int playersDen = 0;
+        int clearCounter = 0;
         time_t timeCounter = time(NULL) + game->timeDifficulty;
         while (1) {
             
-        
+            clearCounter++;
             readData(game->pipeFd[0], &message, sizeof(Coordinates));
             // mvprintw(0, 25, "Leggo x = %d && y = %d", player->cords.x, player->cords.y);
             if (message.source == 0) {
@@ -175,7 +176,10 @@ void run(Game *game) {
                 timeCounter = time(NULL) + game->timeDifficulty;
             }
             
-            
+            if(clearCounter == 1000) {
+                clear();
+                clearCounter = 0;
+            }
         
 
 
@@ -191,10 +195,10 @@ void run(Game *game) {
             printRiver();
             printCrocodile(game->crocodiles);
             printGrass();
-            printDenRiver();
-            printDen(game);
             printGrenade(grenadeLeft.cords.x, grenadeLeft.cords.y);
             printGrenade(grenadeRight.cords.x, grenadeRight.cords.y);
+            printDenRiver();
+            printDen(game);
             mancheTime = time(NULL);
             printTime(timeCounter - mancheTime);
             printScoreBoard(player->score, player->lives);
