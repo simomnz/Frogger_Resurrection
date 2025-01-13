@@ -127,8 +127,8 @@ void run(Game *game) {
                 }
 
             }else if (message.source > 200) {
-                if(message.x == -1 && message.y == -1) {
-                player->hasLaunchedGrenade = 0;
+                if(message.x == -10 && message.y == -10) {
+                player->cords.flag = 0;
                 } 
                 
                 if(message.source == 201) {
