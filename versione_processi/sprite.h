@@ -44,7 +44,7 @@ void printScoreBoard(int score, int lives);
 
 void printGrenade(int x, int y);
 
-void printProjectile(int x, int y);
+void printProjectile(Projectile *projectile);
 
 void printExplosion(int x, int y);
 

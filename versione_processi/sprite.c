@@ -493,24 +493,27 @@ void printGrenade(int x, int y) {
 }
 
 
-void printProjectile(int x, int y) {
+void printProjectile(Projectile *projectile) {
     wchar_t projectileSprite[PROJECTILE_HEIGHT][PROJECTILE_LENGTH] = {
-        {L'▀', L'▀', L'▀'}, 
+        {L' ', L' ', L' '}, 
     };
 
     short colors[PROJECTILE_HEIGHT][PROJECTILE_LENGTH] = {
         {PROJECTILE_0_1, PROJECTILE_0_2, PROJECTILE_0_3}
     };
 
-    for (int row = 0; row < PROJECTILE_HEIGHT; row++) {
-        for (int col = 0; col < PROJECTILE_LENGTH; col++) {
-            if (projectileSprite[row][col] != L'n') {
-                USE_COLOR(colors[row][col]);
-                mvprintw(y + row, x + col, "%lc", projectileSprite[row][col]);
-                attroff(COLOR_PAIR(colors[row][col]));
+    for(int i = 0; i < NUM_PROJECTILES; i++) {
+        
+        for (int row = 0; row < PROJECTILE_HEIGHT; row++) {
+            for (int col = 0; col < PROJECTILE_LENGTH; col++) {
+                if (projectileSprite[row][col] != L'n') {
+                    USE_COLOR(colors[row][col]);
+                    mvprintw(projectile[i].cords.y + row, projectile[i].cords.x + col, "%lc", projectileSprite[row][col]);
+                    attroff(COLOR_PAIR(colors[row][col]));
+                }
             }
-        }
-    } 
+        } 
+    }
 }
 
 

@@ -6,6 +6,9 @@
 #define MAX_CROCODILES 2
 
 
+#define NUM_PROJECTILES 26
+
+
 
 typedef struct {
     short x;
@@ -57,6 +60,7 @@ typedef struct {
     unsigned int isRunning;
     Player player;
     Crocodile *crocodiles;
+    Projectile *projectiles;
     int serverSocket;
     unsigned short int closedDen[5];
     unsigned short int crocSpeed;

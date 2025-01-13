@@ -94,6 +94,9 @@ void run(Game *game) {
 
         Crocodile *crocodile = game->crocodiles;
 
+        Projectile *projectile = game->projectiles;
+
+
         Grenade grenadeLeft;
         Grenade grenadeRight;
         
@@ -104,6 +107,7 @@ void run(Game *game) {
         int playersDen = 0;
         int clearCounter = 0;
         time_t timeCounter = time(NULL) + game->timeDifficulty;
+
         while (1) {
             
             clearCounter++;
@@ -127,17 +131,24 @@ void run(Game *game) {
                     player->cords.x += (message.direction * message.speed);
                 }
 
-            }else if (message.source > 200) {
+            }else if (message.source > 200 && message.source < 300) {
                 if(message.x == -10 && message.y == -10) {
-                player->cords.flag = 0;
+                    player->cords.flag = 0;
                 } 
                 
-                if(message.source == 201) {
+                if(message.source == 201 ) {
                     grenadeLeft.cords = message;
                 } else if (message.source == 203) {
                     grenadeRight.cords = message;
                 }
+            }else if (message.source >= 300 && message.source < 350) { //proiettile
+                
+                if (message.x == -10 && message.y == -10) {
+                    crocodile[message.source - 301].cords.flag = 0;
+                }
+                projectile[message.source - 301].cords = message;
             }
+            
             
             
             playersCroc = isPlayerOnCroc(game);
@@ -160,6 +171,7 @@ void run(Game *game) {
                 if (player->lives == 0) {
                     resetCrocodile(game->crocodiles, game);
                     free(game->crocodiles);
+                    free(game->projectiles);
                     break;
                 }
 
@@ -168,11 +180,10 @@ void run(Game *game) {
                 player->cords.x = spawnPoint.x;
                 player->cords.y = spawnPoint.y;
                 resetCrocodile(game->crocodiles, game);
+                free(game->projectiles);
                 createCrocodile(game->pipeFd, game->crocodiles, game);
                 clear();
-
-                //TODO
-                // reset del tempo
+                
                 timeCounter = time(NULL) + game->timeDifficulty;
             }
             
@@ -181,15 +192,14 @@ void run(Game *game) {
                 clearCounter = 0;
             }
         
-
+            
 
             if(player->cords.x < 0) {
                 player->cords.x = 0;
             } else if (player->cords.x > COLS - FROG_LENGTH) {
                 player->cords.x = COLS - FROG_LENGTH;
             }
-
-            //clear();        
+        
             werase(stdscr);
             
             printRiver();
@@ -200,20 +210,28 @@ void run(Game *game) {
             printDenRiver();
             printDen(game);
             mancheTime = time(NULL);
+            printProjectile(game->projectiles);
             printTime(timeCounter - mancheTime);
             printScoreBoard(player->score, player->lives);
+
+            int projectHit = doesProjectileHitPlayer(game);
+
+            if(projectHit != (-1)) {
+                player->lives--;
+                kill(game->projectiles[projectHit].PID, SIGKILL);
+                waitpid(game->projectiles[projectHit].PID, NULL, 0);
+                //player->cords.x = spawnPoint.x;
+                //player->cords.y = spawnPoint.y;
+            }
+
+
             printFrog(player->cords.x, player->cords.y);
-            
-
-
-            
 
             
             
+
+
             writeData(game->gameToPipe[1], &game->player.cords, sizeof(Coordinates));
-            // for (int i = 0; i < MAX_CROCODILES * ((GAME_LINES - 20) /4); i++) {
-            //     writeData(game->pipeToCroc[1], &game->crocodiles[i].cords, sizeof(Coordinates));
-            // }
 
 
             /*if (game->player.lives > 0) {

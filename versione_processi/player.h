@@ -42,3 +42,7 @@ void createGrenade(Player *player, int pipe, int direction);
 void moveGrenade(Grenade *grenade, int pipe);
 
 
+int doesProjectileHitPlayer(Game *game);
+
+void doesProjectileHitGrenade(Game *game);
+

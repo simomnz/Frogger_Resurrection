@@ -107,7 +107,7 @@ void createCrocodile(int *pipe, Crocodile *crocodiles, Game *game) {
             exit(1);
         } else if (pid == 0) {
             srand(time(NULL) + getpid());
-            moveCrocodile(pipe, newCroc);
+            moveCrocodile(pipe, newCroc, game);
             exit(0);
         } else {
             newCroc.PID = pid;
@@ -120,7 +120,7 @@ void createCrocodile(int *pipe, Crocodile *crocodiles, Game *game) {
 
 
 
-void moveCrocodile(int *pipe, Crocodile crocodile) {
+void moveCrocodile(int *pipe, Crocodile crocodile, Game *game) {
 
     int projectChance = 0;
     // open(pipe[1]);
@@ -151,12 +151,12 @@ void moveCrocodile(int *pipe, Crocodile crocodile) {
             crocodile.cords.x = COLS - 1 + CROCODILE_LENGTH;
         }
 
-        projectChance = rand() % 20;
+        projectChance = rand() % 200;
         
-        if(projectChance == 1) {
+        if(projectChance == 1 && crocodile.cords.flag == 0) {
 
-
-            //createProjectile(pipe, crocodile);
+            crocodile.cords.flag = 1;
+            createProjectile(pipe, crocodile, game);
 
         }
          
@@ -185,6 +185,8 @@ void resetCrocodile(Crocodile *crocodile, Game *game) {
     for (int i = 0; i < game->numCroc; i++) {
         if (crocodile[i].PID) {
             kill(crocodile[i].PID, SIGKILL);
+            waitpid(crocodile[i].PID, NULL, 0);
+
         }
     }
     
@@ -192,17 +194,18 @@ void resetCrocodile(Crocodile *crocodile, Game *game) {
 
 
 
-void createProjectiles(int *pipe, Crocodile *crocodile) {
+void createProjectile(int *pipe, Crocodile crocodile, Game *game) {
    
     Projectile project;
-    project.cords.x = crocodile->cords.x + crocodile->cords.direction;
-    project.cords.y = crocodile->cords.y;
-    project.cords.direction = crocodile->cords.direction;
-    project.cords.source = crocodile->cords.source;
-    project.speed = crocodile->cords.speed + 2;
-    project.sprite.length = 1;
+    project.cords.x = crocodile.cords.x + (crocodile.cords.direction * CROCODILE_LENGTH);
+    project.cords.y = crocodile.cords.y - CROCODILE_HEIGHT /2;
+    project.cords.direction = crocodile.cords.direction;
+    project.cords.source = crocodile.cords.source;
+    project.speed = crocodile.cords.speed + 2;
+    project.sprite.length = PROJECTILE_LENGTH;
+    project.sprite.height = PROJECTILE_LENGTH;
 
-    project.cords.source = 500 + rand () % 1000; //a caso per ora
+    project.cords.source = 300 + crocodile.cords.source;
 
 
     pid_t pid = fork();
@@ -213,6 +216,9 @@ void createProjectiles(int *pipe, Crocodile *crocodile) {
     } else if (pid == 0) {
         moveProjectile(pipe[1], &project);
         exit(0);
+    }else {
+        project.PID = pid;
+        game->projectiles[crocodile.cords.source -1] = project;
     }
 
 }
@@ -223,11 +229,11 @@ void moveProjectile(int pipe, Projectile *projectile) {
 
         projectile->cords.x += projectile->speed * projectile->cords.direction;
 
-        if (projectile->cords.x >= COLS + 1 || projectile->cords.x < -2) {
+        if (projectile->cords.x > COLS + 5 || projectile->cords.x < -5) {
 
-            //li butto in basso a sinistra (non obbligatorio)
-            projectile->cords.x = -4;
-            projectile->cords.y = -4;
+            projectile->cords.x = -10;
+            projectile->cords.y = -10;
+            projectile->cords.flag = 0;
             exit(0);
         }
 

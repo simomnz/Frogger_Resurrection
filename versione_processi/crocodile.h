@@ -5,6 +5,7 @@
 #include <ncurses.h>
 #include <unistd.h>
 #include <signal.h>
+#include <sys/wait.h>
 
 #include "struct.h"
 
@@ -28,14 +29,16 @@
 
 
 
+
+
 void createCrocodile(int *pipe, Crocodile *crocodiles, Game *game);
 
 
-void moveCrocodile(int *pipe, Crocodile crocodile);
+void moveCrocodile(int *pipe, Crocodile crocodile, Game *game);
 
 void resetCrocodile(Crocodile *crocodile, Game *game);
 
-void createProjectile(int *pipe, Crocodile *crocodile);
+void createProjectile(int *pipe, Crocodile crocodile, Game *game);
 
 void moveProjectile(int pipe, Projectile *projectile);
 

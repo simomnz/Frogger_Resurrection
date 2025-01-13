@@ -195,3 +195,13 @@ void createGrenade(Player *player, int pipeFd, int direction) {
 }
 
 
+int doesProjectileHitPlayer(Game *game) {
+    for (int i = 0; i < NUM_PROJECTILES; i++) {
+        Projectile projectile = game->projectiles[i];
+        if (projectile.cords.y <=  game->player.cords.y && projectile.cords.y >=  ((game->player.cords.y - FROG_HEIGHT) + 1) && projectile.cords.x  >= game->player.cords.x && projectile.cords.x <= game->player.cords.x + FROG_LENGTH) {
+            
+            return game->projectiles[i].PID;
+        }
+    }
+    return -1;
+}

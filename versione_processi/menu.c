@@ -67,6 +67,7 @@ void easyDifficult(Game *game) {
     game->timeDifficulty = 180;
     game->numCroc = 26;
     game->crocodiles = malloc(sizeof(Crocodile) * game->numCroc);
+    game->projectiles = malloc(sizeof(Projectile) * NUM_PROJECTILES);
     // run(game);
 }
 
@@ -75,6 +76,7 @@ void mediumDifficult(Game *game) {
     game->timeDifficulty = 120;
     game->numCroc = 26;
     game->crocodiles = malloc(sizeof(Crocodile) * game->numCroc);
+    game->projectiles = malloc(sizeof(Projectile) * NUM_PROJECTILES);
 
     // run(game);
 }
@@ -84,6 +86,7 @@ void hardDifficult(Game *game) {
     game->timeDifficulty = 60;
     game->numCroc = 26;
     game->crocodiles = malloc(sizeof(Crocodile) * game->numCroc);
+    game->projectiles = malloc(sizeof(Projectile) * NUM_PROJECTILES);
 
     // run(game);
 }
