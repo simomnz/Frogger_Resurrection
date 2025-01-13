@@ -13,12 +13,12 @@ typedef struct {
     short direction;
     unsigned short source;
     short speed;
+    short flag;
 } Coordinates;
 
 typedef struct {
     short length;
     short height;
-    char **texture;
 } Sprite;
 
 typedef struct {
@@ -27,7 +27,6 @@ typedef struct {
     short lives;
     short score;
     unsigned short int isOnCrocodile;
-    unsigned short int hasLaunchedGrenade;
 } Player;
 
 typedef struct {

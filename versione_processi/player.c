@@ -35,8 +35,8 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
                 break;
                 
             case ' ':
-                if(!player->hasLaunchedGrenade) {
-                    player->hasLaunchedGrenade = 1;
+                if(!player->cords.flag) {
+                    player->cords.flag = 1;
                     createGrenade(player, pipeFd, RIGHT);
                     createGrenade(player, pipeFd, LEFT);
                 }
