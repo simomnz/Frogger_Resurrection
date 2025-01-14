@@ -29,14 +29,14 @@ void start(Game *game) {
     initAudio();
     
    
+    for (int i = 0; i < 5; i++) {
+        game->closedDen[i] = 0;
+    }
+        
     
 
     /*set all dens as open*/
 
-    for (int i = 0; i < 5; i++) {
-        game->closedDen[i] = 0;
-    }
-    
     // menu(game);
 }
 
@@ -74,6 +74,7 @@ void run(Game *game) {
         player->cords.x = spawnPoint.x;
         player->cords.y = spawnPoint.y;
         player->cords.speed = 1;
+        player->cords.type = 'f';
     
 
         
@@ -96,6 +97,7 @@ void run(Game *game) {
         Crocodile *crocodile = game->crocodiles;
 
         Projectile *projectile = game->projectiles;
+        
 
 
         Grenade grenadeLeft;
@@ -110,13 +112,15 @@ void run(Game *game) {
         int grenadeLeftHit = 0;
         int grenadeRightHit = 0;
         time_t timeCounter = time(NULL) + game->timeDifficulty;
+        int occupiedDens = 0;
+        
 
         while (1) {
             
             clearCounter++;
             readData(game->pipeFd[0], &message, sizeof(Coordinates));
             // mvprintw(0, 25, "Leggo x = %d && y = %d", player->cords.x, player->cords.y);
-            if (message.source == 0) {
+            if (message.source == 0 && message.type == 'f') {
                 player->cords = message;
                 if (message.flag == 1) {
                     grenadeRight = createGrenade(player, game->pipeFd[1], 1);
@@ -126,7 +130,7 @@ void run(Game *game) {
                 //stopSound(jumpSound); 
                 //playSound(jumpSound);
 
-            } else if (message.source > 0 && message.source < 200) {
+            } else if (message.source > 0 && message.source < 200 && message.type == 'c') {
                 crocodile[message.source -1].cords = message;
                 // if ((crocodile[message.source - 1].PID ==  playersCroc) && (player->isOnCrocodile == 1)) {
                 //     player->cords.x += (crocodile[message.source - 1].cords.direction * crocodile[message.source - 1].cords.speed);
@@ -140,7 +144,7 @@ void run(Game *game) {
                     player->cords.x += (message.direction * message.speed);
                 }
 
-            }else if (message.source > 200 && message.source < 300) {
+            }else if (message.source > 200 && message.source < 300 && message.type == 'g') {
                 if(message.x == -10 && message.y == -10) {
                     player->cords.flag = 0;
                 } 
@@ -150,8 +154,7 @@ void run(Game *game) {
                 } else if (message.source == 203) {
                     grenadeRight.cords = message;
                 }
-            }else if (message.source >= 300 && message.source < 350) { //proiettile
-                
+            }else if (message.source > 300 && message.source < (300 + NUM_PROJECTILES +1) && message.type == 'p') { //proiettile
                 // if (message.x == -10 && message.y == -10) {
                 //     crocodile[message.source - 301].cords.flag = 0;
                 // }
@@ -170,6 +173,7 @@ void run(Game *game) {
                 scoreCounter(player, 100);
                 scoreCounter(player, (GAME_LINES - player->cords.y)/4 * 10);
                 scoreCounter(player, (timeCounter - mancheTime) * 10);
+                occupiedDens++;
                 player->cords.x = spawnPoint.x;
                 player->cords.y = spawnPoint.y;
             }
@@ -182,6 +186,10 @@ void run(Game *game) {
                     resetCrocodile(game->crocodiles, game);
                     free(game->crocodiles);
                     free(game->projectiles);
+                    for (int i = 0; i < 6; i++) {
+                        game->closedDen[i] = 0;
+                    }
+                    
                     break;
                 }
 
@@ -213,14 +221,14 @@ void run(Game *game) {
             werase(stdscr);
             
             printRiver();
-            printCrocodile(game->crocodiles);
+            printCrocodile(crocodile);
             printGrass();
             printGrenade(grenadeLeft.cords.x, grenadeLeft.cords.y);
             printGrenade(grenadeRight.cords.x, grenadeRight.cords.y);
             printDenRiver();
             printDen(game);
             mancheTime = time(NULL);
-            printProjectile(game->projectiles);
+            printProjectile(projectile);
             printTime(timeCounter - mancheTime);
             printScoreBoard(player->score, player->lives);
             // refresh();
@@ -228,32 +236,31 @@ void run(Game *game) {
             grenadeRightHit = doesProjectileHitGrenade(game, grenadeRight);
 
             if(grenadeLeftHit >= 0) {
+                game->projectiles[grenadeLeftHit].cords.x = -10;
+                game->projectiles[grenadeLeftHit].cords.y = -10;
+                printExplosion(grenadeLeft.cords.x, grenadeLeft.cords.y);
+                grenadeLeft.cords.x = -10;
+                grenadeLeft.cords.y = -10;
                 kill(grenadeLeft.PID, SIGKILL);
                 waitpid(grenadeLeft.PID, NULL, 0);
                 kill(game->projectiles[grenadeLeftHit].PID, SIGKILL);
                 waitpid(game->projectiles[grenadeLeftHit].PID, NULL, 0);
-                printExplosion(grenadeLeft.cords.x, grenadeLeft.cords.y);
-                game->projectiles[grenadeLeftHit].cords.x = -10;
-                game->projectiles[grenadeLeftHit].cords.y = -10;
-                grenadeLeft.cords.x = -10;
-                grenadeLeft.cords.y = -10;
                 refresh();
-                usleep(5);
+               //usleep(5000);
             }
 
             if(grenadeRightHit >= 0) {
+                game->projectiles[grenadeRightHit].cords.x = -10;
+                game->projectiles[grenadeRightHit].cords.y = -10;
+                printExplosion(grenadeRight.cords.x, grenadeRight.cords.y);
+                grenadeRight.cords.x = -10;
+                grenadeRight.cords.y = -10;
                 kill(grenadeRight.PID, SIGKILL);
                 waitpid(grenadeRight.PID, NULL, 0);
                 kill(game->projectiles[grenadeRightHit].PID, SIGKILL);
                 waitpid(game->projectiles[grenadeRightHit].PID, NULL, 0);
-                printExplosion(grenadeRight.cords.x, grenadeRight.cords.y);
-                game->projectiles[grenadeRightHit].cords.x = -10;
-                game->projectiles[grenadeRightHit].cords.y = -10;
-                grenadeRight.cords.x = -10;
-                grenadeRight.cords.y = -10;
-
                 refresh();
-                usleep(5);
+                //usleep(5000);
             }
 
 
@@ -261,14 +268,14 @@ void run(Game *game) {
 
             if(projectHit >= 0) {
                 player->lives--;
-                kill(game->projectiles[projectHit].PID, SIGKILL);
-                waitpid(game->projectiles[projectHit].PID, NULL, 0);
                 game->projectiles[projectHit].cords.x = -10;
                 game->projectiles[projectHit].cords.y = -10;
+                kill(game->projectiles[projectHit].PID, SIGKILL);
+                waitpid(game->projectiles[projectHit].PID, NULL, 0);
                 printShield(player->cords.x, player->cords.y);
                 printFrog(player->cords.x, player->cords.y);
                 refresh();
-                usleep(5);
+                //usleep(5000);
                 player->cords.x = spawnPoint.x;
                 player->cords.y = spawnPoint.y;
             }
@@ -282,18 +289,17 @@ void run(Game *game) {
 
             writeData(game->gameToPipe[1], &game->player.cords, sizeof(Coordinates));
 
-
-            /*if (game->player.lives > 0) {
-                mvprintw(0, 0, "Hai vinto");
-                usleep(100000);
+            if(occupiedDens == 5) {
+                winMenu();
+                resetCrocodile(game->crocodiles, game);
+                free(game->crocodiles);
+                free(game->projectiles);
+                for (int i = 0; i < 6; i++) {
+                    game->closedDen[i] = 0;
+                }
+      
                 break;
-            }else {
-                mvprintw(0, 0, "Hai perso"); 
-                usleep(100000);
-                stop(game);
-                //exit(0);
-
-            }*/
+            }
             wnoutrefresh(stdscr); 
 
             doupdate();

@@ -7,8 +7,10 @@
 void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
     usleep(1000);
     // Coordinates message;
+    int counterGrenade = 500;
+    //player->cords.type = 'f';
     while (1) {
-        
+        counterGrenade++;
         readData(gameToPlayerFd, &player->cords, sizeof(Coordinates));
         int input = getch();
 
@@ -37,10 +39,10 @@ void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
                 break;
                 
             case ' ':
-                if(!player->cords.flag) {
+                player->cords.flag = 0;
+                if(counterGrenade >= 500) {
                     player->cords.flag = 1;
-                    // createGrenade(player, pipeFd, RIGHT);
-                    // createGrenade(player, pipeFd, LEFT);
+                    counterGrenade = 0;
                 }
                 break;
             default: 
@@ -172,7 +174,8 @@ Grenade createGrenade(Player *player, int pipeFd, int direction) {
     grenade.cords.x = player->cords.x + (GRENADE_LENGTH * direction);
     grenade.cords.y = player->cords.y - FROG_HEIGHT / 2;
     grenade.sprite.length = 1;   //da cambiare
-    grenade.speed = 5;   
+    grenade.speed = 5;
+    grenade.cords.type = 'g'; //da cambiare   
 
     grenade.lifeSpan = FROG_LENGTH * 2;   //da cambiare
 

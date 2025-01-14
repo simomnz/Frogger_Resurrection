@@ -17,6 +17,7 @@ typedef struct {
     unsigned short source;
     short speed;
     short flag;
+    char type; 
 } Coordinates;
 
 typedef struct {

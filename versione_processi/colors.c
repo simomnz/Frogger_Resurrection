@@ -27,6 +27,8 @@ void setColors()
     init_pair(RED_SIGN, RED, WHITE);
     init_pair(BLUE_SIGN, BLUE, WHITE);
     init_pair(YELLOW_SIGN, SCORE, WHITE);
+    init_pair(LOSE, RED, COLOR_BLACK);
+    init_pair(WIN, BLUE, COLOR_BLACK);
 
     init_pair(MENU, WHITE, WHITE);
     init_pair(WRITES, WHITE, RIVER_BLUE);

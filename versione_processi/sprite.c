@@ -572,3 +572,127 @@ void printShield(int x, int y) {
         }
     } 
 }
+
+
+void loseMenu() {
+    clear();
+
+    // Definizione dell'ASCII Art come array di stringhe
+    const char *youLoseArt[] = {
+        "YYYYYYY       YYYYYYY     OOOOOOOOO     UUUUUUUU     UUUUUUUU     LLLLLLLLLLL                  OOOOOOOOO        SSSSSSSSSSSSSSS EEEEEEEEEEEEEEEEEEEEEE",
+        "Y:::::Y       Y:::::Y   OO:::::::::OO   U::::::U     U::::::U     L:::::::::L                OO:::::::::OO    SS:::::::::::::::SE::::::::::::::::::::E",
+        "Y:::::Y       Y:::::Y OO:::::::::::::OO U::::::U     U::::::U     L:::::::::L              OO:::::::::::::OO S:::::SSSSSS::::::SE::::::::::::::::::::E",
+        "Y::::::Y     Y::::::YO:::::::OOO:::::::OUU:::::U     U:::::UU     LL:::::::LL             O:::::::OOO:::::::OS:::::S     SSSSSSSEE::::::EEEEEEEEE::::E",
+        "YYY:::::Y   Y:::::YYYO::::::O   O::::::O U:::::U     U:::::U        L:::::L               O::::::O   O::::::OS:::::S              E:::::E       EEEEEE",
+        "   Y:::::Y Y:::::Y   O:::::O     O:::::O U:::::D     D:::::U        L:::::L               O:::::O     O:::::OS:::::S              E:::::E             ",
+        "    Y:::::Y:::::Y    O:::::O     O:::::O U:::::D     D:::::U        L:::::L               O:::::O     O:::::O S::::SSSS           E::::::EEEEEEEEEE   ",
+        "     Y:::::::::Y     O:::::O     O:::::O U:::::D     D:::::U        L:::::L               O:::::O     O:::::O  SS::::::SSSSS      E:::::::::::::::E   ",
+        "      Y:::::::Y      O:::::O     O:::::O U:::::D     D:::::U        L:::::L               O:::::O     O:::::O    SSS::::::::SS    E:::::::::::::::E   ",
+        "       Y:::::Y       O:::::O     O:::::O U:::::D     D:::::U        L:::::L               O:::::O     O:::::O       SSSSSS::::S   E::::::EEEEEEEEEE   ",
+        "       Y:::::Y       O:::::O     O:::::O U:::::D     D:::::U        L:::::L               O:::::O     O:::::O            S:::::S  E:::::E             ",
+        "       Y:::::Y       O::::::O   O::::::O U::::::U   U::::::U        L:::::L         LLLLLLO::::::O   O::::::O            S:::::S  E:::::E       EEEEEE",
+        "       Y:::::Y       O:::::::OOO:::::::O U:::::::UUU:::::::U      LL:::::::LLLLLLLLL:::::LO:::::::OOO:::::::OSSSSSSS     S:::::SEE::::::EEEEEEEE:::::E",
+        "    YYYY:::::YYYY     OO:::::::::::::OO   UU:::::::::::::UU       L::::::::::::::::::::::L OO:::::::::::::OO S::::::SSSSSS:::::SE::::::::::::::::::::E",
+        "    Y:::::::::::Y       OO:::::::::OO       UU:::::::::UU         L::::::::::::::::::::::L   OO:::::::::OO   S:::::::::::::::SS E::::::::::::::::::::E",
+        "    YYYYYYYYYYYYY         OOOOOOOOO           UUUUUUUUU           LLLLLLLLLLLLLLLLLLLLLLLL     OOOOOOOOO      SSSSSSSSSSSSSSS   EEEEEEEEEEEEEEEEEEEEEE",
+        NULL // Terminatore dell'array
+    };
+    
+    // Calcola il numero di righe dell'ASCII art
+    int artLines = 0;
+    while (youLoseArt[artLines] != NULL) {
+        artLines++;
+    }
+
+    // Trova la lunghezza massima delle linee per centrare orizzontalmente
+    int maxLength = 0;
+    for (int i = 0; i < artLines; i++) {
+        int len = strlen(youLoseArt[i]);
+        if (len > maxLength) {
+            maxLength = len;
+        }
+    }
+
+    // Calcola la posizione di inizio per centrare l'ASCII art
+    int start_y = (GAME_LINES / 2) - (artLines / 2);
+    int start_x = (COLS / 2) - (maxLength / 2);
+
+    // Assicurati che le coordinate siano positive
+    if (start_y < 0) start_y = 0;
+    if (start_x < 0) start_x = 0;
+
+    // Stampa ogni riga dell'ASCII art
+    for (int i = 0; i < artLines; i++) {
+        // Usa una coppia di colori e attributi, ad esempio colore rosso e grassetto
+        attron(COLOR_PAIR(LOSE) | A_BOLD);
+        mvprintw(start_y + i, start_x, "%s", youLoseArt[i]);
+        attroff(COLOR_PAIR(LOSE) | A_BOLD);
+    }
+
+    // Aggiorna lo schermo per mostrare le modifiche
+    refresh();
+
+    timeout(-1); 
+    getch();
+}
+
+
+void winMenu() {
+    clear();
+
+    const char *youWinArt[] = {
+        "YYYYYYY       YYYYYYY     OOOOOOOOO     UUUUUUUU     UUUUUUUU     WWWWWWWW                           WWWWWWWWIIIIIIIIIINNNNNNNN        NNNNNNNN",
+        "Y:::::Y       Y:::::Y   OO:::::::::OO   U::::::U     U::::::U     W::::::W                           W::::::WI::::::::IN:::::::N       N::::::N",
+        "Y:::::Y       Y:::::Y OO:::::::::::::OO U::::::U     U::::::U     W::::::W                           W::::::WI::::::::IN::::::::N      N::::::N",
+        "Y::::::Y     Y::::::YO:::::::OOO:::::::OUU:::::U     U:::::UU     W::::::W                           W::::::WII::::::IIN:::::::::N     N::::::N",
+        "YYY:::::Y   Y:::::YYYO::::::O   O::::::O U:::::U     U:::::U       W:::::W           WWWWW           W:::::W   I::::I  N::::::::::N    N::::::N",
+        "   Y:::::Y Y:::::Y   O:::::O     O:::::O U:::::D     D:::::U        W:::::W         W:::::W         W:::::W    I::::I  N:::::::::::N   N::::::N",
+        "    Y:::::Y:::::Y    O:::::O     O:::::O U:::::D     D:::::U         W:::::W       W:::::::W       W:::::W     I::::I  N:::::::N::::N  N::::::N",
+        "     Y:::::::::Y     O:::::O     O:::::O U:::::D     D:::::U          W:::::W     W:::::::::W     W:::::W      I::::I  N::::::N N::::N N::::::N",
+        "      Y:::::::Y      O:::::O     O:::::O U:::::D     D:::::U           W:::::W   W:::::W:::::W   W:::::W       I::::I  N::::::N  N::::N:::::::N",
+        "       Y:::::Y       O:::::O     O:::::O U:::::D     D:::::U            W:::::W W:::::W W:::::W W:::::W        I::::I  N::::::N   N:::::::::::N",
+        "       Y:::::Y       O:::::O     O:::::O U:::::D     D:::::U             W:::::W:::::W   W:::::W:::::W         I::::I  N::::::N    N::::::::::N",
+        "       Y:::::Y       O::::::O   O::::::O U::::::U   U::::::U              W:::::::::W     W:::::::::W          I::::I  N::::::N     N:::::::::N",
+        "       Y:::::Y       O:::::::OOO:::::::O U:::::::UUU:::::::U               W:::::::W       W:::::::W         II::::::IIN::::::N      N::::::::N",
+        "    YYYY:::::YYYY     OO:::::::::::::OO   UU:::::::::::::UU                 W:::::W         W:::::W          I::::::::IN::::::N       N:::::::N",
+        "    Y:::::::::::Y       OO:::::::::OO       UU:::::::::UU                    W:::W           W:::W           I::::::::IN::::::N        N::::::N",
+        "    YYYYYYYYYYYYY         OOOOOOOOO           UUUUUUUUU                       WWW             WWW            IIIIIIIIIINNNNNNNN         NNNNNNN",
+        NULL // Terminatore dell'array
+    };
+    
+    // Calcola il numero di righe dell'ASCII art
+    int artLines = 0;
+    while (youWinArt[artLines] != NULL) {
+        artLines++;
+    }
+
+    // Trova la lunghezza massima delle linee per centrare orizzontalmente
+    int maxLength = 0;
+    for (int i = 0; i < artLines; i++) {
+        int len = strlen(youWinArt[i]);
+        if (len > maxLength) {
+            maxLength = len;
+        }
+    }
+
+    // Calcola la posizione di inizio per centrare l'ASCII art
+    int start_y = (GAME_LINES / 2) - (artLines / 2);
+    int start_x = (COLS / 2) - (maxLength / 2);
+
+    // Assicurati che le coordinate siano positive
+    if (start_y < 0) start_y = 0;
+    if (start_x < 0) start_x = 0;
+
+    // Stampa ogni riga dell'ASCII art
+    for (int i = 0; i < artLines; i++) {
+        attron(COLOR_PAIR(WIN) | A_BOLD);
+        mvprintw(start_y + i, start_x, "%s", youWinArt[i]);
+        attroff(COLOR_PAIR(WIN) | A_BOLD);
+    }
+
+
+    refresh();
+
+    timeout(-1);
+    getch();
+}

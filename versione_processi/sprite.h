@@ -50,6 +50,10 @@ void printExplosion(int x, int y);
 
 void printShield(int x, int y);
 
+void loseMenu();
+
+void winMenu();
+
 /*
 void printStart();
 void printScore();
