@@ -73,6 +73,8 @@ void easyDifficult(Game *game) {
         game->projectiles[i].cords.y = -10;
         game->projectiles[i].cords.flag = 0;
     }
+    game->difficulty = 1;
+
     
     // run(game);
 }
@@ -88,6 +90,8 @@ void mediumDifficult(Game *game) {
         game->projectiles[i].cords.y = -10;
         game->projectiles[i].cords.flag = 0;
     }
+    game->difficulty = 2;
+
 
     // run(game);
 }
@@ -103,6 +107,8 @@ void hardDifficult(Game *game) {
         game->projectiles[i].cords.y = -10;
         game->projectiles[i].cords.flag = 0;
     }
+    game->difficulty = 3;
+
     // run(game);
 }
 

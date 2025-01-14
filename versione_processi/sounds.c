@@ -38,7 +38,6 @@ Mix_Chunk* loadSound(const char *filePath) {
 /* Avvia la riproduzione della musica */
 void startMusic(Mix_Music *music) {
     if (music) {
-        Mix_VolumeMusic(13); 
         if (Mix_PlayMusic(music, -1) == -1) { // -1 per il loop infinito
             printf("Errore riproduzione musica: %s\n", Mix_GetError());
         }
@@ -52,7 +51,6 @@ void stopMusic() {
 
 /* Riproduce un effetto sonoro */
 void playSound(Mix_Chunk *sound) {
-    Mix_VolumeChunk(sound, 10);
     if (sound) {
         if (Mix_PlayChannel(-1, sound, 0) == -1) { // Usa qualsiasi canale disponibile
             printf("Errore riproduzione suono: %s\n", Mix_GetError());

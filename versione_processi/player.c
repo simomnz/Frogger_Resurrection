@@ -123,18 +123,20 @@ int isPlayerOnDen(Game *game) {
     
     int distance = (COLS - (DEN_LENGTH * 5)) / 6; //distanza tra le tane
     int denX;
-    for (int i = 1; i < 6; i++) {
-        denX = (DEN_LENGTH + distance) * i;   //i calcoli sono giusti fidati 
+    for (int i = 0; i < 5; i++) {
+        denX = (DEN_LENGTH + distance) * (i +1);   //i calcoli sono giusti fidati 
 
         //non l'ho provato, se da errori è la y==4;
-        if (game->player.cords.y == 8 && game->player.cords.x >= denX - DEN_LENGTH -3 && game->player.cords.x <= denX + DEN_LENGTH && game->closedDen[i - 1] == 0) {
-            game->closedDen[i - 1] = 1;
+        if (game->player.cords.y == 8 && game->player.cords.x >= denX - DEN_LENGTH -3 && game->player.cords.x <= denX + DEN_LENGTH && game->closedDen[i] == 0) {
+            game->closedDen[i] = 1;
             return i;  //ritorna l'id della tana 
+        }else if(game->player.cords.y == 8 && game->player.cords.x >= denX - DEN_LENGTH -3 && game->player.cords.x <= denX + DEN_LENGTH +1 && game->closedDen[i] == 1) {
+            return 10;
         }
 
     }
     
-    return 0;
+    return -1;
 }
 
 

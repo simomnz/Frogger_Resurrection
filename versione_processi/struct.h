@@ -1,6 +1,7 @@
 #pragma once
 
 #include <sys/types.h>
+#include "sounds.h"
 
 
 #define MAX_CROCODILES 2
@@ -67,4 +68,5 @@ typedef struct {
     unsigned short int crocSpeed;
     time_t timeDifficulty;
     unsigned int numCroc;
+    short difficulty;
 } Game;

@@ -43,7 +43,9 @@ void start(Game *game) {
 
 void run(Game *game) {
 
-
+    //inserisco l'audio esplosione:
+    Mix_Chunk *explosionSound = loadSound("../music/explosionSound.mp3");
+    Mix_Chunk *shieldHit = loadSound("../music/shieldHit.mp3");
     //ha rotto il cazzo sta musica
 
     //startMusic(loadMusic("../music/gameMusic.mp3"));
@@ -58,10 +60,24 @@ void run(Game *game) {
         if (!wannaPlay) {
             break;
         }
-        
+        switch (game->difficulty)
+        {
+        case 1:
+            startMusic(loadMusic("../music/easyModeMusic.mp3")); 
+            break;
+        case 2:
+            startMusic(loadMusic("../music/mediumModeMusic.mp3"));
+            break;
+        case 3:
+            startMusic(loadMusic("../music/hardModeMusic.mp3"));
+            break;        
+        default:
+            break;
+        }
         createCrocodile(game->pipeFd, game->crocodiles, game);
         //resetCrocodile(game->crocodiles, game->pipeToCroc[1]);
-        Mix_Chunk *jumpSound = loadSound("../music/jumpSound.mp3");
+        Mix_Chunk *winSound = loadSound("../music/winMusic.mp3");
+        Mix_Chunk *loseSound = loadSound("../music/loseMusic.mp3");
     
         
         Player *player = &game->player;
@@ -132,9 +148,6 @@ void run(Game *game) {
                 grenadeRight = createGrenade(player, game->pipeFd[1], 1);
                 grenadeLeft = createGrenade(player, game->pipeFd[1], -1);
             }
-                //da riattivare
-                //stopSound(jumpSound); 
-                //playSound(jumpSound);
             
             readData(game->pipeFd[0], &message, sizeof(Coordinates));
             
@@ -155,6 +168,7 @@ void run(Game *game) {
             }else if (message.source > 200 && message.source < 300 && message.type == 'g') {
                 if(message.x == -15 && message.y == -15) {
                     player->cords.flag = 0;
+                    playSound(explosionSound);
                 } 
                 
                 if(message.source == 201 ) {
@@ -177,13 +191,23 @@ void run(Game *game) {
 
 
             //funzionante   
-            if(playersDen) {
+            if(playersDen < 10 && playersDen >= 0) {
                 scoreCounter(player, 100);
                 scoreCounter(player, (GAME_LINES - player->cords.y)/4 * 10);
                 scoreCounter(player, (timeCounter - mancheTime) * 10);
                 occupiedDens++;
                 player->cords.x = spawnPoint.x;
                 player->cords.y = spawnPoint.y;
+                timeCounter = time(NULL) + game->timeDifficulty;
+            }else if (playersDen == 10) { //nel caso la tana è chiusa
+                player->lives--;
+                scoreCounter(player, (GAME_LINES - player->cords.y)/4 * 10);
+                player->cords.x = spawnPoint.x;
+                player->cords.y = spawnPoint.y;
+                resetCrocodile(game->crocodiles, game);
+                resetProjectile(game->projectiles);
+                createCrocodile(game->pipeFd, game->crocodiles, game);
+                clear();
                 timeCounter = time(NULL) + game->timeDifficulty;
             }
 
@@ -212,6 +236,8 @@ void run(Game *game) {
                 }
                 free(game->crocodiles);
                 free(game->projectiles);
+                stopMusic();
+                playSound(loseSound);
                 loseMenu();
                 
                 break;
@@ -251,6 +277,8 @@ void run(Game *game) {
                 game->projectiles[grenadeLeftHit].cords.x = -10;
                 game->projectiles[grenadeLeftHit].cords.y = -10;
                 printExplosion(grenadeLeft.cords.x, grenadeLeft.cords.y);
+                playSound(explosionSound);
+                scoreCounter(player, 100);
                 player->score += 150;
                 grenadeLeft.cords.x = -15;
                 grenadeLeft.cords.y = -15;
@@ -264,8 +292,9 @@ void run(Game *game) {
             if(grenadeRightHit >= 0) {
                 game->projectiles[grenadeRightHit].cords.x = -10;
                 game->projectiles[grenadeRightHit].cords.y = -10;
-                // printExplosion(grenadeRight.cords.x, grenadeRight.cords.y);
-                // player->score += 150;
+                printExplosion(grenadeRight.cords.x, grenadeRight.cords.y);
+                playSound(explosionSound);
+                scoreCounter(player, 100);
                 grenadeRight.cords.x = -15;
                 grenadeRight.cords.y = -15;
                 kill(grenadeRight.PID, SIGKILL);
@@ -285,11 +314,11 @@ void run(Game *game) {
                 //resetProjectile(game->projectiles);
                 printShield(player->cords.x, player->cords.y);
                 printFrog(player->cords.x, player->cords.y);
+                playSound(shieldHit);
                 refresh();
                 player->cords.x = spawnPoint.x;
                 player->cords.y = spawnPoint.y;
                 timeCounter = time(NULL) + game->timeDifficulty;
-
             }
 
 
@@ -311,6 +340,8 @@ void run(Game *game) {
                 resetCrocodile(game->crocodiles, game);
                 free(game->crocodiles);
                 free(game->projectiles);
+                stopMusic();
+                playSound(winSound);
                 winMenu();
                 break;
             }
@@ -323,7 +354,8 @@ void run(Game *game) {
             refresh(); 
         }
     }
-    // Da cambiare con schermata di vittoria e sconfitta
+
+    stopMusic();
 }
 
 void stop(Game *game) {
