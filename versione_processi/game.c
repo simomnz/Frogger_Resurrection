@@ -55,11 +55,13 @@ void run(Game *game) {
     while (game->isRunning) {
         //wbkgd(stdscr, COLOR_PAIR(RIVER));
         // recvPlayerCords(player, game->serverSocket);
+        startMusic(loadMusic("../music/menuMusic.mp3"));
         
         int wannaPlay = menu(game);
         if (!wannaPlay) {
             break;
         }
+        stopMusic();
         switch (game->difficulty)
         {
         case 1:
