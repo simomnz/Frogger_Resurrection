@@ -37,9 +37,7 @@ void movePlayer(Player *player, int sockfd) {
     while (1) {
         counterGrenade++;
         //readData(gameToPlayerFd, &player->cords, sizeof(Coordinates));
-        printf("diocane\n");
         recvPlayerCords(player, sockfd);
-        printf("ricevuto porcodio");
         int input = getch();
 
         // TODO add cooldown to flag

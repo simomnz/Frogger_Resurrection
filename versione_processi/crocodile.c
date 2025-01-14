@@ -127,6 +127,7 @@ void moveCrocodile(int *pipe, Crocodile crocodile, Game *game) {
     // open(pipe[1]);
     close(pipe[0]);
     Coordinates msg;
+    int pew = COLS;
     while (1) {
         // readData(pipeToCroc, &msg, sizeof(Coordinates));
         // if (msg.source == crocodile.cords.source) {
@@ -155,9 +156,11 @@ void moveCrocodile(int *pipe, Crocodile crocodile, Game *game) {
         projectChance = rand() % 300;
         
         // TODO trovare una soluzione per settare crocodile.cords.flag
+        pew++;
 
-        if(projectChance == 1 && crocodile.cords.flag == 0) {
+        if(projectChance == 1 && crocodile.cords.flag == 0 && pew > COLS) {
             crocodile.cords.flag = 1;
+            pew = 0;
         }
          
 

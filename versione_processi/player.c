@@ -214,7 +214,7 @@ int doesProjectileHitPlayer(Game *game) {
 int doesProjectileHitGrenade(Game *game, Grenade grenade) {
     for (int i = 0; i < NUM_PROJECTILES; i++) {
         Projectile projectile = game->projectiles[i];
-        if (projectile.cords.y <=  grenade.cords.y && projectile.cords.y >=  ((grenade.cords.y - GRENADE_HEIGHT) + 1) && projectile.cords.x  >= grenade.cords.x && projectile.cords.x <= grenade.cords.x + GRENADE_LENGTH) {
+        if (projectile.cords.y <=  grenade.cords.y && projectile.cords.y >=  ((grenade.cords.y - FROG_HEIGHT) + 2) && projectile.cords.x  >= grenade.cords.x && projectile.cords.x <= grenade.cords.x + FROG_LENGTH) {
             return i;
         }
     }
