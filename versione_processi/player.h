@@ -28,7 +28,7 @@
 #define GRENAD_RIGHT_SOURCE 203
 
 
-void movePlayer(Player *player, int sockfdm, int gameToPlayerFd);
+// void movePlayer(Player *player, int sockfdm, int gameToPlayerFd);
 
 int isPlayerOnCroc(Game *game);
 

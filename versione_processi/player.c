@@ -4,69 +4,69 @@
 
 
 
-void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
-    usleep(1000);
-    // Coordinates message;
-    int counterGrenade = 500;
-    //player->cords.type = 'f';
-    while (1) {
-        counterGrenade++;
-        readData(gameToPlayerFd, &player->cords, sizeof(Coordinates));
-        int input = getch();
+// void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
+//     usleep(1000);
+//     // Coordinates message;
+//     int counterGrenade = 500;
+//     //player->cords.type = 'f';
+//     while (1) {
+//         counterGrenade++;
+//         readData(gameToPlayerFd, &player->cords, sizeof(Coordinates));
+//         int input = getch();
 
-        // TODO add cooldown to flag
-        player->cords.flag = 0;
-        switch (input) {
-            case 'w':
-            case 'W':
-            case KEY_UP:
-                player->cords.y -= FROG_HEIGHT;
-                break;
-            case 's':
-            case 'S':
-            case KEY_DOWN:
-                player->cords.y += FROG_HEIGHT;
-                break;
-            case 'a':
-            case 'A':
-            case KEY_LEFT:
-                player->cords.x -= FROG_LENGTH;
-                break;
-            case 'd':
-            case 'D':   
-            case KEY_RIGHT:
-                player->cords.x += FROG_LENGTH;
-                break;
+//         // TODO add cooldown to flag
+//         player->cords.flag = 0;
+//         switch (input) {
+//             case 'w':
+//             case 'W':
+//             case KEY_UP:
+//                 player->cords.y -= FROG_HEIGHT;
+//                 break;
+//             case 's':
+//             case 'S':
+//             case KEY_DOWN:
+//                 player->cords.y += FROG_HEIGHT;
+//                 break;
+//             case 'a':
+//             case 'A':
+//             case KEY_LEFT:
+//                 player->cords.x -= FROG_LENGTH;
+//                 break;
+//             case 'd':
+//             case 'D':   
+//             case KEY_RIGHT:
+//                 player->cords.x += FROG_LENGTH;
+//                 break;
                 
-            case ' ':
-                player->cords.flag = 0;
-                if(counterGrenade >= 500) {
-                    player->cords.flag = 1;
-                    counterGrenade = 0;
-                }
-                break;
-            default: 
+//             case ' ':
+//                 player->cords.flag = 0;
+//                 if(counterGrenade >= 500) {
+//                     player->cords.flag = 1;
+//                     counterGrenade = 0;
+//                 }
+//                 break;
+//             default: 
                 
-                continue;
-        }
-        flushinp();
+//                 continue;
+//         }
+//         flushinp();
 
-        if(player->cords.y < 0 + FROG_HEIGHT) {
-            player->cords.y = 0 + FROG_HEIGHT;
-        } else if (player->cords.y > GAME_LINES - 1) {
-            player->cords.y = GAME_LINES - 1;
-        }
+//         if(player->cords.y < 0 + FROG_HEIGHT) {
+//             player->cords.y = 0 + FROG_HEIGHT;
+//         } else if (player->cords.y > GAME_LINES - 1) {
+//             player->cords.y = GAME_LINES - 1;
+//         }
 
-        //la funzione dovrebbe successivamente chiamare sendPlayerCords per inviare l'input al server   
+//         //la funzione dovrebbe successivamente chiamare sendPlayerCords per inviare l'input al server   
         
-        writeData(pipeFd, &player->cords, sizeof(Coordinates));
-        // sendPlayerCords(sockfd, player);
+//         writeData(pipeFd, &player->cords, sizeof(Coordinates));
+//         // sendPlayerCords(sockfd, player);
         
         
         
-        // mvprintw(0, 50, "Player legge x = %d && y = %d", player->cords.x, player->cords.y);
-    }
-}
+//         // mvprintw(0, 50, "Player legge x = %d && y = %d", player->cords.x, player->cords.y);
+//     }
+// }
 
 
 //non va un cazzo (dio merda)

@@ -14,7 +14,7 @@ void start(Game *game) {
     setColors();
     wrongTerminalSize(game);
 
-    game->serverSocket = createSocket();
+    game->serverSocket = startServer();
     game->isRunning = 1;
     if (pipe(game->pipeFd) < 0) {
         perror("error in pipe creation");
@@ -47,7 +47,7 @@ void run(Game *game) {
     //ha rotto il cazzo sta musica
 
     //startMusic(loadMusic("../music/gameMusic.mp3"));
-
+    
     
     //clear();
     while (game->isRunning) {
@@ -83,16 +83,16 @@ void run(Game *game) {
 
         
         
-        pid_t pidPlayer = fork();
-        if (pidPlayer == 0) {
-            close(game->pipeFd[0]);
-            close(game->gameToPipe[1]);
-            movePlayer(player, game->pipeFd[1], game->gameToPipe[0]);
-            exit(0);
-        }
+        // pid_t pidPlayer = fork();
+        // if (pidPlayer == 0) {
+        //     close(game->pipeFd[0]);
+        //     close(game->gameToPipe[1]);
+        //     movePlayer(player, game->pipeFd[1], game->gameToPipe[0]);
+        //     exit(0);
+        // }
 
-        //close(game->pipeFd[1]);
-        close(game->gameToPipe[0]);
+        // //close(game->pipeFd[1]);
+        // close(game->gameToPipe[0]);
 
         
         Coordinates message; // = {0, 0, 0, 0};
@@ -118,23 +118,29 @@ void run(Game *game) {
         int occupiedDens = 0;
 
         
+        sendPlayerCords(player, game->serverSocket);
 
         while (1) {
             
             clearCounter++;
-            readData(game->pipeFd[0], &message, sizeof(Coordinates));
-            // mvprintw(0, 25, "Leggo x = %d && y = %d", player->cords.x, player->cords.y);
-            if (message.source == 0 && message.type == 'f') {
-                player->cords = message;
-                if (message.flag == 1) {
-                    grenadeRight = createGrenade(player, game->pipeFd[1], 1);
-                    grenadeLeft = createGrenade(player, game->pipeFd[1], -1);
-                }
-                //da riattivare
-                //stopSound(jumpSound); 
-                //playSound(jumpSound);
 
-            } else if (message.source > 0 && message.source < 200 && message.type == 'c') {
+            recvPlayerCords(player, game->serverSocket);
+            // mvprintw(0, 25, "Leggo x = %d && y = %d", player->cords.x, player->cords.y);
+            // if (message.source == 0 && message.type == 'f') {
+            //     player->cords = message;
+            //     if (message.flag == 1) {
+            //         grenadeRight = createGrenade(player, game->pipeFd[1], 1);
+            //         grenadeLeft = createGrenade(player, game->pipeFd[1], -1);
+            //     }
+            //     //da riattivare
+            //     //stopSound(jumpSound); 
+            //     //playSound(jumpSound);
+
+            // } else 
+            
+            readData(game->pipeFd[0], &message, sizeof(Coordinates));
+            
+            if (message.source > 0 && message.source < 200 && message.type == 'c') {
                 crocodile[message.source -1].cords = message;
                 // if ((crocodile[message.source - 1].PID ==  playersCroc) && (player->isOnCrocodile == 1)) {
                 //     player->cords.x += (crocodile[message.source - 1].cords.direction * crocodile[message.source - 1].cords.speed);
@@ -295,7 +301,7 @@ void run(Game *game) {
             
 
 
-            writeData(game->gameToPipe[1], &game->player.cords, sizeof(Coordinates));
+            sendPlayerCords(player, game->serverSocket);
 
             if(occupiedDens == 5) {
                 for (int i = 0; i < 5; i++) {

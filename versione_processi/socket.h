@@ -3,15 +3,22 @@
 #include <sys/socket.h>  
 #include <sys/un.h>       /* per i socket unix */
 #include <ncurses.h>
-#include "struct.h"
 #include <unistd.h>
+#include <arpa/inet.h>
 
+#include "struct.h"
+
+#define SERVER_IP "127.0.0.1"
+#define SERVER_PORT 8080
 #define SOCKET_PATH "/tmp/mysocket"  /* Path del socket */
 
 
 
-int createSocket(); 
+//int createSocket(); 
+int startServer();
+
+int connectToServer();
 
 void recvPlayerCords(Player *player, int sockfd);
 
-void sendPlayerInput(Player *player, int sockfd);
+void sendPlayerCords(Player *player, int sockfd);
