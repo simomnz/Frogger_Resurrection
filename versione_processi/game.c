@@ -80,6 +80,7 @@ void run(Game *game) {
         //resetCrocodile(game->crocodiles, game->pipeToCroc[1]);
         Mix_Chunk *winSound = loadSound("../music/winMusic.mp3");
         Mix_Chunk *loseSound = loadSound("../music/loseMusic.mp3");
+        Mix_Chunk *occupiedDen = loadSound("../music/occupiedDen.mp3");
     
         
         Player *player = &game->player;
@@ -197,6 +198,7 @@ void run(Game *game) {
                 scoreCounter(player, 100);
                 scoreCounter(player, (GAME_LINES - player->cords.y)/4 * 10);
                 scoreCounter(player, (timeCounter - mancheTime) * 10);
+                playSound(occupiedDen);
                 occupiedDens++;
                 player->cords.x = spawnPoint.x;
                 player->cords.y = spawnPoint.y;
