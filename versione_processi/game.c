@@ -126,17 +126,15 @@ void run(Game *game) {
 
             recvPlayerCords(player, game->serverSocket);
             // mvprintw(0, 25, "Leggo x = %d && y = %d", player->cords.x, player->cords.y);
-            // if (message.source == 0 && message.type == 'f') {
-            //     player->cords = message;
-            //     if (message.flag == 1) {
-            //         grenadeRight = createGrenade(player, game->pipeFd[1], 1);
-            //         grenadeLeft = createGrenade(player, game->pipeFd[1], -1);
-            //     }
-            //     //da riattivare
-            //     //stopSound(jumpSound); 
-            //     //playSound(jumpSound);
-
-            // } else 
+            
+            
+            if (player->cords.flag == 1) {
+                grenadeRight = createGrenade(player, game->pipeFd[1], 1);
+                grenadeLeft = createGrenade(player, game->pipeFd[1], -1);
+            }
+                //da riattivare
+                //stopSound(jumpSound); 
+                //playSound(jumpSound);
             
             readData(game->pipeFd[0], &message, sizeof(Coordinates));
             

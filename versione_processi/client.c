@@ -67,7 +67,6 @@ void movePlayer(Player *player, int sockfd) {
                 break;
                 
             case ' ':
-                player->cords.flag = 0;
                 if(counterGrenade >= 500) {
                     player->cords.flag = 1;
                     counterGrenade = 0;
@@ -78,7 +77,7 @@ void movePlayer(Player *player, int sockfd) {
                 //continue;
         }
         flushinp();
-
+        
         if(player->cords.y < 0 + FROG_HEIGHT) {
             player->cords.y = 0 + FROG_HEIGHT;
         } else if (player->cords.y > GAME_LINES - 1) {
