@@ -1,3 +1,5 @@
+
+
 #aggiungere check-deps all'inizio (dopo frogger:)
 frogger:  game.o main.o colors.o menu.o player.o socket.o sprite.o utils.o crocodile.o sounds.o
 	gcc game.o main.o colors.o player.o socket.o sprite.o utils.o crocodile.o menu.o sounds.o -o frogger -lncurses `sdl2-config --cflags --libs` -lSDL2_mixer
