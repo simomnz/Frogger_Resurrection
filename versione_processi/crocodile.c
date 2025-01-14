@@ -241,7 +241,7 @@ void moveProjectile(int pipe, Projectile *projectile) {
 
 void resetProjectile(Projectile *projectile) {
 
-    for(int i=0; i < (NUM_PROJECTILES +1); i++) {
+    for(int i=0; i < (NUM_PROJECTILES); i++) {
         if (projectile[i].PID && projectile[i].cords.type == 'p') {
             projectile[i].cords.x = -10;
             projectile[i].cords.y = -10;
