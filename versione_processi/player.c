@@ -153,8 +153,8 @@ void moveGrenade(Grenade *grenade, int pipeFd) {
         if (grenade->lifeSpan == 0) {
             printExplosion(grenade->cords.x - (GRENADE_LENGTH * grenade->cords.direction), grenade->cords.y);
             refresh();
-            grenade->cords.x = -10;
-            grenade->cords.y = -10;
+            grenade->cords.x = -15;
+            grenade->cords.y = -15;
             
         }
         

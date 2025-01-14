@@ -149,7 +149,7 @@ void run(Game *game) {
                 }
 
             }else if (message.source > 200 && message.source < 300 && message.type == 'g') {
-                if(message.x == -10 && message.y == -10) {
+                if(message.x == -15 && message.y == -15) {
                     player->cords.flag = 0;
                 } 
                 
@@ -248,29 +248,27 @@ void run(Game *game) {
                 game->projectiles[grenadeLeftHit].cords.y = -10;
                 printExplosion(grenadeLeft.cords.x, grenadeLeft.cords.y);
                 player->score += 150;
-                grenadeLeft.cords.x = -10;
-                grenadeLeft.cords.y = -10;
+                grenadeLeft.cords.x = -15;
+                grenadeLeft.cords.y = -15;
                 kill(grenadeLeft.PID, SIGKILL);
-                waitpid(grenadeLeft.PID, NULL, 0);
+                //waitpid(grenadeLeft.PID, NULL, 0);
                 kill(game->projectiles[grenadeLeftHit].PID, SIGKILL);
-                waitpid(game->projectiles[grenadeLeftHit].PID, NULL, 0);
+                //waitpid(game->projectiles[grenadeLeftHit].PID, NULL, 0);
                 refresh();
-               //usleep(5000);
             }
 
             if(grenadeRightHit >= 0) {
                 game->projectiles[grenadeRightHit].cords.x = -10;
                 game->projectiles[grenadeRightHit].cords.y = -10;
-                printExplosion(grenadeRight.cords.x, grenadeRight.cords.y);
-                player->score += 150;
-                grenadeRight.cords.x = -10;
-                grenadeRight.cords.y = -10;
+                // printExplosion(grenadeRight.cords.x, grenadeRight.cords.y);
+                // player->score += 150;
+                grenadeRight.cords.x = -15;
+                grenadeRight.cords.y = -15;
                 kill(grenadeRight.PID, SIGKILL);
-                waitpid(grenadeRight.PID, NULL, 0);
+                //waitpid(grenadeRight.PID, NULL, 0);
                 kill(game->projectiles[grenadeRightHit].PID, SIGKILL);
-                waitpid(game->projectiles[grenadeRightHit].PID, NULL, 0);
+                //waitpid(game->projectiles[grenadeRightHit].PID, NULL, 0);
                 refresh();
-                //usleep(5000);
             }
 
 
@@ -280,8 +278,7 @@ void run(Game *game) {
                 player->lives--;
                 resetCrocodile(game->crocodiles, game);
                 createCrocodile(game->pipeFd, game->crocodiles, game);
-                resetProjectile(game->projectiles);
-                waitpid(game->projectiles[projectHit].PID, NULL, 0);
+                //resetProjectile(game->projectiles);
                 printShield(player->cords.x, player->cords.y);
                 printFrog(player->cords.x, player->cords.y);
                 refresh();
