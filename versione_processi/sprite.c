@@ -184,13 +184,13 @@ void printCenteredArt(const char *art[], int numRows, int startRow, int color) {
     switch (color)
     {
     case 1 :
-        USE_COLOR(BLUE_SIGN);
+        attron(COLOR_PAIR(BLUE_SIGN) | A_BOLD);
         break;
     case 2 :
-        USE_COLOR(YELLOW_SIGN);
+        attron(COLOR_PAIR(YELLOW_SIGN) | A_BOLD);
         break;
     case 3 :
-        USE_COLOR(RED_SIGN);
+        attron(COLOR_PAIR(RED_SIGN) | A_BOLD);
         break;
     }
     for (int i = 0; i < numRows; i++) {

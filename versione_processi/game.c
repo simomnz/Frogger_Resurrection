@@ -180,6 +180,7 @@ void run(Game *game) {
                 occupiedDens++;
                 player->cords.x = spawnPoint.x;
                 player->cords.y = spawnPoint.y;
+                timeCounter = time(NULL) + game->timeDifficulty;
             }
 
             //se vuoi fai funzione isPlayerOnWater       
@@ -246,6 +247,7 @@ void run(Game *game) {
                 game->projectiles[grenadeLeftHit].cords.x = -10;
                 game->projectiles[grenadeLeftHit].cords.y = -10;
                 printExplosion(grenadeLeft.cords.x, grenadeLeft.cords.y);
+                player->score += 150;
                 grenadeLeft.cords.x = -10;
                 grenadeLeft.cords.y = -10;
                 kill(grenadeLeft.PID, SIGKILL);
@@ -260,6 +262,7 @@ void run(Game *game) {
                 game->projectiles[grenadeRightHit].cords.x = -10;
                 game->projectiles[grenadeRightHit].cords.y = -10;
                 printExplosion(grenadeRight.cords.x, grenadeRight.cords.y);
+                player->score += 150;
                 grenadeRight.cords.x = -10;
                 grenadeRight.cords.y = -10;
                 kill(grenadeRight.PID, SIGKILL);
@@ -284,6 +287,7 @@ void run(Game *game) {
                 refresh();
                 player->cords.x = spawnPoint.x;
                 player->cords.y = spawnPoint.y;
+                timeCounter = time(NULL) + game->timeDifficulty;
 
             }
 
