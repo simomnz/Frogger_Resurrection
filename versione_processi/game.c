@@ -78,7 +78,10 @@ void run(Game *game) {
     
 
         
+            
+    
 
+        
         
         pid_t pidPlayer = fork();
         if (pidPlayer == 0) {
@@ -113,6 +116,7 @@ void run(Game *game) {
         int grenadeRightHit = 0;
         time_t timeCounter = time(NULL) + game->timeDifficulty;
         int occupiedDens = 0;
+
         
 
         while (1) {
@@ -182,27 +186,30 @@ void run(Game *game) {
             
             
             if(player->isOnCrocodile == 0 && !isPlayerOnGrass(game) && GODMODE || (timeCounter - mancheTime) == 0) {  //aggiungere is player on den (in realtà non necessario)
-                if (player->lives == 0) {
-                    resetCrocodile(game->crocodiles, game);
-                    free(game->crocodiles);
-                    free(game->projectiles);
-                    for (int i = 0; i < 6; i++) {
-                        game->closedDen[i] = 0;
-                    }
-                    
-                    break;
-                }
-
                 player->lives--;
+
                 scoreCounter(player, (GAME_LINES - player->cords.y)/4 * 10);
                 player->cords.x = spawnPoint.x;
                 player->cords.y = spawnPoint.y;
                 resetCrocodile(game->crocodiles, game);
-                free(game->projectiles);
+                resetProjectile(game->projectiles);
                 createCrocodile(game->pipeFd, game->crocodiles, game);
                 clear();
                 
                 timeCounter = time(NULL) + game->timeDifficulty;
+            }
+
+            if (player->lives == 0) {
+                resetCrocodile(game->crocodiles, game);
+                resetProjectile(game->projectiles);
+                for (int i = 0; i < 5; i++) {
+                    game->closedDen[i] = 0;
+                }
+                free(game->crocodiles);
+                free(game->projectiles);
+                loseMenu();
+                
+                break;
             }
             
             if(clearCounter == 1000) {
@@ -266,18 +273,18 @@ void run(Game *game) {
 
             int projectHit = doesProjectileHitPlayer(game);
 
-            if(projectHit >= 0) {
+            if(projectHit) {
                 player->lives--;
-                game->projectiles[projectHit].cords.x = -10;
-                game->projectiles[projectHit].cords.y = -10;
-                kill(game->projectiles[projectHit].PID, SIGKILL);
+                resetCrocodile(game->crocodiles, game);
+                createCrocodile(game->pipeFd, game->crocodiles, game);
+                resetProjectile(game->projectiles);
                 waitpid(game->projectiles[projectHit].PID, NULL, 0);
                 printShield(player->cords.x, player->cords.y);
                 printFrog(player->cords.x, player->cords.y);
                 refresh();
-                //usleep(5000);
                 player->cords.x = spawnPoint.x;
                 player->cords.y = spawnPoint.y;
+
             }
 
 
@@ -290,14 +297,16 @@ void run(Game *game) {
             writeData(game->gameToPipe[1], &game->player.cords, sizeof(Coordinates));
 
             if(occupiedDens == 5) {
-                winMenu();
+                for (int i = 0; i < 5; i++) {
+                    game->closedDen[i] = 0;
+                }
+                occupiedDens = 0;
+      
+                resetProjectile(game->projectiles);
                 resetCrocodile(game->crocodiles, game);
                 free(game->crocodiles);
                 free(game->projectiles);
-                for (int i = 0; i < 6; i++) {
-                    game->closedDen[i] = 0;
-                }
-      
+                winMenu();
                 break;
             }
             wnoutrefresh(stdscr); 

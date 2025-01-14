@@ -68,6 +68,7 @@ void easyDifficult(Game *game) {
     game->numCroc = 26;
     game->crocodiles = malloc(sizeof(Crocodile) * game->numCroc);
     game->projectiles = malloc(sizeof(Projectile) * NUM_PROJECTILES);
+    
     // run(game);
 }
 

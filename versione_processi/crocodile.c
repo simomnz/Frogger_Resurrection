@@ -179,7 +179,7 @@ void resetCrocodile(Crocodile *crocodile, Game *game) {
     int validPosition = 0;
 
     for (int i = 0; i < game->numCroc; i++) {
-        if (crocodile[i].PID) {
+        if (crocodile[i].PID && crocodile[i].cords.type == 'c') {
             kill(crocodile[i].PID, SIGKILL);
             waitpid(crocodile[i].PID, NULL, 0);
 
@@ -237,4 +237,18 @@ void moveProjectile(int pipe, Projectile *projectile) {
         writeData(pipe, &projectile->cords, sizeof(Coordinates));
         usleep(200000);
     }
+}
+
+void resetProjectile(Projectile *projectile) {
+
+    for(int i=0; i < (NUM_PROJECTILES +1); i++) {
+        if (projectile[i].PID && projectile[i].cords.type == 'p') {
+            projectile[i].cords.x = -10;
+            projectile[i].cords.y = -10;
+            projectile[i].cords.flag = 0;
+            kill(projectile[i].PID, SIGKILL);
+            waitpid(projectile[i].PID, NULL, 0);
+        }
+    }
+  
 }

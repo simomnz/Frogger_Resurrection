@@ -42,3 +42,4 @@ void createProjectile(int *pipe, Crocodile crocodile, Game *game);
 
 void moveProjectile(int pipe, Projectile *projectile);
 
+void resetProjectile(Projectile *projectile);
