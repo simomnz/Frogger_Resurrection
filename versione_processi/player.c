@@ -69,7 +69,6 @@
 // }
 
 
-//non va un cazzo (dio merda)
 int isPlayerOnCroc(Game *game) {
     int totalCrocodiles = (GAME_LINES - 4) * MAX_CROCODILES;
 
@@ -145,30 +144,6 @@ int isPlayerOnDen(Game *game) {
 
 //TODO
 
-void moveGrenade(Grenade *grenade, int pipeFd) {
-
-   do
-   {
-        grenade->cords.x += grenade->speed * grenade->cords.direction;
-        grenade->lifeSpan--;
-
-        if (grenade->lifeSpan == 0) {
-            printExplosion(grenade->cords.x - (GRENADE_LENGTH * grenade->cords.direction), grenade->cords.y);
-            refresh();
-            grenade->cords.x = -15;
-            grenade->cords.y = -15;
-            
-        }
-        
-
-        writeData(pipeFd, &grenade->cords, sizeof(Coordinates));
-
-        
-        usleep(200000);
-
-    }while (grenade->lifeSpan > 0);
-   exit(0);
-}
 
 Grenade createGrenade(Player *player, int pipeFd, int direction) {
     
@@ -202,6 +177,29 @@ Grenade createGrenade(Player *player, int pipeFd, int direction) {
     return grenade;
 }
 
+void moveGrenade(Grenade *grenade, int pipeFd) {
+
+   do
+   {
+        grenade->cords.x += grenade->speed * grenade->cords.direction;
+        grenade->lifeSpan--;
+
+        if (grenade->lifeSpan == 0) {
+            grenade->cords.x = -15;
+            grenade->cords.y = -15;
+            
+        }
+        
+
+        writeData(pipeFd, &grenade->cords, sizeof(Coordinates));
+
+        
+        usleep(200000);
+
+    }while (grenade->lifeSpan > 0);
+
+    exit(0);
+}
 
 int doesProjectileHitPlayer(Game *game) {
     for (int i = 0; i < NUM_PROJECTILES; i++) {
