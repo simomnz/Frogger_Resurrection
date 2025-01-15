@@ -96,5 +96,6 @@ int main() {
     Player player;
     movePlayer(&player, sockfd);
     close(sockfd);
+    endwin();
     return 0;
 }

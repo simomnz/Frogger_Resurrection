@@ -240,6 +240,10 @@ void run(Game *game) {
                 }
                 free(game->crocodiles);
                 free(game->projectiles);
+                grenadeLeft.cords.x = -15;
+                grenadeLeft.cords.y = -15;
+                kill(grenadeLeft.PID, SIGKILL);
+                kill(grenadeRight.PID, SIGKILL);
                 stopMusic();
                 playSound(loseSound);
                 loseMenu();
@@ -338,12 +342,17 @@ void run(Game *game) {
                 for (int i = 0; i < 5; i++) {
                     game->closedDen[i] = 0;
                 }
-                occupiedDens = 0;
-      
+                occupiedDens = 0;  
+
+                scoreCounter(player, player->lives * 1000);
                 resetProjectile(game->projectiles);
                 resetCrocodile(game->crocodiles, game);
                 free(game->crocodiles);
                 free(game->projectiles);
+                grenadeLeft.cords.x = -15;
+                grenadeLeft.cords.y = -15;
+                kill(grenadeLeft.PID, SIGKILL);
+                kill(grenadeRight.PID, SIGKILL);
                 stopMusic();
                 playSound(winSound);
                 winMenu();

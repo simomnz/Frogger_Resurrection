@@ -8,7 +8,6 @@ void readData(int pipefd, void *data, size_t dim) {
         exit(-1);
     }
 }
-// TODO sostituire tutte le read e write con queste
 void writeData(int pipefd, void *data, size_t dim) {
     int check = write(pipefd, data, dim);
     if (check < 0) {

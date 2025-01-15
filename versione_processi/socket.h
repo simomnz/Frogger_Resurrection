@@ -5,8 +5,11 @@
 #include <ncurses.h>
 #include <unistd.h>
 #include <arpa/inet.h>
-
+#include <sys/types.h>
+#include <sys/socket.h>
 #include "struct.h"
+#include <asm-generic/socket.h>
+
 
 #define SERVER_IP "127.0.0.1"
 #define SERVER_PORT 8080
