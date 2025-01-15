@@ -16,15 +16,6 @@ void start(Game *game) {
 
     game->serverSocket = startServer();
     game->isRunning = 1;
-    if (pipe(game->pipeFd) < 0) {
-        perror("error in pipe creation");
-        exit(-1);
-    }
-    if (pipe(game->gameToPipe) < 0) {
-        perror("error in pipe creation");
-        exit(-1);
-    }
-    
 
     initAudio();
     
@@ -76,8 +67,7 @@ void run(Game *game) {
         default:
             break;
         }
-        createCrocodile(game->pipeFd, game->crocodiles, game);
-        //resetCrocodile(game->crocodiles, game->pipeToCroc[1]);
+        createCrocodile(game->crocodiles, game);
         Mix_Chunk *winSound = loadSound("../music/winMusic.mp3");
         Mix_Chunk *loseSound = loadSound("../music/loseMusic.mp3");
         Mix_Chunk *occupiedDen = loadSound("../music/occupiedDen.mp3");
@@ -96,22 +86,6 @@ void run(Game *game) {
         player->cords.type = 'f';
     
 
-        
-            
-    
-
-        
-        
-        // pid_t pidPlayer = fork();
-        // if (pidPlayer == 0) {
-        //     close(game->pipeFd[0]);
-        //     close(game->gameToPipe[1]);
-        //     movePlayer(player, game->pipeFd[1], game->gameToPipe[0]);
-        //     exit(0);
-        // }
-
-        // //close(game->pipeFd[1]);
-        // close(game->gameToPipe[0]);
 
         
         Coordinates message; // = {0, 0, 0, 0};
@@ -148,11 +122,11 @@ void run(Game *game) {
             
             
             if (player->cords.flag == 1) {
-                grenadeRight = createGrenade(player, game->pipeFd[1], 1);
-                grenadeLeft = createGrenade(player, game->pipeFd[1], -1);
+                grenadeRight = createGrenade(player, 1);
+                grenadeLeft = createGrenade(player, -1);
             }
             
-            readData(game->pipeFd[0], &message, sizeof(Coordinates));
+            readData(&message, sizeof(Coordinates));
             
             if (message.source > 0 && message.source < 200 && message.type == 'c') {
                 crocodile[message.source -1].cords = message;
@@ -160,7 +134,7 @@ void run(Game *game) {
                 //     player->cords.x += (crocodile[message.source - 1].cords.direction * crocodile[message.source - 1].cords.speed);
                 // }
                 if (crocodile[message.source - 1].cords.flag == 1) {
-                    createProjectile(game->pipeFd, crocodile[message.source - 1], game);
+                    createProjectile( crocodile[message.source - 1], game);
                 }
 
                 // 2) If that croc’s PID == the croc we’re “on,” move the player
@@ -210,7 +184,7 @@ void run(Game *game) {
                 player->cords.y = spawnPoint.y;
                 resetCrocodile(game->crocodiles, game);
                 resetProjectile(game->projectiles);
-                createCrocodile(game->pipeFd, game->crocodiles, game);
+                createCrocodile(game->crocodiles, game);
                 clear();
                 timeCounter = time(NULL) + game->timeDifficulty;
             }
@@ -226,7 +200,7 @@ void run(Game *game) {
                 player->cords.y = spawnPoint.y;
                 resetCrocodile(game->crocodiles, game);
                 resetProjectile(game->projectiles);
-                createCrocodile(game->pipeFd, game->crocodiles, game);
+                createCrocodile(game->crocodiles, game);
                 clear();
                 
                 timeCounter = time(NULL) + game->timeDifficulty;
@@ -318,7 +292,7 @@ void run(Game *game) {
             if(projectHit) {
                 player->lives--;
                 resetCrocodile(game->crocodiles, game);
-                createCrocodile(game->pipeFd, game->crocodiles, game);
+                createCrocodile( game->crocodiles, game);
                 //resetProjectile(game->projectiles);
                 printShield(player->cords.x, player->cords.y);
                 printFrog(player->cords.x, player->cords.y);
@@ -377,10 +351,6 @@ void stop(Game *game) {
     stopMusic();
     endwin();
     close(game->serverSocket);
-    close(game->pipeFd[0]);
-    close(game->gameToPipe[1]);
-    close(game->gameToPipe[0]);
-    close(game->pipeFd[1]);
     exit(0);
 
 }

@@ -145,7 +145,7 @@ int isPlayerOnDen(Game *game) {
 //TODO
 
 
-Grenade createGrenade(Player *player, int pipeFd, int direction) {
+Grenade createGrenade(Player *player, int direction) {
     
     Grenade grenade;
     grenade.cords.x = player->cords.x + (GRENADE_LENGTH * direction);
@@ -170,14 +170,14 @@ Grenade createGrenade(Player *player, int pipeFd, int direction) {
         exit(1);
     } else if (pid == 0) { 
         srand(time(NULL) + getpid()); 
-        moveGrenade(&grenade, pipeFd);
+        moveGrenade(&grenade);
         exit(0); 
     }
     grenade.PID = pid;
     return grenade;
 }
 
-void moveGrenade(Grenade *grenade, int pipeFd) {
+void moveGrenade(Grenade *grenade) {
 
    do
    {
@@ -191,7 +191,7 @@ void moveGrenade(Grenade *grenade, int pipeFd) {
         }
         
 
-        writeData(pipeFd, &grenade->cords, sizeof(Coordinates));
+        writeData(&grenade->cords, sizeof(Coordinates));
 
         
         usleep(200000);

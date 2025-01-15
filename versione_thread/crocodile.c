@@ -6,67 +6,9 @@
 
 
 
-/*
-void createCrocodile(int *pipe, Crocodile *crocodiles, Game *game) {
-    Crocodile newCroc;
-    srand(time(NULL));
-
-    int randDir = (rand() % 2 == 0) ? 1 : -1;
-
-    
-    for (int j = 0; j < GAME_LINES - 20; j++) { // Evita righe 0-4 e LINES-5 a LINES-1
-        int rowspeed = rand () % 2 + game->crocSpeed; // Velocità casuale
-        int rowSpawn = j + 12;
-        // if index % (numCroc per riga) != 0 = nesimo coccodrillo sulla stessa riga index - 1 
-        if ((rowSpawn + 4) % 4 == 0) {
-            randDir = randDir * (-1);
-            for (int i = 0; i < game->numCroc / (GAME_LINES - 20); i++) {
-                // Inizializza i valori prima di fork()
-              int validPosition = 0;
-
-                while (!validPosition) {
-                    // Genera una posizione casuale
-                    newCroc.cords.x = rand() % (COLS - CROCODILE_LENGTH) + 1; // Evita spawn oltre COLS
-                    newCroc.cords.y = rowSpawn + 4;
-                    newCroc.cords.direction = randDir;
-                    newCroc.cords.source = (j * MAX_CROCODILES) + i + 1;
-                    newCroc.cords.speed = rowspeed;
-                    newCroc.sprite.length = CROCODILE_LENGTH;
-                    newCroc.sprite.height = CROCODILE_HEIGHT;
-
-                    // Assume che la posizione sia valida finché non si dimostra il contrario
-                    validPosition = 1;
-
-                    // Controlla se la posizione è occupata
-                    for (int k = 0; k < game->numCroc; k++) {
-                        if (crocodiles[k].cords.y == newCroc.cords.y && 
-                            abs(crocodiles[k].cords.x - newCroc.cords.x) < (CROCODILE_LENGTH) + CROCODILE_SHIFT) {
-                            validPosition = 0;
-                            break;
-                        }
-                    }
-                }
-                pid_t pid = fork();
-
-                if (pid < 0) {
-                    perror("Fork failed");
-                    exit(1);
-                } else if (pid == 0) {
-                    srand(time(NULL) + getpid());
-                    moveCrocodile(pipe, newCroc);
-                    exit(0);
-                } else {
-                    newCroc.PID = pid;
-                    crocodiles[(j * MAX_CROCODILES) + i] = newCroc;
-                }
-            }
-        }
-    }
-}
-*/
 
 
-void createCrocodile(int *pipe, Crocodile *crocodiles, Game *game) {
+void createCrocodile(Crocodile *crocodiles, Game *game) {
     Crocodile newCroc;
     srand(time(NULL));
 
@@ -108,7 +50,7 @@ void createCrocodile(int *pipe, Crocodile *crocodiles, Game *game) {
             exit(1);
         } else if (pid == 0) {
             srand(time(NULL) + getpid());
-            moveCrocodile(pipe, newCroc, game);
+            moveCrocodile(newCroc, game);
             exit(0);
         } else {
             newCroc.PID = pid;
@@ -121,11 +63,11 @@ void createCrocodile(int *pipe, Crocodile *crocodiles, Game *game) {
 
 
 
-void moveCrocodile(int *pipe, Crocodile crocodile, Game *game) {
+void moveCrocodile(Crocodile crocodile, Game *game) {
 
     int projectChance = 0;
     // open(pipe[1]);
-    close(pipe[0]);
+    //close(pipe[0]);
     Coordinates msg;
     int pew = COLS;
     while (1) {
@@ -164,7 +106,7 @@ void moveCrocodile(int *pipe, Crocodile crocodile, Game *game) {
         }
          
 
-        writeData(pipe[1], &crocodile.cords, sizeof(Coordinates));
+        writeData(&crocodile.cords, sizeof(Coordinates));
         
         crocodile.cords.flag = 0;
         usleep(200000);
@@ -193,7 +135,7 @@ void resetCrocodile(Crocodile *crocodile, Game *game) {
 
 
 
-void createProjectile(int *pipe, Crocodile crocodile, Game *game) {
+void createProjectile(Crocodile crocodile, Game *game) {
    
     Projectile project;
     project.cords.x = crocodile.cords.x + (crocodile.cords.direction * CROCODILE_LENGTH);
@@ -214,7 +156,7 @@ void createProjectile(int *pipe, Crocodile crocodile, Game *game) {
         perror("Fork failed");
         exit(1);
     } else if (pid == 0) {
-        moveProjectile(pipe[1], &project);
+        moveProjectile(&project);
         exit(0);
     }else {
         project.PID = pid;
@@ -224,7 +166,7 @@ void createProjectile(int *pipe, Crocodile crocodile, Game *game) {
 }
 
 
-void moveProjectile(int pipe, Projectile *projectile) {
+void moveProjectile(Projectile *projectile) {
     while (1) {
 
         projectile->cords.x += projectile->speed * projectile->cords.direction;
@@ -237,7 +179,7 @@ void moveProjectile(int pipe, Projectile *projectile) {
             exit(0);
         }
 
-        writeData(pipe, &projectile->cords, sizeof(Coordinates));
+        writeData(&projectile->cords, sizeof(Coordinates));
         usleep(200000);
     }
 }
