@@ -2,33 +2,21 @@
 
 
 
+
 /*
-void printFrog(int x, int y) {
-    mvprintw(y, x, "#"); //player->sprite.texture);
-}
-
-
-
-void printCrocodile(Crocodile *crocodile) { 
-    for (int i = 0; i < (MAX_CROCODILES * (GAME_LINES -4)); i++) {
-        if (crocodile[i].cords.x > 0 && crocodile[i].cords.x < COLS) {
-
-            //da cambiare con gli sprite
-            if(crocodile[i].cords.direction == 1) {
-                mvprintw(crocodile[i].cords.y, crocodile[i].cords.x, "C");
-                mvprintw(crocodile[i].cords.y, crocodile[i].cords.x + 1, "r");
-                mvprintw(crocodile[i].cords.y, crocodile[i].cords.x + 2, "o");
-            } else {
-                mvprintw(crocodile[i].cords.y, crocodile[i].cords.x, "C"); 
-                mvprintw(crocodile[i].cords.y, crocodile[i].cords.x - 1, "r");
-                mvprintw(crocodile[i].cords.y, crocodile[i].cords.x - 2, "o");
-            }
-        }
-    }
-}
+   ▄████████    ▄███████▄    ▄████████  ▄█      ███        ▄████████    ▄████████ 
+  ███    ███   ███    ███   ███    ███ ███  ▀█████████▄   ███    ███   ███    ███ 
+  ███    █▀    ███    ███   ███    ███ ███▌    ▀███▀▀██   ███    █▀    ███    █▀  
+  ███          ███    ███  ▄███▄▄▄▄██▀ ███▌     ███   ▀  ▄███▄▄▄       ███        
+▀███████████ ▀█████████▀  ▀▀███▀▀▀▀▀   ███▌     ███     ▀▀███▀▀▀     ▀███████████ 
+         ███   ███        ▀███████████ ███      ███       ███    █▄           ███ 
+   ▄█    ███   ███          ███    ███ ███      ███       ███    ███    ▄█    ███ 
+ ▄████████▀   ▄████▀        ███    ███ █▀      ▄████▀     ██████████  ▄████████▀  
+                            ███    ███                                                                                                                                 
 */
 
 
+/* Function to print a crocodile sprite on the screen */
 void printCrocodile(Crocodile *crocodile) {
     
     wchar_t crocodileSprite[CROCODILE_HEIGHT][CROCODILE_LENGTH] = {
@@ -44,28 +32,27 @@ void printCrocodile(Crocodile *crocodile) {
         {CROC_3_1, CROC_3_2, CROC_3_3, CROC_3_4, CROC_3_5, CROC_3_6, CROC_3_7, CROC_3_8, CROC_3_9, CROC_3_10, CROC_3_11, CROC_3_12, CROC_3_13, CROC_3_14, CROC_3_15, CROC_3_16, CROC_3_17, CROC_3_18, CROC_3_19, CROC_3_20, CROC_3_21}
     };
     
-    for (int i = 0; i < (MAX_CROCODILES * ((COLS -20)/4)); i++) {
+    for (int i = 0; i < 26; i++) {
         
-        int baseY = crocodile[i].cords.y - (CROCODILE_HEIGHT - 1); // Aggiustiamo y per l'altezza dello sprite
-        if (crocodile[i].cords.direction == 1) { // vanno a destra
+        int baseY = crocodile[i].cords.y - (CROCODILE_HEIGHT - 1);
+        if (crocodile[i].cords.direction == 1) { /* Goes to the Right */
             for (int row = 0; row < CROCODILE_HEIGHT; row++) {
                 for (int col = CROCODILE_LENGTH - 1; col >= 0; col--) {
                     short xx = crocodile[i].cords.x + (CROCODILE_LENGTH - col);
                     if (crocodileSprite[row][col] != L'n') {
                         USE_COLOR(colors[row][col]);
                         mvaddch(baseY + row, xx, crocodileSprite[row][col]);
-                        //attroff(COLOR_PAIR(colors[row][col]));
+                        
                     }
                 }
             }
-        } else { // vanno a sinistra
+        } else { /* Goes to the Left */
             for (int row = 0; row < CROCODILE_HEIGHT; row++) {
                 for (int col = 0; col < CROCODILE_LENGTH; col++) {
                     short xx = crocodile[i].cords.x + col + 1;
                     if (crocodileSprite[row][col] != L'n') {
                         USE_COLOR(colors[row][col]);
                         mvaddch(baseY + row, xx, crocodileSprite[row][col]);
-                        //attroff(COLOR_PAIR(colors[row][col]));
                     }
                 }
             }
@@ -75,16 +62,16 @@ void printCrocodile(Crocodile *crocodile) {
     }
 }
 
+/* Function to print a frog sprite on the screen */
 void printFrog(int x, int y) {
-    // Definizione dello sprite della rana
+
     wchar_t frogSprite[FROG_HEIGHT][FROG_LENGTH] = {
-        {L' ', L'n', L' ', L' ', L' ', L'n', L' '}, // Riga 0 (superiore)
-        {L'▀', L' ', L' ', L' ', L' ', L' ', L'▀'}, // Riga 1
-        {L'▄', L' ', L' ', L' ', L' ', L' ', L'▄'}, // Riga 2
-        {L' ', L'▀', L'▀', L'▀', L'▀', L'▀', L' '}  // Riga 3 (inferiore)
+        {L' ', L'n', L' ', L' ', L' ', L'n', L' '}, 
+        {L'▀', L' ', L' ', L' ', L' ', L' ', L'▀'}, 
+        {L'▄', L' ', L' ', L' ', L' ', L' ', L'▄'}, 
+        {L' ', L'▀', L'▀', L'▀', L'▀', L'▀', L' '}  
     };
 
-    // Definizione dei colori - nota: cambiato da wchar_t a short perché sono colori
     short colors[FROG_HEIGHT][FROG_LENGTH] = {
         {FROG_0_1, FROG_0_2, FROG_0_3, FROG_0_4, FROG_0_5, FROG_0_6, FROG_0_7},
         {FROG_1_1, FROG_1_2, FROG_1_3, FROG_1_4, FROG_1_5, FROG_1_6, FROG_1_7},
@@ -92,25 +79,24 @@ void printFrog(int x, int y) {
         {FROG_3_1, FROG_3_2, FROG_3_3, FROG_3_4, FROG_3_5, FROG_3_6, FROG_3_7}
     };
 
-    // Stampa dello sprite con (x, y) come angolo in basso a sinistra
     for (int row = 0; row < FROG_HEIGHT; row++) {
         for (int col = 0; col < FROG_LENGTH; col++) {
             
             if (frogSprite[row][col] != L'n') {
                 USE_COLOR(colors[row][col]);
                 mvprintw(y - (FROG_HEIGHT - 1 - row), x + col, "%lc", frogSprite[row][col]);
-                //attroff(COLOR_PAIR(colors[row][col]));
             }
         }
     }
 }
 
+/* Function to print the den on the screen */
 void printDen(Game *game) {
     wchar_t denOpenSprite[DEN_HEIGHT][DEN_LENGTH] = {
-        {L'▄', L' ', L' ', L' ', L' ', L' ', L'▄'}, // Riga 0 (superiore)
-        {L'▀', L' ', L' ', L' ', L' ', L' ', L'▀'}, // Riga 1
-        {L' ', L' ', L' ', L' ', L' ', L' ', L' '}, // Riga 2
-        {L'n', L'▀', L' ', L' ', L' ', L'▀', L'n'}  // Riga 3 (inferiore)
+        {L'▄', L' ', L' ', L' ', L' ', L' ', L'▄'},
+        {L'▀', L' ', L' ', L' ', L' ', L' ', L'▀'},
+        {L' ', L' ', L' ', L' ', L' ', L' ', L' '},
+        {L'n', L'▀', L' ', L' ', L' ', L'▀', L'n'} 
     };
 
     short colorsOpen[DEN_HEIGHT][DEN_LENGTH] = {
@@ -121,10 +107,10 @@ void printDen(Game *game) {
     };
 
     wchar_t denClosedSprite[DEN_HEIGHT][DEN_LENGTH] = {
-        {L'n', L' ', L' ', L'▄', L' ', L' ', L'n'}, // Riga 0 (superiore)
-        {L'n', L' ', L' ', L' ', L' ', L' ', L'n'}, // Riga 1
-        {L'▄', L' ', L' ', L' ', L' ', L' ', L'▄'}, // Riga 2
-        {L' ', L' ', L' ', L' ', L' ', L' ', L' '}  // Riga 3 (inferiore)
+        {L'n', L' ', L' ', L'▄', L' ', L' ', L'n'}, 
+        {L'n', L' ', L' ', L' ', L' ', L' ', L'n'},
+        {L'▄', L' ', L' ', L' ', L' ', L' ', L'▄'},
+        {L' ', L' ', L' ', L' ', L' ', L' ', L' '}  
     };
 
     short colorsClosed[DEN_HEIGHT][DEN_LENGTH] = {
@@ -135,25 +121,20 @@ void printDen(Game *game) {
     };
 
 
-    // Calcolo delle posizioni
-    int numDens = 5; // Numero di tane
-    int distance = (COLS - (DEN_LENGTH * numDens)) / (numDens + 1); // Spaziatura tra le tane
-    int y = 8; // Posizione verticale fissa
-    int startX = distance; // Posizione iniziale per la prima tana
+    int numDens = 5;
+    int distance = (COLS - (DEN_LENGTH * numDens)) / (numDens + 1); 
+    int y = 8;
+    int startX = distance; 
 
-    for (int den = 0; den < numDens; den++) { // Itera per ogni tana
-        int currentX = startX + den * (DEN_LENGTH + distance); // Posizione x della tana corrente
+    for (int den = 0; den < numDens; den++) { 
+        int currentX = startX + den * (DEN_LENGTH + distance); 
         if(game->closedDen[den] == 0) {
 
             for (int row = 0; row < DEN_HEIGHT; row++) {
                 for (int col = 0; col < DEN_LENGTH; col++) {
                     if (denOpenSprite[row][col] != L'n') {
-                        // Imposta il colore
                         USE_COLOR(colorsOpen[row][col]);
-                        // Stampa il carattere nella posizione corretta
                         mvprintw(y - DEN_HEIGHT + row, currentX + col, "%lc", denOpenSprite[row][col]);
-                        // Disattiva il colore
-                        attroff(COLOR_PAIR(colorsOpen[row][col]));
                     }
                 }
             }
@@ -161,10 +142,8 @@ void printDen(Game *game) {
             for (int row = 0; row < DEN_HEIGHT; row++) {
                 for (int col = 0; col < DEN_LENGTH; col++) {
                     if (denClosedSprite[row][col] != L'n') {
-                        // Imposta il colore
                         USE_COLOR(colorsClosed[row][col]);
                         mvprintw(y - DEN_HEIGHT + row, currentX + col, "%lc", denClosedSprite[row][col]);
-                        attroff(COLOR_PAIR(colorsClosed[row][col]));
                     }
                 }
             }
@@ -172,8 +151,7 @@ void printDen(Game *game) {
     }
 }
 
-
-
+/* Function to print the remaining time on the screen */
 void printTime(time_t time) {
     USE_COLOR(WRITES);
     mvprintw(0, COLS - 10, "TIME: %ld", time);
@@ -195,13 +173,12 @@ void printCenteredArt(const char *art[], int numRows, int startRow, int color) {
     }
     for (int i = 0; i < numRows; i++) {
         int len = strlen(art[i]);
-        int startCol = (COLS - len) / 2; // Calcola colonna per centrare orizzontalmente
+        int startCol = (COLS - len) / 2;
         mvprintw(startRow + i, startCol, "%s", art[i]);
     }
 }
 
 void printMenu() {
-    // Definizione delle pixel art
 
     USE_COLOR(MENU);
     for (int i = 0; i < GAME_LINES; i++) {
@@ -269,12 +246,10 @@ void printMenu() {
     };
 
 
-    // Calcola le posizioni verticali per ogni blocco di pixel art
     int startArtRow = (GAME_LINES - (sizeof(startArt) / sizeof(startArt[0]) + sizeof(scoreArt) / sizeof(scoreArt[0]) + sizeof(exitArt) / sizeof(exitArt[0]))) / 4;
     int scoreArtRow = startArtRow + sizeof(startArt) / sizeof(startArt[0]) + startArtRow;
     int exitArtRow = scoreArtRow + sizeof(scoreArt) / sizeof(scoreArt[0]) + startArtRow;
 
-    // Stampa le tre arti centrate, una sotto l'altra
     printCenteredArt(startArt, sizeof(startArt) / sizeof(startArt[0]), startArtRow, 1);
     printCenteredArt(scoreArt, sizeof(scoreArt) / sizeof(scoreArt[0]), scoreArtRow, 2);
     printCenteredArt(exitArt, sizeof(exitArt) / sizeof(exitArt[0]), exitArtRow, 3);
@@ -359,12 +334,10 @@ void printDifficultyMenu(Game *game) {
             "HHHHHHHHH     HHHHHHHHHAAAAAAA                   AAAAAAARRRRRRRR     RRRRRRRDDDDDDDDDDDDD        "
         };
 
-        // Calcola le posizioni verticali per ogni blocco di pixel art
         int easyArtRow = (GAME_LINES - (sizeof(easyArt) / sizeof(easyArt[0]) + sizeof(mediumArt) / sizeof(mediumArt[0]) + sizeof(hardArt) / sizeof(hardArt[0]))) / 4;
         int mediumArtRow = easyArtRow + sizeof(easyArt) / sizeof(easyArt[0]) + easyArtRow;
         int hardArtRow = mediumArtRow + sizeof(mediumArt) / sizeof(mediumArt[0]) + easyArtRow;
 
-        // Stampa le tre arti centrate, una sotto l'altra
         printCenteredArt(easyArt, sizeof(easyArt) / sizeof(easyArt[0]), easyArtRow, 1);
         printCenteredArt(mediumArt, sizeof(mediumArt) / sizeof(mediumArt[0]), mediumArtRow, 2);
         printCenteredArt(hardArt, sizeof(hardArt) / sizeof(hardArt[0]), hardArtRow, 3);
@@ -412,25 +385,19 @@ void printDifficultyMenu(Game *game) {
     
     
 }
-
-
-//  ▀ █ ▄
-
+/* Function to print the river on the screen */
 void printRiver() {
-                
     USE_COLOR(RIVER);
-    for (int i = 12; i < GAME_LINES -4; i++) {
+    for (int i = 12; i < GAME_LINES - 4; i++) {
         for (int j = 0; j < COLS; j++) {
             mvprintw(i, j, " ");
         }
     }
     attroff(COLOR_PAIR(RIVER));
-    
-
 }
 
+/* Function to print the den river on the screen */
 void printDenRiver() {
-                
     USE_COLOR(RIVER);
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < COLS; j++) {
@@ -438,41 +405,37 @@ void printDenRiver() {
         }
     }
     attroff(COLOR_PAIR(GRASS));
-
 }
 
+/* Function to print the grass on the screen */
 void printGrass() {
-                
     USE_COLOR(GRASS);
     for (int i = 8; i < 13; i++) {
         for (int j = 0; j < COLS; j++) {
             mvprintw(i, j, " ");
         }
-        
     }
-    for(int i = GAME_LINES -1; i > GAME_LINES - 5; i--) {
+    for (int i = GAME_LINES - 1; i > GAME_LINES - 5; i--) {
         for (int j = 0; j < COLS; j++) {
             mvprintw(i, j, " ");
         }
     }
-    //attroff(COLOR_PAIR(GRASS));
-
 }
 
-
+/* Function to print the scoreboard on the screen */
 void printScoreBoard(int score, int lives) {
     USE_COLOR(WRITES);
     mvprintw(0, 0, "LIVES: %d", lives);
-    mvprintw(0, COLS/2 -5, "SCORE: %d", score);
+    mvprintw(0, COLS / 2 - 5, "SCORE: %d", score);
 }
 
-
+/* Function to print a grenade sprite on the screen */
 void printGrenade(int x, int y) {
     wchar_t grenadeSprite[GRENADE_HEIGHT][GRENADE_LENGTH] = {
         {L'▄', L' ', L' '},
         {L' ', L' ', L' '}
     };
-    
+
     short colors[GRENADE_HEIGHT][GRENADE_LENGTH] = {
         {GRENADE_0_1, GRENADE_0_2, GRENADE_0_3},
         {GRENADE_1_1, GRENADE_1_2, GRENADE_1_3}
@@ -487,23 +450,19 @@ void printGrenade(int x, int y) {
             }
         }
     }
-
-
-
 }
 
-
+/* Function to print projectiles on the screen */
 void printProjectile(Projectile *projectile) {
     wchar_t projectileSprite[PROJECTILE_HEIGHT][PROJECTILE_LENGTH] = {
-        {L' ', L' ', L' '}, 
+        {L' ', L' ', L' '}
     };
 
     short colors[PROJECTILE_HEIGHT][PROJECTILE_LENGTH] = {
         {PROJECTILE_0_1, PROJECTILE_0_2, PROJECTILE_0_3}
     };
 
-    for(int i = 0; i < NUM_PROJECTILES; i++) {
-        
+    for (int i = 0; i < NUM_PROJECTILES; i++) {
         for (int row = 0; row < PROJECTILE_HEIGHT; row++) {
             for (int col = 0; col < PROJECTILE_LENGTH; col++) {
                 if (projectileSprite[row][col] != L'n') {
@@ -512,16 +471,15 @@ void printProjectile(Projectile *projectile) {
                     attroff(COLOR_PAIR(colors[row][col]));
                 }
             }
-        } 
+        }
     }
 }
 
-
+/* Function to print an explosion sprite on the screen */
 void printExplosion(int x, int y) {
-
     wchar_t explosionSprite[EXPLOSION_HEIGHT][EXPLOSION_LENGHT] = {
-        {L' ', L' ', L' '}, 
-        {L' ', L' ', L' '}, 
+        {L' ', L' ', L' '},
+        {L' ', L' ', L' '}
     };
 
     short colors[EXPLOSION_HEIGHT][EXPLOSION_LENGHT] = {
@@ -540,14 +498,15 @@ void printExplosion(int x, int y) {
     }
 }
 
+/* Function to print a shield sprite on the screen */
 void printShield(int x, int y) {
     wchar_t shieldSprite[SHIELD_HEIGHT][SHIELD_LENGHT] = {
-        {L'n', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L'n'}, 
-        {L' ', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L' '}, 
-        {L' ', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L' '}, 
-        {L' ', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L' '}, 
-        {L' ', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L' '}, 
-        {L'n', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L'n'},  
+        {L'n', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L'n'},
+        {L' ', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L' '},
+        {L' ', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L' '},
+        {L' ', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L' '},
+        {L' ', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L'n', L' '},
+        {L'n', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L' ', L'n'}
     };
 
     short colors[SHIELD_HEIGHT][SHIELD_LENGHT] = {
@@ -570,14 +529,13 @@ void printShield(int x, int y) {
                 attroff(COLOR_PAIR(colors[row][col]));
             }
         }
-    } 
+    }
 }
 
-
+/* Function to display the lose menu */
 void loseMenu() {
     clear();
 
-    // Definizione dell'ASCII Art come array di stringhe
     const char *youLoseArt[] = {
         "YYYYYYY       YYYYYYY     OOOOOOOOO     UUUUUUUU     UUUUUUUU     LLLLLLLLLLL                  OOOOOOOOO        SSSSSSSSSSSSSSS EEEEEEEEEEEEEEEEEEEEEE",
         "Y:::::Y       Y:::::Y   OO:::::::::OO   U::::::U     U::::::U     L:::::::::L                OO:::::::::OO    SS:::::::::::::::SE::::::::::::::::::::E",
@@ -595,16 +553,14 @@ void loseMenu() {
         "    YYYY:::::YYYY     OO:::::::::::::OO   UU:::::::::::::UU       L::::::::::::::::::::::L OO:::::::::::::OO S::::::SSSSSS:::::SE::::::::::::::::::::E",
         "    Y:::::::::::Y       OO:::::::::OO       UU:::::::::UU         L::::::::::::::::::::::L   OO:::::::::OO   S:::::::::::::::SS E::::::::::::::::::::E",
         "    YYYYYYYYYYYYY         OOOOOOOOO           UUUUUUUUU           LLLLLLLLLLLLLLLLLLLLLLLL     OOOOOOOOO      SSSSSSSSSSSSSSS   EEEEEEEEEEEEEEEEEEEEEE",
-        NULL // Terminatore dell'array
+        NULL
     };
-    
-    // Calcola il numero di righe dell'ASCII art
+
     int artLines = 0;
     while (youLoseArt[artLines] != NULL) {
         artLines++;
     }
 
-    // Trova la lunghezza massima delle linee per centrare orizzontalmente
     int maxLength = 0;
     for (int i = 0; i < artLines; i++) {
         int len = strlen(youLoseArt[i]);
@@ -613,26 +569,20 @@ void loseMenu() {
         }
     }
 
-    // Calcola la posizione di inizio per centrare l'ASCII art
     int start_y = (GAME_LINES / 2) - (artLines / 2);
     int start_x = (COLS / 2) - (maxLength / 2);
 
-    // Assicurati che le coordinate siano positive
     if (start_y < 0) start_y = 0;
     if (start_x < 0) start_x = 0;
 
-    // Stampa ogni riga dell'ASCII art
     for (int i = 0; i < artLines; i++) {
-        // Usa una coppia di colori e attributi, ad esempio colore rosso e grassetto
         attron(COLOR_PAIR(LOSE) | A_BOLD);
         mvprintw(start_y + i, start_x, "%s", youLoseArt[i]);
-        attroff(COLOR_PAIR(LOSE) | A_BOLD);
     }
 
-    // Aggiorna lo schermo per mostrare le modifiche
     refresh();
 
-    timeout(-1); 
+    timeout(-1);
     getch();
 }
 
@@ -657,16 +607,15 @@ void winMenu() {
         "    YYYY:::::YYYY     OO:::::::::::::OO   UU:::::::::::::UU                 W:::::W         W:::::W          I::::::::IN::::::N       N:::::::N",
         "    Y:::::::::::Y       OO:::::::::OO       UU:::::::::UU                    W:::W           W:::W           I::::::::IN::::::N        N::::::N",
         "    YYYYYYYYYYYYY         OOOOOOOOO           UUUUUUUUU                       WWW             WWW            IIIIIIIIIINNNNNNNN         NNNNNNN",
-        NULL // Terminatore dell'array
+        NULL 
     };
     
-    // Calcola il numero di righe dell'ASCII art
+
     int artLines = 0;
     while (youWinArt[artLines] != NULL) {
         artLines++;
     }
 
-    // Trova la lunghezza massima delle linee per centrare orizzontalmente
     int maxLength = 0;
     for (int i = 0; i < artLines; i++) {
         int len = strlen(youWinArt[i]);
@@ -675,15 +624,12 @@ void winMenu() {
         }
     }
 
-    // Calcola la posizione di inizio per centrare l'ASCII art
     int start_y = (GAME_LINES / 2) - (artLines / 2);
     int start_x = (COLS / 2) - (maxLength / 2);
 
-    // Assicurati che le coordinate siano positive
     if (start_y < 0) start_y = 0;
     if (start_x < 0) start_x = 0;
 
-    // Stampa ogni riga dell'ASCII art
     for (int i = 0; i < artLines; i++) {
         attron(COLOR_PAIR(WIN) | A_BOLD);
         mvprintw(start_y + i, start_x, "%s", youWinArt[i]);

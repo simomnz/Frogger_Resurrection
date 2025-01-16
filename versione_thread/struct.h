@@ -3,70 +3,69 @@
 #include <sys/types.h>
 #include "sounds.h"
 
-
-#define MAX_CROCODILES 2
-
-
 #define NUM_PROJECTILES 26
 
-
-
+/* Structure to hold coordinates and related information */
 typedef struct {
-    short x;
-    short y;
-    short direction;
-    unsigned short source;
-    short speed;
-    short flag;
-    char type; 
+    short x;               /* X coordinate */
+    short y;               /* Y coordinate */
+    short direction;       /* Direction */
+    unsigned short source; /* Source to Communicate*/
+    short speed;           /* Speed */
+    short flag;            /* Flag To Shoot */
+    char type;             /* Type Of Object */
 } Coordinates;
 
+/* Structure to hold sprite dimensions */
 typedef struct {
-    short length;
-    short height;
+    short length;          /* Length of the sprite */
+    short height;          /* Height of the sprite */
 } Sprite;
 
+/* Structure to hold player information */
 typedef struct {
-    Coordinates cords;
-    Sprite sprite;
-    short lives;
-    short score;
-    unsigned short int isOnCrocodile;
+    Coordinates cords;     /* Player coordinates */
+    Sprite sprite;         /* Player sprite */
+    short lives;           /* Number of lives */
+    short score;           /* Player score */
+    unsigned short int isOnCrocodile; /* Is player on a crocodile */
 } Player;
 
+/* Structure to hold crocodile information */
 typedef struct {
-    pid_t PID;
-    Coordinates cords;
-    Sprite sprite;
+    pid_t PID;             /* Process ID of the crocodile */
+    Coordinates cords;     /* Crocodile coordinates */
+    Sprite sprite;         /* Crocodile sprite */
 } Crocodile;
 
+/* Structure to hold projectile information */
 typedef struct {
-    pid_t PID;
-    Coordinates cords;
-    Sprite sprite;
-    short speed;
+    pid_t PID;             /* Process ID of the projectile */
+    Coordinates cords;     /* Projectile coordinates */
+    Sprite sprite;         /* Projectile sprite */
+    short speed;           /* Speed of the projectile */
 } Projectile;
 
+/* Structure to hold grenade information */
 typedef struct {
-    pid_t PID;
-    Coordinates cords;
-    Sprite sprite;
-    short speed;
-    short lifeSpan;
+    pid_t PID;             /* Process ID of the grenade */
+    Coordinates cords;     /* Grenade coordinates */
+    Sprite sprite;         /* Grenade sprite */
+    short speed;           /* Speed of the grenade */
+    short lifeSpan;        /* Lifespan of the grenade */
 } Grenade;
 
-
+/* Structure to hold game information */
 typedef struct {
-    // int pipeFd[2];
-    // int gameToPipe[2];
-    unsigned int isRunning;
-    Player player;
-    Crocodile *crocodiles;
-    Projectile *projectiles;
-    int serverSocket;
-    unsigned short int closedDen[5];
-    unsigned short int crocSpeed;
-    time_t timeDifficulty;
-    unsigned int numCroc;
-    short difficulty;
+    int pipeFd[2];                     /* Pipe file descriptors */
+    unsigned int isRunning;            /* Is the game running */
+    Player player;                     /* Player information */
+    Crocodile *crocodiles;             /* Array of crocodiles */
+    Projectile *projectiles;           /* Array of projectiles */
+    int serverSocket;                  /* Server socket */
+    unsigned short int closedDen[5];   /* Closed dens */
+    unsigned short int crocSpeed;      /* Speed of crocodiles */
+    time_t timeDifficulty;             /* Time difficulty */
+    unsigned int numCroc;              /* Number of crocodiles */
+    short difficulty;                  /* Game difficulty */
 } Game;

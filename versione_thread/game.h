@@ -10,6 +10,8 @@
 #include "menu.h"
 #include "sounds.h"
 #include "socket.h"
+#include <ncurses.h>
+
 
 
 
