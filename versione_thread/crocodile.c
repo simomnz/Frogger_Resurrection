@@ -117,7 +117,7 @@ void resetCrocodile(Crocodile *crocodile, Game *game) {
 
 void createProjectile(Crocodile *crocodile, Game *game) {
     /* Setting all the Projectiles Attribute's Values */
-    for (int i = 0; i < game->numCroc; i++)
+    for (int i = 0; i < NUM_PROJECTILES; i++)
     {
         if(game->projectiles[i].cords.flag == 0) {
            
