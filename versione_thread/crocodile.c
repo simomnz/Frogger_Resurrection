@@ -50,18 +50,20 @@ void createCrocodile(Crocodile *crocodiles, Game *game) {
                 }
             }
         }
-        
-        pthread_create(&newCroc.thread, NULL, (void *) moveCrocodile, (Crocodile *) &newCroc);
         crocodiles[i] = newCroc;
+            pthread_create(&crocodiles[i].thread, NULL, (void *) moveCrocodile, (void *)&crocodiles[i]);    
     }
 
 }
+        
 
 
 
 
-void *moveCrocodile(Crocodile *crocodile) {
 
+
+void *moveCrocodile(void *arg) {
+    Crocodile *crocodile = (Crocodile *)arg;
     int projectChance = 0;
     Coordinates msg;
     int pew = COLS; /* Check to make the Crocodile Shoot*/
@@ -146,12 +148,12 @@ void createProjectile(Crocodile crocodile, Game *game) {
     project.cords.type = 'p';
     project.cords.source = 300 + crocodile.cords.source; /* The source is related by the Crocodile That have shoot the Projectile */
  
-    pthread_create(&project.thread, NULL, (void *) moveProjectile, (Projectile *)&project);
-
+    pthread_create(&project.thread, NULL, moveProjectile, (void *)&project); // Ensure you're passing a valid Projectile pointer
 }
 
 
-void *moveProjectile(Projectile *projectile) {
+void *moveProjectile(void *arg) {
+    Projectile *projectile = (Projectile *)arg;
     while (1) {
         /* Movement of the Projectile */
         projectile->cords.x += projectile->speed * projectile->cords.direction;

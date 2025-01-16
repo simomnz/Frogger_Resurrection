@@ -32,12 +32,12 @@
 void createCrocodile(Crocodile *crocodiles, Game *game);
 
 
-void *moveCrocodile(Crocodile *crocodile);
+void *moveCrocodile(void *arg);
 
 void resetCrocodile(Crocodile *crocodile, Game *game);
 
 void createProjectile(Crocodile crocodile, Game *game);
 
-void *moveProjectile(Projectile *projectile);
+void *moveProjectile(void *arg);
 
 void resetProjectile(Projectile *projectile);
