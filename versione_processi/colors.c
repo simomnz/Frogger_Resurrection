@@ -1,13 +1,14 @@
 #include "colors.h"
 
 
+/* Initialize RGB colors to ncurses standards */
 void initColors(short c, short r, short g, short b){
-
-    /* init_color e' una funzione di ncurses*/
 
     init_color(c, r * RGB_CONVERTER, g * RGB_CONVERTER, b * RGB_CONVERTER);   
 } 
 
+
+/* Create Colors and Colors Pair */
 void setColors()
 {
     initColors(COLOR_BLACK, 0, 0, 0);
