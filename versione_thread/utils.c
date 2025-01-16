@@ -17,6 +17,11 @@ short head = 0;
 
 
 void initSemaphore() {
+
+
+    pthread_mutex_init(&writeBufferMutex, NULL);
+    pthread_mutex_init(&readBufferMutex, NULL);
+    
     if(sem_init(&semEmpty, 0, BUFFER_SIZE) != 0) {
         perror("Couldn't init semEmpty (sium)");
         exit(-1);

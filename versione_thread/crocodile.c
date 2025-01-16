@@ -12,7 +12,7 @@
 
 
 void createCrocodile(Crocodile *crocodiles, Game *game) {
-
+    Crocodile newCroc;
     srand(time(NULL)); 
 
     /* Line direction and speed and other Variables */
@@ -33,25 +33,26 @@ void createCrocodile(Crocodile *crocodiles, Game *game) {
         /* Check to make sure the Crocodiles do not spawn in the same position (glitched) */
         while (!validPosition) {
             /* Set all the Crocodile Attribute's Values*/
-            crocodiles[i].cords.x = rand() % (COLS - CROCODILE_LENGTH) + 1; // Evita spawn oltre COLS
-            crocodiles[i].cords.y = rowSpawn;
-            crocodiles[i].cords.direction = randDir;
-            crocodiles[i].cords.source = i + 1;
-            crocodiles[i].cords.speed = rowspeed;
-            crocodiles[i].sprite.length = CROCODILE_LENGTH;
-            crocodiles[i].sprite.height = CROCODILE_HEIGHT;
-            crocodiles[i].cords.type = 'c';
+            newCroc.cords.x = rand() % (COLS - CROCODILE_LENGTH) + 1; // Evita spawn oltre COLS
+            newCroc.cords.y = rowSpawn;
+            newCroc.cords.direction = randDir;
+            newCroc.cords.source = i + 1;
+            newCroc.cords.speed = rowspeed;
+            newCroc.sprite.length = CROCODILE_LENGTH;
+            newCroc.sprite.height = CROCODILE_HEIGHT;
+            newCroc.cords.type = 'c';
             validPosition = 1;
             for (int k = 0; k < game->numCroc; k++) {
-                if (crocodiles[k].cords.y == crocodiles[k].cords.y && 
-                    abs(crocodiles[k].cords.x - crocodiles[k].cords.x) < (CROCODILE_LENGTH) + CROCODILE_SHIFT) {
+                if (crocodiles[k].cords.y == newCroc.cords.y && 
+                    abs(crocodiles[k].cords.x - newCroc.cords.x) < (CROCODILE_LENGTH) + CROCODILE_SHIFT) {
                     validPosition = 0;
                     break;
                 }
             }
         }
-        // crocodiles[i] = newCroc;
-        pthread_create(&crocodiles[i].thread, NULL, (void *) moveCrocodile, (Crocodile *) &crocodiles[i]);
+        
+        pthread_create(&newCroc.thread, NULL, (void *) moveCrocodile, (Crocodile *) &newCroc);
+        crocodiles[i] = newCroc;
     }
 
 }
@@ -160,7 +161,7 @@ void *moveProjectile(Projectile *projectile) {
             projectile->cords.x = -10;
             projectile->cords.y = -10;
             projectile->cords.flag = 0;
-            exit(0);
+            pthread_exit(0);
         }
         /* Control Communication with Pipe */
         writeData(projectile->cords);

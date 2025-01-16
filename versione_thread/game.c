@@ -13,6 +13,7 @@ void start(Game *game) {
     setColors();                      /* Set colors */
     wrongTerminalSize(game);          /* Check terminal size */
     initSemaphore();
+    
     game->serverSocket = startServer();/* Start the server */
     game->isRunning = 1;              /* Set the game running flag */
     // if (pipe(game->pipeFd) < 0) {

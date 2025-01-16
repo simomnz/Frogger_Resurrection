@@ -3,7 +3,7 @@
 #aggiungere check-deps all'inizio (dopo frogger:)
 frogger:  game.o main.o colors.o menu.o player.o socket.o sprite.o utils.o crocodile.o sounds.o
 	gcc game.o main.o colors.o player.o socket.o sprite.o utils.o crocodile.o menu.o sounds.o -o frogger -lncurses `sdl2-config --cflags --libs` -lSDL2_mixer
-
+	gcc client.c socket.o -lncurses -o client
 # check-deps:
 # 	@which sdl2-config > /dev/null || (echo "libsdl2-dev not found! Installing..."; sudo apt-get update && sudo apt-get install -y libsdl2-dev)
 # 	@dpkg -l | grep libsdl2-mixer-dev > /dev/null || (echo "libsdl2-mixer-dev not found! Installing..."; sudo apt-get install -y libsdl2-mixer-dev)
@@ -41,4 +41,4 @@ sounds.o: sounds.c struct.h
 	gcc -c sounds.c -o sounds.o `sdl2-config --cflags`
 
 clean:
-	rm -f *.o frogger
+	rm -f *.o frogger client
