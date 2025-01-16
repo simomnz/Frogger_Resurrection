@@ -13,7 +13,7 @@ void setColors()
     initColors(COLOR_BLACK, 0, 0, 0);
     initColors(WHITE, 254, 254, 254); 
     initColors(GRASS_GREEN, 129, 212, 26);
-    initColors(RIVER_BLUE, 89, 131, 176);
+    initColors(RIVER_BLUE, 0, 147, 217);
     initColors(RED, 255, 0, 0);
     initColors(BLUE, 0, 0, 255);
     initColors(SCORE, 126, 252, 236);

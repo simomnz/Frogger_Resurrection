@@ -1,91 +1,20 @@
 #include "player.h"
 
+/*
+▗▄▄▖ ▗▖    ▗▄▖▗▖  ▗▖▗▄▄▄▖▗▄▄▖ 
+▐▌ ▐▌▐▌   ▐▌ ▐▌▝▚▞▘ ▐▌   ▐▌ ▐▌
+▐▛▀▘ ▐▌   ▐▛▀▜▌ ▐▌  ▐▛▀▀▘▐▛▀▚▖
+▐▌   ▐▙▄▄▖▐▌ ▐▌ ▐▌  ▐▙▄▄▖▐▌ ▐▌                     
 
+*/
 
-
-
-// void movePlayer(Player *player, int pipeFd, int gameToPlayerFd) {
-//     usleep(1000);
-//     // Coordinates message;
-//     int counterGrenade = 500;
-//     //player->cords.type = 'f';
-//     while (1) {
-//         counterGrenade++;
-//         readData(gameToPlayerFd, &player->cords, sizeof(Coordinates));
-//         int input = getch();
-
-//         // TODO add cooldown to flag
-//         player->cords.flag = 0;
-//         switch (input) {
-//             case 'w':
-//             case 'W':
-//             case KEY_UP:
-//                 player->cords.y -= FROG_HEIGHT;
-//                 break;
-//             case 's':
-//             case 'S':
-//             case KEY_DOWN:
-//                 player->cords.y += FROG_HEIGHT;
-//                 break;
-//             case 'a':
-//             case 'A':
-//             case KEY_LEFT:
-//                 player->cords.x -= FROG_LENGTH;
-//                 break;
-//             case 'd':
-//             case 'D':   
-//             case KEY_RIGHT:
-//                 player->cords.x += FROG_LENGTH;
-//                 break;
-                
-//             case ' ':
-//                 player->cords.flag = 0;
-//                 if(counterGrenade >= 500) {
-//                     player->cords.flag = 1;
-//                     counterGrenade = 0;
-//                 }
-//                 break;
-//             default: 
-                
-//                 continue;
-//         }
-//         flushinp();
-
-//         if(player->cords.y < 0 + FROG_HEIGHT) {
-//             player->cords.y = 0 + FROG_HEIGHT;
-//         } else if (player->cords.y > GAME_LINES - 1) {
-//             player->cords.y = GAME_LINES - 1;
-//         }
-
-//         //la funzione dovrebbe successivamente chiamare sendPlayerCords per inviare l'input al server   
-        
-//         writeData(pipeFd, &player->cords, sizeof(Coordinates));
-//         // sendPlayerCords(sockfd, player);
-        
-        
-        
-//         // mvprintw(0, 50, "Player legge x = %d && y = %d", player->cords.x, player->cords.y);
-//     }
-// }
-
-
+/* Function to check if the player is on a crocodile */
 int isPlayerOnCroc(Game *game) {
-    int totalCrocodiles = (GAME_LINES - 4) * MAX_CROCODILES;
-
-    for (int i = 0; i < totalCrocodiles; i++) {
+    for (int i = 0; i < game->numCroc; i++) {
         Crocodile *croc = &game->crocodiles[i];
         
         int leftX = croc->cords.x;
         int rightX = croc->cords.x + croc->sprite.length - 1;
-
-        /*
-        if (croc->cords.direction == -1) {
-            // Se va verso sinistra, invertiamo
-            leftX = croc->cords.x - (croc->sprite.length - 1);
-            rightX = croc->cords.x;
-        }
-        */
-
 
         if (game->player.cords.y == croc->cords.y && 
             game->player.cords.x >= leftX && 
@@ -108,56 +37,53 @@ int isPlayerOnCroc(Game *game) {
     return 0;
 }
 
-
+/* Function to check if the player is on grass */
 int isPlayerOnGrass(Game *game){
     if (game->player.cords.y > GAME_LINES - 5 || game->player.cords.y < 13) {
         return 1;
     }
     return 0;
-
 }
 
-
+/* Function to check if the player is on a den */
 int isPlayerOnDen(Game *game) { 
-    
-    int distance = (COLS - (DEN_LENGTH * 5)) / 6; //distanza tra le tane
+    int distance = (COLS - (DEN_LENGTH * 5)) / 6; // distance between dens
     int denX;
     for (int i = 0; i < 5; i++) {
-        denX = (DEN_LENGTH + distance) * (i +1);   //i calcoli sono giusti fidati 
+        denX = (DEN_LENGTH + distance) * (i +1);   // calculations are correct, trust me
 
-        //non l'ho provato, se da errori è la y==4;
+        // not tested, if errors occur it's the y==4;
         if (game->player.cords.y == 8 && game->player.cords.x >= denX - DEN_LENGTH -3 && game->player.cords.x <= denX + DEN_LENGTH && game->closedDen[i] == 0) {
             game->closedDen[i] = 1;
-            return i;  //ritorna l'id della tana 
-        }else if(game->player.cords.y == 8 && game->player.cords.x >= denX - DEN_LENGTH -3 && game->player.cords.x <= denX + DEN_LENGTH +1 && game->closedDen[i] == 1) {
+            return i;  // returns the id of the den
+        } else if(game->player.cords.y == 8 && game->player.cords.x >= denX - DEN_LENGTH -3 && game->player.cords.x <= denX + DEN_LENGTH +1 && game->closedDen[i] == 1) {
             return 10;
         }
-
     }
-    
     return -1;
 }
 
+/*
+ ▗▄▄▖▗▄▄▖ ▗▄▄▄▖▗▖  ▗▖ ▗▄▖ ▗▄▄▄ ▗▄▄▄▖
+▐▌   ▐▌ ▐▌▐▌   ▐▛▚▖▐▌▐▌ ▐▌▐▌  █▐▌   
+▐▌▝▜▌▐▛▀▚▖▐▛▀▀▘▐▌ ▝▜▌▐▛▀▜▌▐▌  █▐▛▀▀▘
+▝▚▄▞▘▐▌ ▐▌▐▙▄▄▖▐▌  ▐▌▐▌ ▐▌▐▙▄▄▀▐▙▄▄▖
+                                    
+*/
 
-//funzione per il movimento delle granate (da rivedere)
-
-
-//TODO
-
-
+/* Function to create a grenade */
 Grenade createGrenade(Player *player, int pipeFd, int direction) {
-    
     Grenade grenade;
     grenade.cords.x = player->cords.x + (GRENADE_LENGTH * direction);
-    grenade.cords.y = player->cords.y - FROG_HEIGHT / 2;
-    grenade.sprite.length = 1;   //da cambiare
+    grenade.cords.y = player->cords.y - FROG_HEIGHT / 2;  /* Spawn in the Middle of the River Flow */
+    grenade.sprite.length = GRENADE_LENGTH;    
+    grenade.sprite.height = GRENADE_HEIGHT;
     grenade.speed = 5;
-    grenade.cords.type = 'g'; //da cambiare   
-
-    grenade.lifeSpan = FROG_LENGTH * 2;   //da cambiare
-
+    grenade.cords.type = 'g';    
+    grenade.lifeSpan = FROG_LENGTH * 2; /* Lifespan of Grenade */
     grenade.cords.direction = direction;
 
+    /* Setting Source based on the direction */
     if (direction == LEFT) {
         grenade.cords.source = GRENAD_LEFT_SOURCE; // 201
     } else if (direction == RIGHT) {
@@ -177,30 +103,25 @@ Grenade createGrenade(Player *player, int pipeFd, int direction) {
     return grenade;
 }
 
+/* Function to move the grenade */
 void moveGrenade(Grenade *grenade, int pipeFd) {
-
-   do
-   {
+    do {
         grenade->cords.x += grenade->speed * grenade->cords.direction;
         grenade->lifeSpan--;
 
         if (grenade->lifeSpan == 0) {
             grenade->cords.x = -15;
             grenade->cords.y = -15;
-            
         }
-        
 
         writeData(pipeFd, &grenade->cords, sizeof(Coordinates));
-
-        
         usleep(200000);
-
-    }while (grenade->lifeSpan > 0);
+    } while (grenade->lifeSpan > 0);
 
     exit(0);
 }
 
+/* Function to check if a projectile hits the player */
 int doesProjectileHitPlayer(Game *game) {
     for (int i = 0; i < NUM_PROJECTILES; i++) {
         Projectile projectile = game->projectiles[i];
@@ -211,6 +132,7 @@ int doesProjectileHitPlayer(Game *game) {
     return 0;
 }
 
+/* Function to check if a projectile hits a grenade */
 int doesProjectileHitGrenade(Game *game, Grenade grenade) {
     for (int i = 0; i < NUM_PROJECTILES; i++) {
         Projectile projectile = game->projectiles[i];

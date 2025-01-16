@@ -12,7 +12,6 @@
 #define EXPLOSION_LENGHT 4
 #define EXPLOSION_HEIGHT 2
 #define GAME_LINES 69
-#define GAME_COLS 255
 
 
 
@@ -53,8 +52,3 @@ void printShield(int x, int y);
 void loseMenu();
 
 void winMenu();
-
-/*
-void printStart();
-void printScore();
-void printExit();*/

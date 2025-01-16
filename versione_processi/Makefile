@@ -21,7 +21,7 @@ colors.o: colors.c struct.h
 
 menu.o: menu.c struct.h
 	gcc -c menu.c -o menu.o `sdl2-config --cflags`
-
+<
 player.o: player.c struct.h
 	gcc -c player.c -o player.o `sdl2-config --cflags`
 
