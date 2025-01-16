@@ -37,9 +37,9 @@ int isPlayerOnDen(Game *game);
 int isPlayerOnGrass(Game *game);
 
 
-Grenade createGrenade(Player *player, int pipe, int direction);
+Grenade createGrenade(Player *player, int direction);
 
-void moveGrenade(Grenade *grenade, int pipe);
+void *moveGrenade(Grenade *grenade);
 
 
 int doesProjectileHitPlayer(Game *game);

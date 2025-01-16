@@ -29,15 +29,15 @@
 
 
 
-void createCrocodile(int *pipe, Crocodile *crocodiles, Game *game);
+void createCrocodile(Crocodile *crocodiles, Game *game);
 
 
-void moveCrocodile(int *pipe, Crocodile crocodile, Game *game);
+void *moveCrocodile(Crocodile *crocodile);
 
 void resetCrocodile(Crocodile *crocodile, Game *game);
 
-void createProjectile(int *pipe, Crocodile crocodile, Game *game);
+void createProjectile(Crocodile crocodile, Game *game);
 
-void moveProjectile(int pipe, Projectile *projectile);
+void *moveProjectile(Projectile *projectile);
 
 void resetProjectile(Projectile *projectile);

@@ -1,8 +1,15 @@
 #pragma once
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <pthread.h>
+#include <semaphore.h>
 
-void readData(void *data, size_t dim);
+#include "struct.h"
 
-void writeData(void *data, size_t dim);
+Coordinates readData();
+
+void writeData(Coordinates data);
+
+void initSemaphore();

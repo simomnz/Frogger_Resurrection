@@ -1,6 +1,8 @@
 #pragma once
 
 #include <sys/types.h>
+#include <pthread.h>
+
 #include "sounds.h"
 
 #define NUM_PROJECTILES 26
@@ -33,14 +35,14 @@ typedef struct {
 
 /* Structure to hold crocodile information */
 typedef struct {
-    pid_t PID;             /* Process ID of the crocodile */
+    pthread_t thread;             /* Process ID of the crocodile */
     Coordinates cords;     /* Crocodile coordinates */
     Sprite sprite;         /* Crocodile sprite */
 } Crocodile;
 
 /* Structure to hold projectile information */
 typedef struct {
-    pid_t PID;             /* Process ID of the projectile */
+    pthread_t thread;             /* Process ID of the projectile */
     Coordinates cords;     /* Projectile coordinates */
     Sprite sprite;         /* Projectile sprite */
     short speed;           /* Speed of the projectile */
@@ -48,7 +50,7 @@ typedef struct {
 
 /* Structure to hold grenade information */
 typedef struct {
-    pid_t PID;             /* Process ID of the grenade */
+    pthread_t thread;            /* Process ID of the grenade */
     Coordinates cords;     /* Grenade coordinates */
     Sprite sprite;         /* Grenade sprite */
     short speed;           /* Speed of the grenade */

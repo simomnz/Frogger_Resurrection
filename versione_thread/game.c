@@ -12,13 +12,13 @@ void start(Game *game) {
     start_color();                    /* Start color functionality */
     setColors();                      /* Set colors */
     wrongTerminalSize(game);          /* Check terminal size */
-
+    initSemaphore();
     game->serverSocket = startServer();/* Start the server */
     game->isRunning = 1;              /* Set the game running flag */
-    if (pipe(game->pipeFd) < 0) {     /* Create a pipe */
-        perror("error in pipe creation");
-        exit(-1);
-    }
+    // if (pipe(game->pipeFd) < 0) {
+    //     perror("error in pipe creation");
+    //     exit(-1);
+    // }
 
     initAudio();                      /* Initialize audio */
     
@@ -65,8 +65,10 @@ void run(Game *game) {
             break;        
         }
 
+        // printRiver();
+        // refresh();
         /* Creation of Crocodiles */
-        createCrocodile(game->pipeFd, game->crocodiles, game);
+        createCrocodile(game->crocodiles, game);
         
         /* Initialising Player Parameters */
         Player *player = &game->player;
@@ -108,12 +110,12 @@ void run(Game *game) {
 
             /* Check if the player has shot a Grenade */
             if (player->cords.flag == 1) {
-                grenadeRight = createGrenade(player, game->pipeFd[1], 1);   
-                grenadeLeft = createGrenade(player, game->pipeFd[1], -1);
+                grenadeRight = createGrenade(player, 1);   
+                grenadeLeft = createGrenade(player, -1);
             }
             
-            /* Pipe Communication, reading Cords of Crocodiles, Projectiles and Grenades */
-            readData(game->pipeFd[0], &message, sizeof(Coordinates));
+            
+            message = readData();
             
             /* Message from a Crocodile */
             if (message.source > 0 && message.source < 200 && message.type == 'c') {
@@ -121,7 +123,7 @@ void run(Game *game) {
 
                 /* Check if the Crocodile has shot a Projectile */
                 if (crocodile[message.source - 1].cords.flag == 1) {
-                    createProjectile(game->pipeFd, crocodile[message.source - 1], game);
+                    createProjectile(crocodile[message.source - 1], game);
                 }
 
                 /* If that croc’s PID == the croc we’re “on,” move the player */
@@ -170,7 +172,7 @@ void run(Game *game) {
                 player->cords.y = spawnPoint.y;
                 resetCrocodile(game->crocodiles, game);
                 resetProjectile(game->projectiles);
-                createCrocodile(game->pipeFd, game->crocodiles, game);
+                createCrocodile(game->crocodiles, game);
                 clear();
                 timeCounter = time(NULL) + game->timeDifficulty;
             }
@@ -184,7 +186,7 @@ void run(Game *game) {
                 player->cords.y = spawnPoint.y;
                 resetCrocodile(game->crocodiles, game);
                 resetProjectile(game->projectiles);
-                createCrocodile(game->pipeFd, game->crocodiles, game);
+                createCrocodile(game->crocodiles, game);
                 clear();
                 
                 timeCounter = time(NULL) + game->timeDifficulty;
@@ -201,8 +203,8 @@ void run(Game *game) {
                 free(game->projectiles);
                 grenadeLeft.cords.x = -15;
                 grenadeLeft.cords.y = -15;
-                kill(grenadeLeft.PID, SIGKILL);
-                kill(grenadeRight.PID, SIGKILL);
+                // kill(grenadeLeft.PID, SIGKILL);
+                // kill(grenadeRight.PID, SIGKILL);
                 Mix_HaltMusic();
                 Mix_PlayChannel(-1, loseSound, 0);
                 loseMenu();
@@ -253,8 +255,8 @@ void run(Game *game) {
                 player->score += 150;
                 grenadeLeft.cords.x = -15;
                 grenadeLeft.cords.y = -15;
-                kill(grenadeLeft.PID, SIGKILL);
-                kill(game->projectiles[grenadeLeftHit].PID, SIGKILL);
+                // kill(grenadeLeft.PID, SIGKILL);
+                // kill(game->projectiles[grenadeLeftHit].PID, SIGKILL);
                 refresh();
             }
             
@@ -267,8 +269,8 @@ void run(Game *game) {
                 scoreCounter(player, 100);
                 grenadeRight.cords.x = -15;
                 grenadeRight.cords.y = -15;
-                kill(grenadeRight.PID, SIGKILL);
-                kill(game->projectiles[grenadeRightHit].PID, SIGKILL);
+                // kill(grenadeRight.PID, SIGKILL);
+                // kill(game->projectiles[grenadeRightHit].PID, SIGKILL);
                 refresh();
             }
 
@@ -278,7 +280,7 @@ void run(Game *game) {
             if(projectHit) {
                 player->lives--;
                 resetCrocodile(game->crocodiles, game);
-                createCrocodile(game->pipeFd, game->crocodiles, game);
+                createCrocodile(game->crocodiles, game);
                 resetProjectile(game->projectiles);
                 printShield(player->cords.x, player->cords.y);
                 printFrog(player->cords.x, player->cords.y);
@@ -309,8 +311,8 @@ void run(Game *game) {
                 free(game->projectiles);
                 grenadeLeft.cords.x = -15;
                 grenadeLeft.cords.y = -15;
-                kill(grenadeLeft.PID, SIGKILL);
-                kill(grenadeRight.PID, SIGKILL);
+                // kill(grenadeLeft.PID, SIGKILL);
+                // kill(grenadeRight.PID, SIGKILL);
                 Mix_HaltMusic();
                 Mix_PlayChannel(-1, winSound, 0);
                 winMenu();

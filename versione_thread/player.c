@@ -72,7 +72,7 @@ int isPlayerOnDen(Game *game) {
 */
 
 /* Function to create a grenade */
-Grenade createGrenade(Player *player, int pipeFd, int direction) {
+Grenade createGrenade(Player *player, int direction) {
     Grenade grenade;
     grenade.cords.x = player->cords.x + (GRENADE_LENGTH * direction);
     grenade.cords.y = player->cords.y - FROG_HEIGHT / 2;  /* Spawn in the Middle of the River Flow */
@@ -90,21 +90,13 @@ Grenade createGrenade(Player *player, int pipeFd, int direction) {
         grenade.cords.source = GRENAD_RIGHT_SOURCE; // 203
     } 
 
-    pid_t pid = fork();
-    if (pid < 0) {
-        perror("Fork failed");
-        exit(1);
-    } else if (pid == 0) { 
-        srand(time(NULL) + getpid()); 
-        moveGrenade(&grenade, pipeFd);
-        exit(0); 
-    }
-    grenade.PID = pid;
+    pthread_create(&grenade.thread, NULL,(void *) moveGrenade, (void *)&grenade);
+  
     return grenade;
 }
 
 /* Function to move the grenade */
-void moveGrenade(Grenade *grenade, int pipeFd) {
+void *moveGrenade(Grenade *grenade) {
     do {
         grenade->cords.x += grenade->speed * grenade->cords.direction;
         grenade->lifeSpan--;
@@ -114,11 +106,11 @@ void moveGrenade(Grenade *grenade, int pipeFd) {
             grenade->cords.y = -15;
         }
 
-        writeData(pipeFd, &grenade->cords, sizeof(Coordinates));
+        writeData(grenade->cords);
         usleep(200000);
     } while (grenade->lifeSpan > 0);
 
-    exit(0);
+    pthread_exit(0);
 }
 
 /* Function to check if a projectile hits the player */
