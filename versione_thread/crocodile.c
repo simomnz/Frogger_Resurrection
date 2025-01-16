@@ -1,6 +1,5 @@
 #include "crocodile.h"
 
-
 /*
  ▗▄▄▖▗▄▄▖  ▗▄▖  ▗▄▄▖ ▗▄▖ ▗▄▄▄ ▗▄▄▄▖▗▖   ▗▄▄▄▖ ▗▄▄▖
 ▐▌   ▐▌ ▐▌▐▌ ▐▌▐▌   ▐▌ ▐▌▐▌  █  █  ▐▌   ▐▌   ▐▌   
@@ -8,8 +7,6 @@
 ▝▚▄▄▖▐▌ ▐▌▝▚▄▞▘▝▚▄▄▖▝▚▄▞▘▐▙▄▄▀▗▄█▄▖▐▙▄▄▖▐▙▄▄▖▗▄▄▞▘
                                                   
 */
-
-
 
 void createCrocodile(Crocodile *crocodiles, Game *game) {
     Crocodile newCroc;
@@ -22,6 +19,7 @@ void createCrocodile(Crocodile *crocodiles, Game *game) {
     int rowspeed = rand () % 2 + game->crocSpeed; 
     int rowSpawn = 12; /* The river starts from the 16th LINE */
     for(int i= 0; i < game->numCroc; i++) {
+
 
         validPosition = 0;  
 
@@ -42,7 +40,7 @@ void createCrocodile(Crocodile *crocodiles, Game *game) {
             newCroc.sprite.height = CROCODILE_HEIGHT;
             newCroc.cords.type = 'c';
             validPosition = 1;
-            for (int k = 0; k < game->numCroc; k++) {
+            for (int k = 0; k < i; k++) {
                 if (crocodiles[k].cords.y == newCroc.cords.y && 
                     abs(crocodiles[k].cords.x - newCroc.cords.x) < (CROCODILE_LENGTH) + CROCODILE_SHIFT) {
                     validPosition = 0;
@@ -51,16 +49,9 @@ void createCrocodile(Crocodile *crocodiles, Game *game) {
             }
         }
         crocodiles[i] = newCroc;
-            pthread_create(&crocodiles[i].thread, NULL, (void *) moveCrocodile, (void *)&crocodiles[i]);    
+        pthread_create(&crocodiles[i].thread, NULL, moveCrocodile, (void *)&crocodiles[i]);    
     }
-
 }
-        
-
-
-
-
-
 
 void *moveCrocodile(void *arg) {
     Crocodile *crocodile = (Crocodile *)arg;
@@ -104,53 +95,48 @@ void *moveCrocodile(void *arg) {
         usleep(200000);
     }  
     pthread_exit(NULL);
-
 }
 
-
 /* Function to kill all the Crocodiles Proccesses */
-
 void resetCrocodile(Crocodile *crocodile, Game *game) {
-
     // for (int i = 0; i < game->numCroc; i++) {
     //     if (crocodile[i].thread && crocodile[i].cords.type == 'c') {
-
     //         //CATTIVA FUNZIONE
     //         // kill(crocodile[i].thread, SIGKILL);
     //         // waitpid(crocodile[i].thread, NULL, 0);
-
     //     }
     // }
-    
 }
-
 
 /*
 ▗▄▄▖ ▗▄▄▖  ▗▄▖    ▗▖▗▄▄▄▖ ▗▄▄▖▗▄▄▄▖▗▄▄▄▖▗▖   ▗▄▄▄▖ ▗▄▄▖
 ▐▌ ▐▌▐▌ ▐▌▐▌ ▐▌   ▐▌▐▌   ▐▌     █    █  ▐▌   ▐▌   ▐▌   
 ▐▛▀▘ ▐▛▀▚▖▐▌ ▐▌   ▐▌▐▛▀▀▘▐▌     █    █  ▐▌   ▐▛▀▀▘ ▝▀▚▖
 ▐▌   ▐▌ ▐▌▝▚▄▞▘▗▄▄▞▘▐▙▄▄▖▝▚▄▄▖  █  ▗▄█▄▖▐▙▄▄▖▐▙▄▄▖▗▄▄▞▘
-
 */
 
-
-void createProjectile(Crocodile crocodile, Game *game) {
-   
+void createProjectile(Crocodile *crocodile, Game *game) {
     /* Setting all the Projectiles Attribute's Values */
-    Projectile project;
-    project.cords.x = crocodile.cords.x + (crocodile.cords.direction * CROCODILE_LENGTH);
-    project.cords.y = crocodile.cords.y - CROCODILE_HEIGHT /2;
-    project.cords.direction = crocodile.cords.direction;
-    project.cords.source = crocodile.cords.source;
-    project.speed = crocodile.cords.speed + 2;
-    project.sprite.length = PROJECTILE_LENGTH;
-    project.sprite.height = PROJECTILE_HEIGHT;
-    project.cords.type = 'p';
-    project.cords.source = 300 + crocodile.cords.source; /* The source is related by the Crocodile That have shoot the Projectile */
- 
-    pthread_create(&project.thread, NULL, moveProjectile, (void *)&project); // Ensure you're passing a valid Projectile pointer
+    for (int i = 0; i < game->numCroc; i++)
+    {
+        if(game->projectiles[i].cords.flag == 0) {
+           
+            game->projectiles[i].cords.x = crocodile->cords.x + (crocodile->cords.direction * CROCODILE_LENGTH);
+            game->projectiles[i].cords.y = crocodile->cords.y - CROCODILE_HEIGHT /2;
+            game->projectiles[i].cords.direction = crocodile->cords.direction;
+            game->projectiles[i].speed = crocodile->cords.speed + 2;
+            game->projectiles[i].sprite.length = PROJECTILE_LENGTH;
+            game->projectiles[i].sprite.height = PROJECTILE_HEIGHT;
+            game->projectiles[i].cords.type = 'p';
+            game->projectiles[i].cords.source = 300 + crocodile->cords.source; 
+            game->projectiles[i].cords.flag = 1;
+            
+            pthread_create(&game->projectiles[i].thread, NULL, moveProjectile, (void *)&game->projectiles[i]); // Ensure you're passing a valid Projectile pointer
+        }
+    
+    }
+    
 }
-
 
 void *moveProjectile(void *arg) {
     Projectile *projectile = (Projectile *)arg;
@@ -158,12 +144,11 @@ void *moveProjectile(void *arg) {
         /* Movement of the Projectile */
         projectile->cords.x += projectile->speed * projectile->cords.direction;
 
-        if (projectile->cords.x > COLS + 8 || projectile->cords.x < -8) {
-
+        if (projectile->cords.x > COLS  || projectile->cords.x < 0) {
             projectile->cords.x = -10;
             projectile->cords.y = -10;
             projectile->cords.flag = 0;
-            pthread_exit(0);
+            break;
         }
         /* Control Communication with Pipe */
         writeData(projectile->cords);
@@ -172,17 +157,13 @@ void *moveProjectile(void *arg) {
     pthread_exit(0);
 }
 
-
 /* Function that kills all the Projectiles Proccesses */
 void resetProjectile(Projectile *projectile) {
-    
     // for(int i=0; i < (NUM_PROJECTILES); i++) {
     //     if (projectile[i].PID && projectile[i]cordstype == 'p') {
     //         projectile[i].cords.x = -10;
     //         projectile[i].cords.y = -10;
     //         projectile[i].cords.flag = 0;
-
     //     }
     // }
-  
 }

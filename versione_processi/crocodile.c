@@ -42,7 +42,7 @@ void createCrocodile(int *pipe, Crocodile *crocodiles, Game *game) {
             newCroc.sprite.height = CROCODILE_HEIGHT;
             newCroc.cords.type = 'c';
             validPosition = 1;
-            for (int k = 0; k < game->numCroc; k++) {
+            for (int k = 0; k < i; k++) {
                 if (crocodiles[k].cords.y == newCroc.cords.y && 
                     abs(crocodiles[k].cords.x - newCroc.cords.x) < (CROCODILE_LENGTH) + CROCODILE_SHIFT) {
                     validPosition = 0;
@@ -147,7 +147,6 @@ void createProjectile(int *pipe, Crocodile crocodile, Game *game) {
     project.cords.x = crocodile.cords.x + (crocodile.cords.direction * CROCODILE_LENGTH);
     project.cords.y = crocodile.cords.y - CROCODILE_HEIGHT /2;
     project.cords.direction = crocodile.cords.direction;
-    project.cords.source = crocodile.cords.source;
     project.speed = crocodile.cords.speed + 2;
     project.sprite.length = PROJECTILE_LENGTH;
     project.sprite.height = PROJECTILE_HEIGHT;

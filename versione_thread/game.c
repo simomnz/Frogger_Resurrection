@@ -33,13 +33,15 @@ void start(Game *game) {
 
 /* Function to run the game */
 void run(Game *game) {
-
+    srand(time(NULL));               /* Seed for random numbers */
     /* Loading Game Effect Sounds */
     Mix_Chunk *explosionSound = Mix_LoadWAV("../music/explosionSound.mp3");
     Mix_Chunk *shieldHit = Mix_LoadWAV("../music/shieldHit.mp3");
     Mix_Chunk *winSound = Mix_LoadWAV("../music/winMusic.mp3");
     Mix_Chunk *loseSound = Mix_LoadWAV("../music/loseMusic.mp3");
     Mix_Chunk *occupiedDen = Mix_LoadWAV("../music/occupiedDen.mp3");
+    Mix_Chunk *fallWater = Mix_LoadWAV("../music/fallWater.mp3");
+
 
     while (game->isRunning) {
 
@@ -87,8 +89,8 @@ void run(Game *game) {
         Coordinates message;        
         Crocodile *crocodile = game->crocodiles;
         Projectile *projectile = game->projectiles;
-        Grenade grenadeLeft;
-        Grenade grenadeRight;
+        Grenade *grenadeLeft = malloc(sizeof(Grenade));
+        Grenade *grenadeRight = malloc(sizeof(Grenade));
         
         time_t mancheTime;
         short playersCroc = 0;        /* Index of the crocodile where the player stands on, initialized to -1 indicating no crocodile */
@@ -124,7 +126,7 @@ void run(Game *game) {
 
                 /* Check if the Crocodile has shot a Projectile */
                 if (crocodile[message.source - 1].cords.flag == 1) {
-                    createProjectile(crocodile[message.source - 1], game);
+                    createProjectile(&crocodile[message.source - 1], game);
                 }
 
                 /* If that croc’s PID == the croc we’re “on,” move the player */
@@ -136,14 +138,14 @@ void run(Game *game) {
             } else if (message.source > 200 && message.source < 300 && message.type == 'g') {
                 if(message.x == -15 && message.y == -15) {  /* If the Grenade is exploded */
                     player->cords.flag = 0;                 /* Set Player flag to 0, he can now shoot again */
-                    Mix_PlayChannel(-1, explosionSound, 0); /* Playing Explosion Sound */
+                    Mix_PlayChannel(-1, fallWater, 0); /* Playing fall in water Sound */
                 } 
                 
                 /* Check which Grenade is the message */
                 if(message.source == 201 ) {
-                    grenadeLeft.cords = message;
+                    grenadeLeft->cords = message;
                 } else if (message.source == 203) {
-                    grenadeRight.cords = message;
+                    grenadeRight->cords = message;
                 }
 
             /* Message from a Projectile */
@@ -181,7 +183,7 @@ void run(Game *game) {
             /* If the Player falls in the water */            
             if(player->isOnCrocodile == 0 && !isPlayerOnGrass(game) && GODMODE || (timeCounter - mancheTime) == 0) {
                 player->lives--;
-
+                Mix_PlayChannel(-1, fallWater, 0);
                 scoreCounter(player, (GAME_LINES - player->cords.y)/4 * 10);
                 player->cords.x = spawnPoint.x;
                 player->cords.y = spawnPoint.y;
@@ -202,8 +204,8 @@ void run(Game *game) {
                 }
                 free(game->crocodiles);
                 free(game->projectiles);
-                grenadeLeft.cords.x = -15;
-                grenadeLeft.cords.y = -15;
+                grenadeLeft->cords.x = -15;
+                grenadeLeft->cords.y = -15;
                 // kill(grenadeLeft.PID, SIGKILL);
                 // kill(grenadeRight.PID, SIGKILL);
                 Mix_HaltMusic();
@@ -233,8 +235,8 @@ void run(Game *game) {
             printRiver();
             printCrocodile(crocodile);
             printGrass();
-            printGrenade(grenadeLeft.cords.x, grenadeLeft.cords.y);
-            printGrenade(grenadeRight.cords.x, grenadeRight.cords.y);
+            printGrenade(grenadeLeft->cords.x, grenadeLeft->cords.y);
+            printGrenade(grenadeRight->cords.x, grenadeRight->cords.y);
             printDenRiver();
             printDen(game);
             mancheTime = time(NULL);
@@ -243,19 +245,19 @@ void run(Game *game) {
             printScoreBoard(player->score, player->lives);
 
             /* Check Grenade Collisions */
-            grenadeLeftHit = doesProjectileHitGrenade(game, grenadeLeft);
-            grenadeRightHit = doesProjectileHitGrenade(game, grenadeRight);
+            grenadeLeftHit = doesProjectileHitGrenade(game, *grenadeLeft);
+            grenadeRightHit = doesProjectileHitGrenade(game, *grenadeRight);
 
             /* Left Grenade and Projectiles collision */
             if(grenadeLeftHit >= 0) {
                 game->projectiles[grenadeLeftHit].cords.x = -10;
                 game->projectiles[grenadeLeftHit].cords.y = -10;
-                printExplosion(grenadeLeft.cords.x, grenadeLeft.cords.y);
+                printExplosion(grenadeLeft->cords.x, grenadeLeft->cords.y);
                 Mix_PlayChannel(-1, explosionSound, 0);
                 scoreCounter(player, 100);
                 player->score += 150;
-                grenadeLeft.cords.x = -15;
-                grenadeLeft.cords.y = -15;
+                grenadeLeft->cords.x = -15;
+                grenadeLeft->cords.y = -15;
                 // kill(grenadeLeft.PID, SIGKILL);
                 // kill(game->projectiles[grenadeLeftHit].PID, SIGKILL);
                 refresh();
@@ -265,11 +267,11 @@ void run(Game *game) {
             if(grenadeRightHit >= 0) {
                 game->projectiles[grenadeRightHit].cords.x = -10;
                 game->projectiles[grenadeRightHit].cords.y = -10;
-                printExplosion(grenadeRight.cords.x, grenadeRight.cords.y);
+                printExplosion(grenadeRight->cords.x, grenadeRight->cords.y);
                 Mix_PlayChannel(-1, explosionSound, 0);
                 scoreCounter(player, 100);
-                grenadeRight.cords.x = -15;
-                grenadeRight.cords.y = -15;
+                grenadeRight->cords.x = -15;
+                grenadeRight->cords.y = -15;
                 // kill(grenadeRight.PID, SIGKILL);
                 // kill(game->projectiles[grenadeRightHit].PID, SIGKILL);
                 refresh();
@@ -310,8 +312,8 @@ void run(Game *game) {
                 resetCrocodile(game->crocodiles, game);
                 free(game->crocodiles);
                 free(game->projectiles);
-                grenadeLeft.cords.x = -15;
-                grenadeLeft.cords.y = -15;
+                grenadeLeft->cords.x = -15;
+                grenadeLeft->cords.y = -15;
                 // kill(grenadeLeft.PID, SIGKILL);
                 // kill(grenadeRight.PID, SIGKILL);
                 Mix_HaltMusic();

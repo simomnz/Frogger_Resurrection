@@ -78,8 +78,6 @@ void easyDifficult(Game *game) {
     game->timeDifficulty = 180;
     game->player.score = 0;
     game->numCroc = 26;
-    game->crocodiles = malloc(sizeof(Crocodile) * game->numCroc);
-    game->projectiles = malloc(sizeof(Projectile) * NUM_PROJECTILES);
     for(int i=0; i< (NUM_PROJECTILES); i++) {
         game->projectiles[i].cords.x = -10;
         game->projectiles[i].cords.y = -10;
@@ -102,8 +100,6 @@ void mediumDifficult(Game *game) {
     game->timeDifficulty = 120;
     game->numCroc = 26;
     game->player.score = 250;
-    game->crocodiles = malloc(sizeof(Crocodile) * game->numCroc);
-    game->projectiles = malloc(sizeof(Projectile) * NUM_PROJECTILES);
     for(int i=0; i< (NUM_PROJECTILES); i++) {
         game->projectiles[i].cords.x = -10;
         game->projectiles[i].cords.y = -10;
