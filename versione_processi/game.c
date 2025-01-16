@@ -39,6 +39,7 @@ void run(Game *game) {
     Mix_Chunk *winSound = Mix_LoadWAV("../music/winMusic.mp3");
     Mix_Chunk *loseSound = Mix_LoadWAV("../music/loseMusic.mp3");
     Mix_Chunk *occupiedDen = Mix_LoadWAV("../music/occupiedDen.mp3");
+    Mix_Chunk *fallWater = Mix_LoadWAV("../music/fallWater.mp3");
 
     while (game->isRunning) {
 
@@ -178,8 +179,8 @@ void run(Game *game) {
             /* If the Player falls in the water */            
             if(player->isOnCrocodile == 0 && !isPlayerOnGrass(game) && GODMODE || (timeCounter - mancheTime) == 0) {
                 player->lives--;
-
                 scoreCounter(player, (GAME_LINES - player->cords.y)/4 * 10);
+                Mix_PlayChannel(-1, fallWater, 0);
                 player->cords.x = spawnPoint.x;
                 player->cords.y = spawnPoint.y;
                 resetCrocodile(game->crocodiles, game);

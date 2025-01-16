@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include <time.h>
-
+#include <locale.h>
 #include "struct.h"
 #include "crocodile.h"
 #include "sprite.h"
@@ -15,7 +15,7 @@
 
 
 
-#define GODMODE 0 //0 se attivo, 1 se disattivo
+#define GODMODE 1 //0 se attivo, 1 se disattivo
 
 
 
