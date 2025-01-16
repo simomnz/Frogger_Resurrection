@@ -52,3 +52,5 @@ void printShield(int x, int y);
 void loseMenu();
 
 void winMenu();
+
+void printInfoMenu();

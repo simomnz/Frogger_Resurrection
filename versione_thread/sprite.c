@@ -642,3 +642,22 @@ void winMenu() {
     timeout(-1);
     getch();
 }
+
+
+void printInfoMenu() {
+    clear();
+    USE_COLOR(MENU);
+    for (int i = 0; i < GAME_LINES; i++) {
+        for (int j = 0; j < COLS; j++) {
+            mvprintw(i, j, " ");
+        }
+    }
+    USE_COLOR(WRITES);
+    mvprintw(GAME_LINES / 2 - 1, COLS / 2 - 5, "sulis gay");
+    
+
+    timeout(-1);
+    getch();
+
+
+}

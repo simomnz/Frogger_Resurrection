@@ -52,7 +52,8 @@ short menu(Game *game) {
                 return 1;
                 break;
             case 1:  /* Score Button */
-                //score
+                printInfoMenu();
+                break;
                 // return 1;
                 break;
             case 2:  /* Exit Button */
