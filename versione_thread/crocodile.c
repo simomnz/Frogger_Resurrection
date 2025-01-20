@@ -135,7 +135,7 @@ void createProjectile(Crocodile crocodile, Game *game) {
 
 void *moveProjectile(void *arg) {
     Projectile *projectile = (Projectile *)arg;
-    while (projectile->cords.flag) {
+    while (1) {
         /* Movement of the Projectile */
         projectile->cords.x += projectile->speed * projectile->cords.direction;
 
@@ -143,6 +143,8 @@ void *moveProjectile(void *arg) {
             projectile->cords.x = -10;
             projectile->cords.y = -10;
             projectile->cords.flag = 0;
+            writeData(projectile->cords);
+            break;
         }
         /* Control Communication with Pipe */
         writeData(projectile->cords);
