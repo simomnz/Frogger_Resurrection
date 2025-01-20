@@ -207,23 +207,25 @@ void printMenu() {
         " SSSSSSSSSSSSSSS         TTTTTTTTTTTAAAAAAA                   AAAAAAARRRRRRRR     RRRRRRR      TTTTTTTTTTT      ",
     };
 
-    const char *scoreArt[] = {
-        "SSSSSSSSSSSSSSS         CCCCCCCCCCCCC     OOOOOOOOO     RRRRRRRRRRRRRRRRR   EEEEEEEEEEEEEEEEEEEEEE",
-        " SS:::::::::::::::S     CCC::::::::::::C   OO:::::::::OO   R::::::::::::::::R  E::::::::::::::::::::E",
-        "S:::::SSSSSS::::::S   CC:::::::::::::::C OO:::::::::::::OO R::::::RRRRRR:::::R E::::::::::::::::::::E",
-        "S:::::S     SSSSSSS  C:::::CCCCCCCC::::CO:::::::OOO:::::::ORR:::::R     R:::::REE::::::EEEEEEEEE::::E",
-        "S:::::S             C:::::C       CCCCCCO::::::O   O::::::O  R::::R     R:::::R  E:::::E       EEEEEE",
-        "S:::::S            C:::::C              O:::::O     O:::::O  R::::R     R:::::R  E:::::E             ",
-        " S::::SSSS         C:::::C              O:::::O     O:::::O  R::::RRRRRR:::::R   E::::::EEEEEEEEEE   ",
-        "  SS::::::SSSSS    C:::::C              O:::::O     O:::::O  R:::::::::::::RR    E:::::::::::::::E   ",
-        "    SSS::::::::SS  C:::::C              O:::::O     O:::::O  R::::RRRRRR:::::R   E:::::::::::::::E   ",
-        "       SSSSSS::::S C:::::C              O:::::O     O:::::O  R::::R     R:::::R  E::::::EEEEEEEEEE   ",
-        "            S:::::SC:::::C              O:::::O     O:::::O  R::::R     R:::::R  E:::::E             ",
-        "            S:::::S C:::::C       CCCCCCO::::::O   O::::::O  R::::R     R:::::R  E:::::E       EEEEEE",
-        "SSSSSSS     S:::::S  C:::::CCCCCCCC::::CO:::::::OOO:::::::ORR:::::R     R:::::REE::::::EEEEEEEE:::::E",
-        "S::::::SSSSSS:::::S   CC:::::::::::::::C OO:::::::::::::OO R::::::R     R:::::RE::::::::::::::::::::E",
-        "S:::::::::::::::SS      CCC::::::::::::C   OO:::::::::OO   R::::::R     R:::::RE::::::::::::::::::::E",
-        " SSSSSSSSSSSSSSS           CCCCCCCCCCCCC     OOOOOOOOO     RRRRRRRR     RRRRRRREEEEEEEEEEEEEEEEEEEEEE",
+    const char *infoArt[] = {
+    "                                                                            ",
+    "IIIIIIIIIINNNNNNNN        NNNNNNNNFFFFFFFFFFFFFFFFFFFFFF     OOOOOOOOO     ",
+    "I::::::::IN:::::::N       N::::::NF::::::::::::::::::::F   OO:::::::::OO   ",
+    "I::::::::IN::::::::N      N::::::NF::::::::::::::::::::F OO:::::::::::::OO ",
+    "II::::::IIN:::::::::N     N::::::NFF::::::FFFFFFFFF::::FO:::::::OOO:::::::O",
+    "  I::::I  N::::::::::N    N::::::N  F:::::F       FFFFFFO::::::O   O::::::O",
+    "  I::::I  N:::::::::::N   N::::::N  F:::::F             O:::::O     O:::::O",
+    "  I::::I  N:::::::N::::N  N::::::N  F::::::FFFFFFFFFF   O:::::O     O:::::O",
+    "  I::::I  N::::::N N::::N N::::::N  F:::::::::::::::F   O:::::O     O:::::O",
+    "  I::::I  N::::::N  N::::N:::::::N  F:::::::::::::::F   O:::::O     O:::::O",
+    "  I::::I  N::::::N   N:::::::::::N  F::::::FFFFFFFFFF   O:::::O     O:::::O",
+    "  I::::I  N::::::N    N::::::::::N  F:::::F             O:::::O     O:::::O",
+    "  I::::I  N::::::N     N:::::::::N  F:::::F             O::::::O   O::::::O",
+    "II::::::IIN::::::N      N::::::::NFF:::::::FF           O:::::::OOO:::::::O",
+    "I::::::::IN::::::N       N:::::::NF::::::::FF            OO:::::::::::::OO ",
+    "I::::::::IN::::::N        N::::::NF::::::::FF              OO:::::::::OO   ",
+    "IIIIIIIIIINNNNNNNN         NNNNNNNFFFFFFFFFFF                OOOOOOOOO     ",
+    "                                                                            "
     };
 
     const char *exitArt[] = {
@@ -246,12 +248,12 @@ void printMenu() {
     };
 
 
-    int startArtRow = (GAME_LINES - (sizeof(startArt) / sizeof(startArt[0]) + sizeof(scoreArt) / sizeof(scoreArt[0]) + sizeof(exitArt) / sizeof(exitArt[0]))) / 4;
-    int scoreArtRow = startArtRow + sizeof(startArt) / sizeof(startArt[0]) + startArtRow;
-    int exitArtRow = scoreArtRow + sizeof(scoreArt) / sizeof(scoreArt[0]) + startArtRow;
+    int startArtRow = (GAME_LINES - (sizeof(startArt) / sizeof(startArt[0]) + sizeof(infoArt) / sizeof(infoArt[0]) + sizeof(exitArt) / sizeof(exitArt[0]))) / 4;
+    int infoArtRow = startArtRow + sizeof(startArt) / sizeof(startArt[0]) + startArtRow;
+    int exitArtRow = infoArtRow + sizeof(infoArt) / sizeof(infoArt[0]) + startArtRow;
 
     printCenteredArt(startArt, sizeof(startArt) / sizeof(startArt[0]), startArtRow, 1);
-    printCenteredArt(scoreArt, sizeof(scoreArt) / sizeof(scoreArt[0]), scoreArtRow, 2);
+    printCenteredArt(infoArt, sizeof(infoArt) / sizeof(infoArt[0]), infoArtRow, 2);
     printCenteredArt(exitArt, sizeof(exitArt) / sizeof(exitArt[0]), exitArtRow, 3);
     refresh();
 }
