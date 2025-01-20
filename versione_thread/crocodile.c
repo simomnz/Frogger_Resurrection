@@ -99,13 +99,15 @@ void *moveCrocodile(void *arg) {
 
 /* Function to kill all the Crocodiles Proccesses */
 void resetCrocodile(Crocodile *crocodile, Game *game) {
-    // for (int i = 0; i < game->numCroc; i++) {
-    //     if (crocodile[i].thread && crocodile[i].cords.type == 'c') {
-    //         //CATTIVA FUNZIONE
-    //         // kill(crocodile[i].thread, SIGKILL);
-    //         // waitpid(crocodile[i].thread, NULL, 0);
-    //     }
-    // }
+    int res;
+    for (int i = 0; i < game->numCroc; i++) {
+        if (crocodile[i].thread && crocodile[i].cords.type == 'c') {
+            res = pthread_cancel(crocodile[i].thread);
+            if (res != 0) {
+                perror("unlucky thread cancellation");
+            }
+        }
+    }
 }
 
 /*
@@ -158,11 +160,11 @@ void *moveProjectile(void *arg) {
 
 /* Function that kills all the Projectiles Proccesses */
 void resetProjectile(Projectile *projectile) {
-    // for(int i=0; i < (NUM_PROJECTILES); i++) {
-    //     if (projectile[i].PID && projectile[i]cordstype == 'p') {
-    //         projectile[i].cords.x = -10;
-    //         projectile[i].cords.y = -10;
-    //         projectile[i].cords.flag = 0;
-    //     }
-    // }
+    for(int i=0; i < (NUM_PROJECTILES); i++) {
+        if (projectile[i].thread && projectile[i].cords.type == 'p') {
+            projectile[i].cords.x = -10;
+            projectile[i].cords.y = -10;
+            projectile[i].cords.flag = 0;
+        }
+    }
 }
