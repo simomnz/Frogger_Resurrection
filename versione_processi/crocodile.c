@@ -175,11 +175,12 @@ void moveProjectile(int pipe, Projectile *projectile) {
         /* Movement of the Projectile */
         projectile->cords.x += projectile->speed * projectile->cords.direction;
 
-        if (projectile->cords.x > COLS + 8 || projectile->cords.x < -8) {
+        if (projectile->cords.x > COLS + 4 || projectile->cords.x < -4) {
 
             projectile->cords.x = -10;
             projectile->cords.y = -10;
             projectile->cords.flag = 0;
+            writeData(pipe, &projectile->cords, sizeof(Coordinates));
             exit(0);
         }
         /* Control Communication with Pipe */

@@ -109,10 +109,10 @@ void moveGrenade(Grenade *grenade, int pipeFd) {
         grenade->cords.x += grenade->speed * grenade->cords.direction;
         grenade->lifeSpan--;
 
-        if (grenade->lifeSpan == 0 || grenade->cords.x > COLS || grenade->cords.x < 0) {
+        if (grenade->lifeSpan == 0 || grenade->cords.x > (COLS +4) || grenade->cords.x < -4) {
             grenade->cords.x = -15;
             grenade->cords.y = -15;
-            break;
+            grenade->lifeSpan = 0;
         }
 
         writeData(pipeFd, &grenade->cords, sizeof(Coordinates));

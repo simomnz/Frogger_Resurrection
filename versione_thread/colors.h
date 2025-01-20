@@ -34,8 +34,7 @@ void setColors();
 #define YELLOW_SIGN 5
 #define MENU 6
 #define WRITES 7
-#define LOSE 8
-#define WIN 9
+#define INFO 8
 
 #define RED 3
 #define BLUE 4

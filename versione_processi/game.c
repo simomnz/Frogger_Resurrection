@@ -134,7 +134,7 @@ void run(Game *game) {
             } else if (message.source > 200 && message.source < 300 && message.type == 'g') {
                 if(message.x == -15 && message.y == -15) {  /* If the Grenade is exploded */
                     player->cords.flag = 0;                 /* Set Player flag to 0, he can now shoot again */
-                    Mix_PlayChannel(-1, fallWater, 0);/* Playing fall in water Sound */
+                    Mix_PlayChannel(-1, fallWater, 0);      /* Playing fall in water Sound */
                 } 
                 
                 /* Check which Grenade is the message */

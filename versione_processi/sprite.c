@@ -578,7 +578,7 @@ void loseMenu() {
     if (start_x < 0) start_x = 0;
 
     for (int i = 0; i < artLines; i++) {
-        attron(COLOR_PAIR(LOSE) | A_BOLD);
+        attron(COLOR_PAIR(RED_SIGN) | A_BOLD);
         mvprintw(start_y + i, start_x, "%s", youLoseArt[i]);
     }
 
@@ -634,9 +634,9 @@ void winMenu() {
     if (start_x < 0) start_x = 0;
 
     for (int i = 0; i < artLines; i++) {
-        attron(COLOR_PAIR(WIN) | A_BOLD);
+        attron(COLOR_PAIR(BLUE_SIGN) | A_BOLD);
         mvprintw(start_y + i, start_x, "%s", youWinArt[i]);
-        attroff(COLOR_PAIR(WIN) | A_BOLD);
+        attroff(COLOR_PAIR(BLUE_SIGN) | A_BOLD);
     }
 
 
@@ -748,9 +748,9 @@ void printInfoMenu() {
     if (start_x < 0) start_x = 0;
 
     for (int i = 0; i < artLines; i++) {
-        attron(COLOR_PAIR(YELLOW_SIGN) | A_BOLD);
+        attron(COLOR_PAIR(INFO) | A_BOLD);
         mvprintw(start_y + i, start_x, "%s", description[i]);
-        attroff(COLOR_PAIR(YELLOW_SIGN) | A_BOLD);
+        attroff(COLOR_PAIR(INFO) | A_BOLD);
     }
 
   
