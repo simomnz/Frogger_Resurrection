@@ -117,26 +117,19 @@ void resetCrocodile(Crocodile *crocodile, Game *game) {
 ▐▌   ▐▌ ▐▌▝▚▄▞▘▗▄▄▞▘▐▙▄▄▖▝▚▄▄▖  █  ▗▄█▄▖▐▙▄▄▖▐▙▄▄▖▗▄▄▞▘
 */
 
-void createProjectile(Crocodile *crocodile, Game *game) {
+void createProjectile(Crocodile crocodile, Game *game) {
     /* Setting all the Projectiles Attribute's Values */
-    for (int i = 0; i < NUM_PROJECTILES; i++)
-    {
-        if(game->projectiles[i].cords.flag == 0) {
-           
-            game->projectiles[i].cords.x = crocodile->cords.x + (crocodile->cords.direction * CROCODILE_LENGTH);
-            game->projectiles[i].cords.y = crocodile->cords.y - CROCODILE_HEIGHT /2;
-            game->projectiles[i].cords.direction = crocodile->cords.direction;
-            game->projectiles[i].speed = crocodile->cords.speed + 2;
-            game->projectiles[i].sprite.length = PROJECTILE_LENGTH;
-            game->projectiles[i].sprite.height = PROJECTILE_HEIGHT;
-            game->projectiles[i].cords.type = 'p';
-            game->projectiles[i].cords.source = 300 + crocodile->cords.source; 
-            game->projectiles[i].cords.flag = 1;
-            
-            pthread_create(&game->projectiles[i].thread, NULL, moveProjectile, (void *)&game->projectiles[i]); // Ensure you're passing a valid Projectile pointer
-        }
-    
-    }
+    Projectile project;
+    project.cords.x = crocodile.cords.x + (crocodile.cords.direction * CROCODILE_LENGTH);
+    project.cords.y = crocodile.cords.y - CROCODILE_HEIGHT /2;
+    project.cords.direction = crocodile.cords.direction;
+    project.speed = crocodile.cords.speed + 2;
+    project.sprite.length = PROJECTILE_LENGTH;
+    project.sprite.height = PROJECTILE_HEIGHT;
+    project.cords.type = 'p';
+    project.cords.source = 300 + crocodile.cords.source;
+    project.cords.flag = 1;
+    pthread_create(&project.thread, NULL, moveProjectile, (void *)&project); // Ensure you're passing a valid Projectile pointer
     
 }
 

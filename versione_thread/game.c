@@ -131,7 +131,7 @@ void run(Game *game) {
 
                 /* Check if the Crocodile has shot a Projectile */
                 if (crocodile[message.source - 1].cords.flag == 1) {
-                    createProjectile(&crocodile[message.source - 1], game);
+                    createProjectile(crocodile[message.source - 1], game);
                 }
 
                 /* If that croc’s PID == the croc we’re “on,” move the player */
@@ -146,12 +146,6 @@ void run(Game *game) {
                     Mix_PlayChannel(-1, fallWater, 0);      /* Playing fall in water Sound */
                 } 
                 
-                /* Check which Grenade is the message */
-                if(message.source == 201 ) {
-                    grenadeLeft->cords = message;
-                } else if (message.source == 203) {
-                    grenadeRight->cords = message;
-                }
 
             /* Message from a Projectile */
             } else if (message.source > 300 && message.source < (300 + NUM_PROJECTILES +1) && message.type == 'p') {

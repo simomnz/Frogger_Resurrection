@@ -36,7 +36,7 @@ void *moveCrocodile(void *arg);
 
 void resetCrocodile(Crocodile *crocodile, Game *game);
 
-void createProjectile(Crocodile *crocodile, Game *game);
+void createProjectile(Crocodile crocodile, Game *game);
 
 void *moveProjectile(void *arg);
 
