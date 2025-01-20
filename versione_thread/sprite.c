@@ -581,7 +581,7 @@ void loseMenu(int score) {
     }
 
     attron(COLOR_PAIR(INFO) | A_BOLD);
-    mvprintw(GAME_LINES - 15, COLS/2, "Your score: %d", score);
+    mvprintw(GAME_LINES - 15, (COLS/2 - 8), "Your score: %d", score);
 
     refresh();
 
@@ -640,7 +640,7 @@ void winMenu(int score) {
     }
 
     attron(COLOR_PAIR(INFO) | A_BOLD);
-    mvprintw(GAME_LINES - 15, COLS/2, "Your score: %d", score);
+    mvprintw(GAME_LINES - 15, (COLS/2 - 8), "Your score: %d", score);
 
     refresh();
 
