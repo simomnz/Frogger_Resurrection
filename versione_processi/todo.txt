@@ -1,5 +1,0 @@
-Problema con la creazione dei coccodrilli (probabilmente trascurabile), al momento l'array non viene inizializzato a dovere (una volta ogni 4)
-
-Implementare timer per partita
-
-Implementare granate e proiettili

@@ -34,6 +34,7 @@ void start(Game *game) {
 /* Function to run the game */
 void run(Game *game) {
     srand(time(NULL));               /* Seed for random numbers */
+
     /* Loading Game Effect Sounds */
     Mix_Chunk *explosionSound = Mix_LoadWAV("../music/explosionSound.mp3");
     Mix_Chunk *shieldHit = Mix_LoadWAV("../music/shieldHit.mp3");
@@ -91,18 +92,19 @@ void run(Game *game) {
         /* Initialising Control's Structs and Variables */
         Coordinates message;        
         Crocodile *crocodile = game->crocodiles;
+
         Projectile *projectile = game->projectiles;
         Grenade *grenadeLeft = malloc(sizeof(Grenade));
         Grenade *grenadeRight = malloc(sizeof(Grenade));
         
         time_t mancheTime;
-        short playersCroc = 0;        /* Index of the crocodile where the player stands on, initialized to -1 indicating no crocodile */
-        short playersDen = -1;        /* Index of the den where the player stands on, initialized to -1 indicating no den */
-        short clearCounter = 0;       /* Counter to clear the screen every 1000 game cycles */
-        short grenadeLeftHit = 0;     /* Set to 1 if the left Grenade was hit */
-        short grenadeRightHit = 0;    /* Set to 1 if the right Grenade was hit */
+        short playersCroc = 0;                                   /* Index of the crocodile where the player stands on, initialized to -1 indicating no crocodile */
+        short playersDen = -1;                                   /* Index of the den where the player stands on, initialized to -1 indicating no den */
+        short clearCounter = 0;                                  /* Counter to clear the screen every 1000 game cycles */
+        short grenadeLeftHit = 0;                                /* Set to 1 if the left Grenade was hit */
+        short grenadeRightHit = 0;                               /* Set to 1 if the right Grenade was hit */
         time_t timeCounter = time(NULL) + game->timeDifficulty;  /* Manche Max Time */
-        short occupiedDens = 0;       /* Counter for occupied Dens, if equal 5 you win */
+        short occupiedDens = 0;                                  /* Counter for occupied Dens, if equal 5 you win */
 
         /* Client-Server Communication via Socket */
         sendPlayerCords(player, game->serverSocket);
