@@ -644,6 +644,8 @@ void winMenu() {
 }
 
 
+
+  
 void printInfoMenu() {
     clear();
     USE_COLOR(MENU);
@@ -652,12 +654,111 @@ void printInfoMenu() {
             mvprintw(i, j, " ");
         }
     }
-    USE_COLOR(WRITES);
-    mvprintw(GAME_LINES / 2 - 1, COLS / 2 - 5, "sulis gay");
+
+    
+    const char *infoArt[] = {
+    "                                                                            ",
+    "IIIIIIIIIINNNNNNNN        NNNNNNNNFFFFFFFFFFFFFFFFFFFFFF     OOOOOOOOO     ",
+    "I::::::::IN:::::::N       N::::::NF::::::::::::::::::::F   OO:::::::::OO   ",
+    "I::::::::IN::::::::N      N::::::NF::::::::::::::::::::F OO:::::::::::::OO ",
+    "II::::::IIN:::::::::N     N::::::NFF::::::FFFFFFFFF::::FO:::::::OOO:::::::O",
+    "  I::::I  N::::::::::N    N::::::N  F:::::F       FFFFFFO::::::O   O::::::O",
+    "  I::::I  N:::::::::::N   N::::::N  F:::::F             O:::::O     O:::::O",
+    "  I::::I  N:::::::N::::N  N::::::N  F::::::FFFFFFFFFF   O:::::O     O:::::O",
+    "  I::::I  N::::::N N::::N N::::::N  F:::::::::::::::F   O:::::O     O:::::O",
+    "  I::::I  N::::::N  N::::N:::::::N  F:::::::::::::::F   O:::::O     O:::::O",
+    "  I::::I  N::::::N   N:::::::::::N  F::::::FFFFFFFFFF   O:::::O     O:::::O",
+    "  I::::I  N::::::N    N::::::::::N  F:::::F             O:::::O     O:::::O",
+    "  I::::I  N::::::N     N:::::::::N  F:::::F             O::::::O   O::::::O",
+    "II::::::IIN::::::N      N::::::::NFF:::::::FF           O:::::::OOO:::::::O",
+    "I::::::::IN::::::N       N:::::::NF::::::::FF            OO:::::::::::::OO ",
+    "I::::::::IN::::::N        N::::::NF::::::::FF              OO:::::::::OO   ",
+    "IIIIIIIIIINNNNNNNN         NNNNNNNFFFFFFFFFFF                OOOOOOOOO     ",
+    "                                                                            "
+    };
+
+    int infoArtRow = (GAME_LINES - (sizeof(infoArt) / sizeof(infoArt[0]) + sizeof(infoArt) / sizeof(infoArt[0]) + sizeof(infoArt) / sizeof(infoArt[0]))) / 4;
+    printCenteredArt(infoArt, sizeof(infoArt) / sizeof(infoArt[0]), infoArtRow, 3);
+
+
     
 
+    const char *description[] = {
+        "Frogger Resurrection",
+        "By Simone Manunza & Simone Sulis (IADA)",
+        "",
+        "Frogger Resurrection is a modern reinterpretation of the legendary Frogger arcade game. This",
+        "project combines nostalgia with innovation, offering players an exciting and challenging",
+        "gameplay experience. Developed as a part of the SOPR course, it showcases our programming",
+        "skills and creativity, designed to run entirely on a terminal-based environment using ncurses.",
+        "",
+        "Your goal is simple yet thrilling: guide the frog across a dangerous map to its dens, avoiding",
+        "dynamic hazards like crocodile's projectiles, and treacherous rivers, all while racing against",
+        "the clock.",
+        "",
+        "    - Three Game Modes:",
+        "        Easy: Relaxed pace, giving players 3 minutes per level.",
+        "        Medium: Balanced speed and challenge, with 2 minutes per level.",
+        "        Hard: Fast-paced action with only 1 minute per level.",
+        "",
+        "    - Immersive Audio:",
+        "        Each mode features its own unique soundtrack:",
+        "            Easy: Calm and serene music.",
+        "            Medium: A balanced and adventurous theme.",
+        "            Hard: Intense, high-energy metal tracks.",
+        "        Sound effects add life to every moment, with explosions, splashes, and more.",
+        "",
+        "    - Dynamic Gameplay:",
+        "        - Use grenades to destroy obstacles and threats.",
+        "        - Avoid fast-moving crocodiles and projectiles.",
+        "        - Navigate rivers and reach dens safely.",
+        "",
+        "    Players are rewarded based on:",
+        "        - The difficulty level selected (higher difficulty means more points).",
+        "        - Time remaining upon reaching the dens.",
+        "        - Lives left at the end of the level.",
+        "        - Destroying projectiles and hazards using grenades.",
+        "",
+        "    The game features a carefully designed map that adapts dynamically to terminal size.",
+        "    Every element, from the frog to the crocodiles, is represented with unique sprites",
+        "    created entirely using matrix-based character art.",
+        "",
+        "    Inspired by the original Frogger, this game adds a modern twist with advanced mechanics,",
+        "    diverse difficulty levels, and a fully immersive experience tailored for terminal gameplay.",
+        "",
+        "Get ready for the challenge. Can you guide your frog to safety and master the chaos?",
+        "",
+        "Good Luck!",
+        NULL
+    };
+
+    int artLines = 0, maxLength = 0;
+    while (description[artLines] != NULL) {
+        int len = strlen(description[artLines]);
+        if (len > maxLength) {
+            maxLength = len;
+        }
+        artLines++;
+    }
+
+    int start_y = (GAME_LINES/2 +10) - (artLines / 2);
+    int start_x = (COLS / 2) - (maxLength / 2);
+
+    if (start_y < 0) start_y = 0;
+    if (start_x < 0) start_x = 0;
+
+    for (int i = 0; i < artLines; i++) {
+        attron(COLOR_PAIR(YELLOW_SIGN) | A_BOLD);
+        mvprintw(start_y + i, start_x, "%s", description[i]);
+        attroff(COLOR_PAIR(YELLOW_SIGN) | A_BOLD);
+    }
+
+  
+    refresh();
     timeout(-1);
     getch();
 
 
 }
+
+
