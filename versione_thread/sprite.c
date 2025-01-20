@@ -715,7 +715,7 @@ void printInfoMenu() {
         "",
         "    - Dynamic Gameplay:",
         "        - Use grenades to destroy obstacles and threats.",
-        "        - Avoid fast-moving crocodiles and projectiles.",
+        "        - Avoid fast-moving crocodile's projectiles.",
         "        - Navigate rivers and reach dens safely.",
         "",
         "    Players are rewarded based on:",
