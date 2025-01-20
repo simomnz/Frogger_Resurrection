@@ -159,6 +159,8 @@ void run(Game *game) {
 
             /* If the frog is on a free Den */
             if(playersDen < 10 && playersDen >= 0) {
+                resetCrocodile(game->crocodiles, game);
+                resetProjectile(game->projectiles);
                 scoreCounter(player, (100 * game->difficulty));
                 scoreCounter(player, ((GAME_LINES - player->cords.y)/4 * 10)*game->difficulty);
                 scoreCounter(player, (timeCounter - mancheTime) * 10);
