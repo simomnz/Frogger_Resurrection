@@ -53,18 +53,6 @@ void run(Game *game) {
         }
         Mix_HaltMusic();
 
-        /* Loading and Playing Game Music */
-        switch (game->difficulty) {
-        case 1: 
-            Mix_PlayMusic(Mix_LoadMUS("../music/easyModeMusic.mp3"), -1);    /* Easy Mode */
-            break;
-        case 2:
-            Mix_PlayMusic(Mix_LoadMUS("../music/mediumModeMusic.mp3"), -1);  /* Medium Mode */
-            break;
-        case 3:
-            Mix_PlayMusic(Mix_LoadMUS("../music/hardModeMusic.mp3"), -1);    /* Hard Mode */
-            break;        
-        }
 
         /* Creation of Crocodiles */
         createCrocodile(game->pipeFd, game->crocodiles, game);
@@ -72,7 +60,8 @@ void run(Game *game) {
         /* Initialising Player Parameters */
         Player *player = &game->player;
         player->lives = 3;
-        player->score = 0;
+
+        
         player->cords.speed = 1;
         player->cords.type = 'f';
 
@@ -81,6 +70,21 @@ void run(Game *game) {
         player->cords.x = spawnPoint.x;
         player->cords.y = spawnPoint.y;
         
+        /* Loading and Playing Game Music */
+        switch (game->difficulty) {
+        case 1: 
+            Mix_PlayMusic(Mix_LoadMUS("../music/easyModeMusic.mp3"), -1);    /* Easy Mode */
+            player->score = 0;
+            break;
+        case 2:
+            Mix_PlayMusic(Mix_LoadMUS("../music/mediumModeMusic.mp3"), -1);  /* Medium Mode */
+            player->score = 250;
+            break;
+        case 3:
+            Mix_PlayMusic(Mix_LoadMUS("../music/hardModeMusic.mp3"), -1);    /* Hard Mode */
+            player->score = 500;
+            break;        
+        }
         /* Initialising Control's Structs and Variables */
         Coordinates message;        
         Crocodile *crocodile = game->crocodiles;
@@ -155,8 +159,8 @@ void run(Game *game) {
 
             /* If the frog is on a free Den */
             if(playersDen < 10 && playersDen >= 0) {
-                scoreCounter(player, 100);
-                scoreCounter(player, (GAME_LINES - player->cords.y)/4 * 10);
+                scoreCounter(player, (100 * game->difficulty));
+                scoreCounter(player, ((GAME_LINES - player->cords.y)/4 * 10)*game->difficulty);
                 scoreCounter(player, (timeCounter - mancheTime) * 10);
                 Mix_PlayChannel(-1, occupiedDen, 0);
                 occupiedDens++;
@@ -166,7 +170,7 @@ void run(Game *game) {
 
             } else if (playersDen == 10) {   /* If the frog is on an occupied Den */
                 player->lives--;
-                scoreCounter(player, (GAME_LINES - player->cords.y)/4 * 10);
+                scoreCounter(player, ((GAME_LINES - player->cords.y)/4 * 10)* game->difficulty);
                 player->cords.x = spawnPoint.x;
                 player->cords.y = spawnPoint.y;
                 resetCrocodile(game->crocodiles, game);
@@ -179,7 +183,7 @@ void run(Game *game) {
             /* If the Player falls in the water */            
             if(player->isOnCrocodile == 0 && !isPlayerOnGrass(game) && GODMODE || (timeCounter - mancheTime) == 0) {
                 player->lives--;
-                scoreCounter(player, (GAME_LINES - player->cords.y)/4 * 10);
+                scoreCounter(player, (((GAME_LINES - player->cords.y)/4 * 10) * game->difficulty));
                 Mix_PlayChannel(-1, fallWater, 0);
                 player->cords.x = spawnPoint.x;
                 player->cords.y = spawnPoint.y;
@@ -206,7 +210,7 @@ void run(Game *game) {
                 kill(grenadeRight.PID, SIGKILL);
                 Mix_HaltMusic();
                 Mix_PlayChannel(-1, loseSound, 0);
-                loseMenu();
+                loseMenu(player->score);
                 
                 break;
             }
@@ -250,7 +254,7 @@ void run(Game *game) {
                 game->projectiles[grenadeLeftHit].cords.y = -10;
                 printExplosion(grenadeLeft.cords.x, grenadeLeft.cords.y);
                 Mix_PlayChannel(-1, explosionSound, 0);
-                scoreCounter(player, 100);
+                scoreCounter(player, (100 * game->difficulty));
                 player->score += 150;
                 grenadeLeft.cords.x = -15;
                 grenadeLeft.cords.y = -15;
@@ -265,7 +269,7 @@ void run(Game *game) {
                 game->projectiles[grenadeRightHit].cords.y = -10;
                 printExplosion(grenadeRight.cords.x, grenadeRight.cords.y);
                 Mix_PlayChannel(-1, explosionSound, 0);
-                scoreCounter(player, 100);
+                scoreCounter(player, (100 * game->difficulty));
                 grenadeRight.cords.x = -15;
                 grenadeRight.cords.y = -15;
                 kill(grenadeRight.PID, SIGKILL);
@@ -303,7 +307,7 @@ void run(Game *game) {
                 }
                 occupiedDens = 0;  
 
-                scoreCounter(player, player->lives * 1000);
+                scoreCounter(player, (player->lives * 1000 * game->difficulty));
                 resetProjectile(game->projectiles);
                 resetCrocodile(game->crocodiles, game);
                 free(game->crocodiles);
@@ -314,7 +318,7 @@ void run(Game *game) {
                 kill(grenadeRight.PID, SIGKILL);
                 Mix_HaltMusic();
                 Mix_PlayChannel(-1, winSound, 0);
-                winMenu();
+                winMenu(player->score);
                 break;
             }
 

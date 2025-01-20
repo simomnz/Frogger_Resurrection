@@ -77,7 +77,6 @@ void easyDifficult(Game *game) {
     /* Set all the Game Difficulty Parameters*/
     game->crocSpeed = EASY_MODE_CROC_SPEED;
     game->timeDifficulty = 180;
-    game->player.score = 0;
     game->numCroc = 26;
     game->crocodiles = malloc(sizeof(Crocodile) * game->numCroc);
     game->projectiles = malloc(sizeof(Projectile) * NUM_PROJECTILES);
@@ -102,7 +101,6 @@ void mediumDifficult(Game *game) {
     game->crocSpeed = MEDIUM_MODE_CROC_SPEED;
     game->timeDifficulty = 120;
     game->numCroc = 26;
-    game->player.score = 250;
     game->crocodiles = malloc(sizeof(Crocodile) * game->numCroc);
     game->projectiles = malloc(sizeof(Projectile) * NUM_PROJECTILES);
     for(int i=0; i< (NUM_PROJECTILES); i++) {
@@ -128,7 +126,6 @@ void hardDifficult(Game *game) {
     game->crocSpeed = HARD_MODE_CROC_SPEED;
     game->timeDifficulty = 60;
     game->numCroc = 26;
-    game->player.score = 500;
     game->crocodiles = malloc(sizeof(Crocodile) * game->numCroc);
     game->projectiles = malloc(sizeof(Projectile) * NUM_PROJECTILES);
     for(int i=0; i< NUM_PROJECTILES; i++) {

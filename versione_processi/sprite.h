@@ -49,8 +49,8 @@ void printExplosion(int x, int y);
 
 void printShield(int x, int y);
 
-void loseMenu();
+void loseMenu(int score);
 
-void winMenu();
+void winMenu(int score);
 
 void printInfoMenu(); 

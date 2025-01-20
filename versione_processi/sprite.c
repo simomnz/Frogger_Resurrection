@@ -535,7 +535,7 @@ void printShield(int x, int y) {
 }
 
 /* Function to display the lose menu */
-void loseMenu() {
+void loseMenu(int score) {
     clear();
 
     const char *youLoseArt[] = {
@@ -582,6 +582,9 @@ void loseMenu() {
         mvprintw(start_y + i, start_x, "%s", youLoseArt[i]);
     }
 
+    attron(COLOR_PAIR(INFO) | A_BOLD);
+    mvprintw(GAME_LINES - 15, COLS/2, "Your score: %d", score);
+
     refresh();
 
     timeout(-1);
@@ -589,7 +592,7 @@ void loseMenu() {
 }
 
 
-void winMenu() {
+void winMenu(int score) {
     clear();
 
     const char *youWinArt[] = {
@@ -638,6 +641,10 @@ void winMenu() {
         mvprintw(start_y + i, start_x, "%s", youWinArt[i]);
         attroff(COLOR_PAIR(BLUE_SIGN) | A_BOLD);
     }
+
+    attron(COLOR_PAIR(INFO) | A_BOLD);
+    mvprintw(GAME_LINES - 15, COLS/2, "Your score: %d", score);
+
 
 
     refresh();
