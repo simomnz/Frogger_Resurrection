@@ -10,6 +10,7 @@
 
 void createCrocodile(Crocodile *crocodiles, Game *game) {
     Crocodile newCroc;
+    Crocodile *threadCrocs = malloc(game->numCroc * sizeof(Crocodile));
     srand(time(NULL)); 
 
     /* Line direction and speed and other Variables */
@@ -48,8 +49,9 @@ void createCrocodile(Crocodile *crocodiles, Game *game) {
                 }
             }
         }
+        threadCrocs[i] = newCroc;
         crocodiles[i] = newCroc;
-        pthread_create(&crocodiles[i].thread, NULL, moveCrocodile, (void *)&crocodiles[i]);    
+        pthread_create(&threadCrocs[i].thread, NULL, moveCrocodile, (void *)&threadCrocs[i]);    
     }
 }
 
