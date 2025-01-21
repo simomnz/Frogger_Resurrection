@@ -586,7 +586,7 @@ void loseMenu(int score) {
     mvprintw(GAME_LINES - 15, (COLS/2 - 8), "Your score: %d", score);
 
     refresh();
-
+    sleep(3);
     timeout(-1);
     getch();
 }
@@ -646,7 +646,7 @@ void winMenu(int score) {
     mvprintw(GAME_LINES - 15, (COLS/2 - 8), "Your score: %d", score);
 
 
-
+    sleep(3);
     refresh();
 
     timeout(-1);

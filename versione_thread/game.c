@@ -146,8 +146,14 @@ void run(Game *game) {
                     player->cords.flag = 0;                 /* Set Player flag to 0, he can now shoot again */
                     Mix_PlayChannel(-1, fallWater, 0);      /* Playing fall in water Sound */
                 } 
-                
 
+                /* Check which Grenade is the message */
+                if(message.source == 201 ) {
+                    grenadeLeft->cords = message;
+                } else if (message.source == 203) {
+                    grenadeRight->cords = message;
+                }
+                
             /* Message from a Projectile */
             } else if (message.source > 300 && message.source < (300 + NUM_PROJECTILES +1) && message.type == 'p') {
                 projectile[message.source - 301].cords = message;
