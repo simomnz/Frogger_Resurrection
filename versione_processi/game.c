@@ -159,8 +159,8 @@ void run(Game *game) {
 
             /* If the frog is on a free Den */
             if(playersDen < 10 && playersDen >= 0) {
-                resetCrocodile(game->crocodiles, game);
                 resetProjectile(game->projectiles);
+                resetCrocodile(game->crocodiles, game);
                 createCrocodile(game->pipeFd, game->crocodiles, game);
                 scoreCounter(player, (100 * game->difficulty));
                 scoreCounter(player, ((GAME_LINES - player->cords.y)/4 * 10)*game->difficulty);
@@ -176,8 +176,8 @@ void run(Game *game) {
                 scoreCounter(player, ((GAME_LINES - player->cords.y)/4 * 10)* game->difficulty);
                 player->cords.x = spawnPoint.x;
                 player->cords.y = spawnPoint.y;
-                resetCrocodile(game->crocodiles, game);
                 resetProjectile(game->projectiles);
+                resetCrocodile(game->crocodiles, game);
                 createCrocodile(game->pipeFd, game->crocodiles, game);
                 clear();
                 timeCounter = time(NULL) + game->timeDifficulty;
@@ -190,8 +190,8 @@ void run(Game *game) {
                 Mix_PlayChannel(-1, fallWater, 0);
                 player->cords.x = spawnPoint.x;
                 player->cords.y = spawnPoint.y;
-                resetCrocodile(game->crocodiles, game);
                 resetProjectile(game->projectiles);
+                resetCrocodile(game->crocodiles, game);
                 createCrocodile(game->pipeFd, game->crocodiles, game);
                 clear();
                 
@@ -200,8 +200,8 @@ void run(Game *game) {
 
             /* Lose condition, no life remaining */
             if (player->lives == 0) {
-                resetCrocodile(game->crocodiles, game);
                 resetProjectile(game->projectiles);
+                resetCrocodile(game->crocodiles, game);
                 for (int i = 0; i < 5; i++) {
                     game->closedDen[i] = 0;
                 }
@@ -285,9 +285,9 @@ void run(Game *game) {
 
             if(projectHit) {
                 player->lives--;
+                resetProjectile(game->projectiles);
                 resetCrocodile(game->crocodiles, game);
                 createCrocodile(game->pipeFd, game->crocodiles, game);
-                resetProjectile(game->projectiles);
                 printShield(player->cords.x, player->cords.y);
                 printFrog(player->cords.x, player->cords.y);
                 Mix_PlayChannel(-1, shieldHit, 0);
