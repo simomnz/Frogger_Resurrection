@@ -465,12 +465,14 @@ void printProjectile(Projectile *projectile) {
     };
 
     for (int i = 0; i < NUM_PROJECTILES; i++) {
-        for (int row = 0; row < PROJECTILE_HEIGHT; row++) {
-            for (int col = 0; col < PROJECTILE_LENGTH; col++) {
-                if (projectileSprite[row][col] != L'n') {
-                    USE_COLOR(colors[row][col]);
-                    mvprintw(projectile[i].cords.y + row, projectile[i].cords.x + col, "%lc", projectileSprite[row][col]);
-                    attroff(COLOR_PAIR(colors[row][col]));
+        if(projectile[i].cords.flag == 1) {
+            for (int row = 0; row < PROJECTILE_HEIGHT; row++) {
+                for (int col = 0; col < PROJECTILE_LENGTH; col++) {
+                    if (projectileSprite[row][col] != L'n') {
+                        USE_COLOR(colors[row][col]);
+                        mvprintw(projectile[i].cords.y + row, projectile[i].cords.x + col, "%lc", projectileSprite[row][col]);
+                        attroff(COLOR_PAIR(colors[row][col]));
+                    }
                 }
             }
         }
