@@ -215,8 +215,8 @@ void run(Game *game) {
                 free(game->projectiles);
                 grenadeLeft->cords.x = -15;
                 grenadeLeft->cords.y = -15;
-                // kill(grenadeLeft.PID, SIGKILL);
-                // kill(grenadeRight.PID, SIGKILL);
+                pthread_cancel(grenadeLeft->thread);
+                pthread_cancel(grenadeRight->thread);
                 Mix_HaltMusic();
                 Mix_PlayChannel(-1, loseSound, 0);
                 loseMenu(player->score);
@@ -267,8 +267,8 @@ void run(Game *game) {
                 player->score += 150;
                 grenadeLeft->cords.x = -15;
                 grenadeLeft->cords.y = -15;
-                // kill(grenadeLeft.PID, SIGKILL);
-                // kill(game->projectiles[grenadeLeftHit].PID, SIGKILL);
+                pthread_cancel(grenadeLeft->thread);
+                pthread_cancel(game->projectiles[grenadeLeftHit].thread);
                 refresh();
             }
             
@@ -281,8 +281,8 @@ void run(Game *game) {
                 scoreCounter(player, 100 * game->difficulty);
                 grenadeRight->cords.x = -15;
                 grenadeRight->cords.y = -15;
-                // kill(grenadeRight.PID, SIGKILL);
-                // kill(game->projectiles[grenadeRightHit].PID, SIGKILL);
+                pthread_cancel(grenadeRight->thread);
+                pthread_cancel(game->projectiles[grenadeRightHit].thread);
                 refresh();
             }
 
@@ -323,8 +323,8 @@ void run(Game *game) {
                 free(game->projectiles);
                 grenadeLeft->cords.x = -15;
                 grenadeLeft->cords.y = -15;
-                // kill(grenadeLeft.PID, SIGKILL);
-                // kill(grenadeRight.PID, SIGKILL);
+                pthread_cancel(grenadeLeft->thread);
+                pthread_cancel(grenadeRight->thread);
                 Mix_HaltMusic();
                 Mix_PlayChannel(-1, winSound, 0);
                 winMenu(player->score);

@@ -50,8 +50,9 @@ void createCrocodile(Crocodile *crocodiles, Game *game) {
             }
         }
         threadCrocs[i] = newCroc;
-        crocodiles[i] = newCroc;
+        crocodiles[i] = newCroc; 
         pthread_create(&threadCrocs[i].thread, NULL, moveCrocodile, (void *)&threadCrocs[i]);    
+        crocodiles[i].thread = threadCrocs[i].thread; 
     }
 }
 
@@ -132,7 +133,6 @@ void createProjectile(Crocodile crocodile, Game *game) {
     game->projectiles[crocodile.cords.source - 1 ].cords.source = 300 + crocodile.cords.source;
     game->projectiles[crocodile.cords.source - 1 ].cords.flag = 1;
     pthread_create(&game->projectiles[crocodile.cords.source - 1 ].thread, NULL, moveProjectile, (void *)&game->projectiles[crocodile.cords.source - 1 ]);
-    
 }
 
 void *moveProjectile(void *arg) {
@@ -157,11 +157,18 @@ void *moveProjectile(void *arg) {
 
 /* Function that kills all the Projectiles Proccesses */
 void resetProjectile(Projectile *projectile) {
+
+    int res;
     for(int i=0; i < (NUM_PROJECTILES); i++) {
         if (projectile[i].thread && projectile[i].cords.type == 'p') {
             projectile[i].cords.x = -10;
             projectile[i].cords.y = -10;
             projectile[i].cords.flag = 0;
+            res = pthread_cancel(projectile[i].thread);
+            if (res != 0) {
+                perror("unlucky thread cancellation");
+            }
+            
         }
     }
 }
