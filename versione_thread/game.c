@@ -202,10 +202,6 @@ void run(Game *game) {
                 grenadeLeft.cords.y = -15;
                 grenadeRight.cords.x = -15;
                 grenadeRight.cords.y = -15;
-                pthread_cancel(grenadeLeft.thread);
-                pthread_cancel(grenadeRight.thread);
-
-                
                 createCrocodile(game->crocodiles, game);
                 clear();
                 
@@ -221,10 +217,6 @@ void run(Game *game) {
                 }
                 free(game->crocodiles);
                 free(game->projectiles);
-                pthread_cancel(grenadeLeft.thread);
-                pthread_cancel(grenadeRight.thread);
-                grenadeLeft.cords.x = -15;
-                grenadeLeft.cords.y = -15;
                 Mix_HaltMusic();
                 Mix_PlayChannel(-1, loseSound, 0);
                 loseMenu(player->score);
@@ -253,7 +245,6 @@ void run(Game *game) {
             printCrocodile(crocodile);
             printGrass();
 
-            //controllo se il thread è attivo
             if(!grenadeLeft.thread ){
                 grenadeLeft.cords.x = -15;
                 grenadeLeft.cords.y = -15;
@@ -341,10 +332,6 @@ void run(Game *game) {
                 resetCrocodile(game->crocodiles, game);
                 free(game->crocodiles);
                 free(game->projectiles);
-                pthread_cancel(grenadeLeft.thread);
-                pthread_cancel(grenadeRight.thread);
-                grenadeLeft.cords.x = -15;
-                grenadeLeft.cords.y = -15;
                 Mix_HaltMusic();
                 Mix_PlayChannel(-1, winSound, 0);
                 winMenu(player->score);

@@ -15,7 +15,7 @@
 
 
 
-#define GODMODE 0 //0 se attivo, 1 se disattivo
+#define GODMODE 0
 
 
 

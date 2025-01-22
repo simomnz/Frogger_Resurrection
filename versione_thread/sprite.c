@@ -465,7 +465,6 @@ void printProjectile(Projectile *projectile) {
     };
 
     for (int i = 0; i < NUM_PROJECTILES; i++) {
-        if(projectile[i].cords.flag == 1) {
             for (int row = 0; row < PROJECTILE_HEIGHT; row++) {
                 for (int col = 0; col < PROJECTILE_LENGTH; col++) {
                     if (projectileSprite[row][col] != L'n') {
@@ -475,7 +474,6 @@ void printProjectile(Projectile *projectile) {
                     }
                 }
             }
-        }
     }
 }
 
