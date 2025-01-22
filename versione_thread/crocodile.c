@@ -152,6 +152,7 @@ void *moveProjectile(void *arg) {
         writeData(projectile->cords);
         usleep(200000);
     }
+    
     pthread_exit(0);
 }
 

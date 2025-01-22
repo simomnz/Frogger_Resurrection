@@ -73,36 +73,29 @@ int isPlayerOnDen(Game *game) {
 
 /* Function to create a grenade */
 Grenade createGrenade(Player *player, int direction) {
-    Grenade grenade;
-    grenade.cords.x = player->cords.x + (GRENADE_LENGTH * direction);
-    grenade.cords.y = player->cords.y - FROG_HEIGHT / 2;  /* Spawn in the Middle of the River Flow */
-    grenade.sprite.length = GRENADE_LENGTH;    
-    grenade.sprite.height = GRENADE_HEIGHT;
-    grenade.speed = 5;
-    grenade.cords.type = 'g';    
-    grenade.lifeSpan = FROG_LENGTH * 2; /* Lifespan of Grenade */
-    grenade.cords.direction = direction;
-
-    /* Setting Source based on the direction */
-    if (direction == LEFT) {
-        grenade.cords.source = GRENAD_LEFT_SOURCE; // 201
-    } else if (direction == RIGHT) {
-        grenade.cords.source = GRENAD_RIGHT_SOURCE; // 203
-    } 
-
-    pthread_create(&grenade.thread, NULL, (void *)moveGrenade, (void *)&grenade);
-  
-    return grenade;
+    Grenade* grenade = malloc(sizeof(Grenade));
+    *grenade = (Grenade){
+        .cords.x = player->cords.x + (GRENADE_LENGTH * direction),
+        .cords.y = player->cords.y - FROG_HEIGHT / 2,
+        .sprite.length = GRENADE_LENGTH,
+        .sprite.height = GRENADE_HEIGHT,
+        .speed = 5,
+        .cords.type = 'g',
+        .lifeSpan = FROG_LENGTH * 2,
+        .cords.direction = direction,
+        .cords.source = (direction == LEFT) ? GRENAD_LEFT_SOURCE : GRENAD_RIGHT_SOURCE,
+    };
+    pthread_create(&grenade->thread, NULL, (void *)moveGrenade, (void *)grenade);
+    return *grenade;
 }
 
 /* Function to move the grenade */
 void *moveGrenade(Grenade *grenade) {
-
     do {
         grenade->cords.x += grenade->speed * grenade->cords.direction;
         grenade->lifeSpan--;
 
-        if (grenade->lifeSpan == 0 || grenade->cords.x > (COLS +4) || grenade->cords.x < -4) {
+        if (grenade->lifeSpan == 0 || grenade->cords.x > (COLS + 4) || grenade->cords.x < -4) {
             grenade->cords.x = -15;
             grenade->cords.y = -15;
             grenade->lifeSpan = 0;
@@ -112,6 +105,7 @@ void *moveGrenade(Grenade *grenade) {
         usleep(200000);
     } while (grenade->lifeSpan > 0);
 
+    free(grenade); // Free grenade memory after thread completes
     pthread_exit(0);
 }
 

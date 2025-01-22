@@ -287,6 +287,7 @@ void run(Game *game) {
                 pthread_cancel(game->projectiles[grenadeLeftHit].thread);
                 projectile[grenadeLeftHit].cords.y = -10;
                 projectile[grenadeLeftHit].cords.x = -10;
+                projectile[grenadeLeftHit].cords.flag = 0;
                 refresh();
             }
             
@@ -301,6 +302,7 @@ void run(Game *game) {
                 pthread_cancel(game->projectiles[grenadeRightHit].thread);
                 projectile[grenadeRightHit].cords.y = -10;
                 projectile[grenadeRightHit].cords.x = -10;
+                projectile[grenadeRightHit].cords.flag = 0;
                 refresh();
             }
 
@@ -310,8 +312,8 @@ void run(Game *game) {
             if(projectHit) {
                 player->lives--;
                 resetCrocodile(game->crocodiles, game);
-                createCrocodile(game->crocodiles, game);
                 resetProjectile(game->projectiles);
+                createCrocodile(game->crocodiles, game);
                 printShield(player->cords.x, player->cords.y);
                 printFrog(player->cords.x, player->cords.y);
                 Mix_PlayChannel(-1, shieldHit, 0);
