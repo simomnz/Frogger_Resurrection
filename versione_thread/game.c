@@ -198,6 +198,9 @@ void run(Game *game) {
                 player->cords.y = spawnPoint.y;
                 resetCrocodile(game->crocodiles, game);
                 resetProjectile(game->projectiles);
+                pthread_cancel(grenadeLeft->thread);
+                pthread_cancel(grenadeRight->thread);
+                
                 createCrocodile(game->crocodiles, game);
                 clear();
                 
@@ -269,6 +272,7 @@ void run(Game *game) {
                 grenadeLeft->cords.y = -15;
                 pthread_cancel(grenadeLeft->thread);
                 pthread_cancel(game->projectiles[grenadeLeftHit].thread);
+                game->projectiles[grenadeLeftHit].cords.x = -2; // idk if it works
                 refresh();
             }
             
@@ -283,6 +287,7 @@ void run(Game *game) {
                 grenadeRight->cords.y = -15;
                 pthread_cancel(grenadeRight->thread);
                 pthread_cancel(game->projectiles[grenadeRightHit].thread);
+                game->projectiles[grenadeRightHit].cords.x = -2; // idk if it works
                 refresh();
             }
 
