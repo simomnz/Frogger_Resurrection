@@ -95,8 +95,8 @@ void run(Game *game) {
         Crocodile *crocodile = game->crocodiles;
 
         Projectile *projectile = game->projectiles;
-        Grenade *grenadeLeft = malloc(sizeof(Grenade));
-        Grenade *grenadeRight = malloc(sizeof(Grenade));
+        Grenade grenadeLeft;
+        Grenade grenadeRight;
         
         time_t mancheTime;
         short playersCroc = 0;                                   /* Index of the crocodile where the player stands on, initialized to -1 indicating no crocodile */
@@ -149,9 +149,9 @@ void run(Game *game) {
 
                 /* Check which Grenade is the message */
                 if(message.source == 201 ) {
-                    grenadeLeft->cords = message;
+                    grenadeLeft.cords = message;
                 } else if (message.source == 203) {
-                    grenadeRight->cords = message;
+                    grenadeRight.cords = message;
                 }
                 
             /* Message from a Projectile */
@@ -198,8 +198,13 @@ void run(Game *game) {
                 player->cords.y = spawnPoint.y;
                 resetCrocodile(game->crocodiles, game);
                 resetProjectile(game->projectiles);
-                pthread_cancel(grenadeLeft->thread);
-                pthread_cancel(grenadeRight->thread);
+                grenadeLeft.cords.x = -15;
+                grenadeLeft.cords.y = -15;
+                grenadeRight.cords.x = -15;
+                grenadeRight.cords.y = -15;
+                pthread_cancel(grenadeLeft.thread);
+                pthread_cancel(grenadeRight.thread);
+
                 
                 createCrocodile(game->crocodiles, game);
                 clear();
@@ -216,10 +221,10 @@ void run(Game *game) {
                 }
                 free(game->crocodiles);
                 free(game->projectiles);
-                grenadeLeft->cords.x = -15;
-                grenadeLeft->cords.y = -15;
-                pthread_cancel(grenadeLeft->thread);
-                pthread_cancel(grenadeRight->thread);
+                pthread_cancel(grenadeLeft.thread);
+                pthread_cancel(grenadeRight.thread);
+                grenadeLeft.cords.x = -15;
+                grenadeLeft.cords.y = -15;
                 Mix_HaltMusic();
                 Mix_PlayChannel(-1, loseSound, 0);
                 loseMenu(player->score);
@@ -247,8 +252,18 @@ void run(Game *game) {
             printRiver();
             printCrocodile(crocodile);
             printGrass();
-            printGrenade(grenadeLeft->cords.x, grenadeLeft->cords.y);
-            printGrenade(grenadeRight->cords.x, grenadeRight->cords.y);
+
+            //controllo se il thread è attivo
+            if(!grenadeLeft.thread ){
+                grenadeLeft.cords.x = -15;
+                grenadeLeft.cords.y = -15;
+            }
+            printGrenade(grenadeLeft.cords.x, grenadeLeft.cords.y);
+            if(!grenadeRight.thread) {
+                grenadeRight.cords.x = -15;
+                grenadeRight.cords.y = -15;
+            }
+            printGrenade(grenadeRight.cords.x, grenadeRight.cords.y);
             printDenRiver();
             printDen(game);
             mancheTime = time(NULL);
@@ -257,37 +272,35 @@ void run(Game *game) {
             printScoreBoard(player->score, player->lives);
 
             /* Check Grenade Collisions */
-            grenadeLeftHit = doesProjectileHitGrenade(game, *grenadeLeft);
-            grenadeRightHit = doesProjectileHitGrenade(game, *grenadeRight);
+            grenadeLeftHit = doesProjectileHitGrenade(game, grenadeLeft);
+            grenadeRightHit = doesProjectileHitGrenade(game, grenadeRight);
 
             /* Left Grenade and Projectiles collision */
             if(grenadeLeftHit >= 0) {
-                game->projectiles[grenadeLeftHit].cords.x = -10;
-                game->projectiles[grenadeLeftHit].cords.y = -10;
-                printExplosion(grenadeLeft->cords.x, grenadeLeft->cords.y);
+                printExplosion(grenadeLeft.cords.x, grenadeLeft.cords.y);
                 Mix_PlayChannel(-1, explosionSound, 0);
                 scoreCounter(player, 100 * game->difficulty);
                 player->score += 150;
-                grenadeLeft->cords.x = -15;
-                grenadeLeft->cords.y = -15;
-                pthread_cancel(grenadeLeft->thread);
+                pthread_cancel(grenadeLeft.thread);
+                grenadeLeft.cords.x = -15;
+                grenadeLeft.cords.y = -15;
                 pthread_cancel(game->projectiles[grenadeLeftHit].thread);
-                game->projectiles[grenadeLeftHit].cords.x = -2; // idk if it works
+                projectile[grenadeLeftHit].cords.y = -10;
+                projectile[grenadeLeftHit].cords.x = -10;
                 refresh();
             }
             
             /* Right Grenade and Projectiles collision */
             if(grenadeRightHit >= 0) {
-                game->projectiles[grenadeRightHit].cords.x = -10;
-                game->projectiles[grenadeRightHit].cords.y = -10;
-                printExplosion(grenadeRight->cords.x, grenadeRight->cords.y);
+                printExplosion(grenadeRight.cords.x, grenadeRight.cords.y);
                 Mix_PlayChannel(-1, explosionSound, 0);
                 scoreCounter(player, 100 * game->difficulty);
-                grenadeRight->cords.x = -15;
-                grenadeRight->cords.y = -15;
-                pthread_cancel(grenadeRight->thread);
+                pthread_cancel(grenadeRight.thread);
+                grenadeRight.cords.x = -15;
+                grenadeRight.cords.y = -15;
                 pthread_cancel(game->projectiles[grenadeRightHit].thread);
-                game->projectiles[grenadeRightHit].cords.x = -2; // idk if it works
+                projectile[grenadeRightHit].cords.y = -10;
+                projectile[grenadeRightHit].cords.x = -10;
                 refresh();
             }
 
@@ -326,10 +339,10 @@ void run(Game *game) {
                 resetCrocodile(game->crocodiles, game);
                 free(game->crocodiles);
                 free(game->projectiles);
-                grenadeLeft->cords.x = -15;
-                grenadeLeft->cords.y = -15;
-                pthread_cancel(grenadeLeft->thread);
-                pthread_cancel(grenadeRight->thread);
+                pthread_cancel(grenadeLeft.thread);
+                pthread_cancel(grenadeRight.thread);
+                grenadeLeft.cords.x = -15;
+                grenadeLeft.cords.y = -15;
                 Mix_HaltMusic();
                 Mix_PlayChannel(-1, winSound, 0);
                 winMenu(player->score);

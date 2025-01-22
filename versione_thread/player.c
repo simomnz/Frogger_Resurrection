@@ -72,25 +72,25 @@ int isPlayerOnDen(Game *game) {
 */
 
 /* Function to create a grenade */
-Grenade *createGrenade(Player *player, int direction) {
-    Grenade *grenade = malloc(sizeof(Grenade));
-    grenade->cords.x = player->cords.x + (GRENADE_LENGTH * direction);
-    grenade->cords.y = player->cords.y - FROG_HEIGHT / 2;  /* Spawn in the Middle of the River Flow */
-    grenade->sprite.length = GRENADE_LENGTH;    
-    grenade->sprite.height = GRENADE_HEIGHT;
-    grenade->speed = 5;
-    grenade->cords.type = 'g';    
-    grenade->lifeSpan = FROG_LENGTH * 2; /* Lifespan of Grenade */
-    grenade->cords.direction = direction;
+Grenade createGrenade(Player *player, int direction) {
+    Grenade grenade;
+    grenade.cords.x = player->cords.x + (GRENADE_LENGTH * direction);
+    grenade.cords.y = player->cords.y - FROG_HEIGHT / 2;  /* Spawn in the Middle of the River Flow */
+    grenade.sprite.length = GRENADE_LENGTH;    
+    grenade.sprite.height = GRENADE_HEIGHT;
+    grenade.speed = 5;
+    grenade.cords.type = 'g';    
+    grenade.lifeSpan = FROG_LENGTH * 2; /* Lifespan of Grenade */
+    grenade.cords.direction = direction;
 
     /* Setting Source based on the direction */
     if (direction == LEFT) {
-        grenade->cords.source = GRENAD_LEFT_SOURCE; // 201
+        grenade.cords.source = GRENAD_LEFT_SOURCE; // 201
     } else if (direction == RIGHT) {
-        grenade->cords.source = GRENAD_RIGHT_SOURCE; // 203
+        grenade.cords.source = GRENAD_RIGHT_SOURCE; // 203
     } 
 
-    pthread_create(&grenade->thread, NULL, (void *)moveGrenade, (void *)grenade);
+    pthread_create(&grenade.thread, NULL, (void *)moveGrenade, (void *)&grenade);
   
     return grenade;
 }
