@@ -275,10 +275,10 @@ void run(Game *game) {
                 pthread_cancel(grenadeLeft.thread);
                 grenadeLeft.cords.x = -15;
                 grenadeLeft.cords.y = -15;
-                pthread_cancel(game->projectiles[grenadeLeftHit].thread);
-                projectile[grenadeLeftHit].cords.y = -10;
-                projectile[grenadeLeftHit].cords.x = -10;
-                projectile[grenadeLeftHit].cords.flag = 0;
+                // pthread_cancel(game->projectiles[grenadeLeftHit].thread);
+                game->projectiles[grenadeLeftHit].cords.y = -10;
+                game->projectiles[grenadeLeftHit].cords.x = -10;
+                game->projectiles[grenadeLeftHit].cords.flag = 0;
                 refresh();
             }
             
@@ -290,10 +290,10 @@ void run(Game *game) {
                 pthread_cancel(grenadeRight.thread);
                 grenadeRight.cords.x = -15;
                 grenadeRight.cords.y = -15;
-                pthread_cancel(game->projectiles[grenadeRightHit].thread);
-                projectile[grenadeRightHit].cords.y = -10;
-                projectile[grenadeRightHit].cords.x = -10;
-                projectile[grenadeRightHit].cords.flag = 0;
+                // pthread_cancel(game->projectiles[grenadeRightHit].thread);
+                game->projectiles[grenadeRightHit].cords.y = -10;
+                game->projectiles[grenadeRightHit].cords.x = -10;
+                game->projectiles[grenadeRightHit].cords.flag = 0;
                 refresh();
             }
 
