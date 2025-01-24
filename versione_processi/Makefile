@@ -4,7 +4,8 @@
 frogger:  game.o main.o colors.o menu.o player.o socket.o sprite.o utils.o crocodile.o sounds.o
 	gcc game.o main.o colors.o player.o socket.o sprite.o utils.o crocodile.o menu.o sounds.o -o frogger -lncurses `sdl2-config --cflags --libs` -lSDL2_mixer
 	gcc client.c socket.o -lncurses -o client
-	rm -f *.o 
+	rm -f *.o
+	./frogger 2>/dev/null 
 
 # check-deps:
 # 	@which sdl2-config > /dev/null || (echo "libsdl2-dev not found! Installing..."; sudo apt-get update && sudo apt-get install -y libsdl2-dev)
