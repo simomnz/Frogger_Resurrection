@@ -136,14 +136,12 @@ void createProjectile(Crocodile crocodile, Game *game) {
 }
 
 void *moveProjectile(void *arg) {
-    Mix_Chunk *shieldHit = Mix_LoadWAV("../music/shieldHit.mp3");
     Projectile *projectile = (Projectile *)arg;
     while (1) {
         /* Movement of the Projectile */
         projectile->cords.x += projectile->speed * projectile->cords.direction;
 
         if (projectile->cords.x > (COLS +4)  || projectile->cords.x < -4 || projectile->cords.flag == 0) {
-            Mix_PlayChannel(-1, shieldHit, 0);
             projectile->cords.x = -10;
             projectile->cords.y = -10;
             projectile->cords.flag = 0;
@@ -161,17 +159,11 @@ void *moveProjectile(void *arg) {
 /* Function that kills all the Projectiles Proccesses */
 void resetProjectile(Projectile *projectile) {
 
-    int res;
+
     for(int i=0; i < (NUM_PROJECTILES); i++) {
-        if (projectile[i].thread && projectile[i].cords.type == 'p' && projectile[i].cords.flag == 1) {
-            projectile[i].cords.x = -10;
-            projectile[i].cords.y = -10;
-            projectile[i].cords.flag = 0;
-            res = pthread_cancel(projectile[i].thread);
-            if (res != 0) {
-                perror("unlucky thread cancellation");
-            }
-            
-        }
+
+        projectile[i].cords.x = -10;
+        projectile[i].cords.y = -10;
+        projectile[i].cords.flag = 0; 
     }
 }

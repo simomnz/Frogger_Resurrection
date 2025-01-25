@@ -240,6 +240,76 @@ void run(Game *game) {
             /* Screen Erasing */
             werase(stdscr);
 
+            /* Check Grenade Collisions */
+            grenadeLeftHit = doesProjectileHitGrenade(game, grenadeLeft);
+            grenadeRightHit = doesProjectileHitGrenade(game, grenadeRight);
+
+            /* Left Grenade and Projectiles collision */
+            if(grenadeLeftHit >= 0) {
+                printExplosion(grenadeLeft.cords.x, grenadeLeft.cords.y);
+                Mix_PlayChannel(-1, explosionSound, 0);
+                scoreCounter(player, 100 * game->difficulty);
+                player->score += 150;
+                game->projectiles[grenadeLeftHit].cords.y = -10;
+                game->projectiles[grenadeLeftHit].cords.x = -10;
+                game->projectiles[grenadeLeftHit].cords.flag = 0;
+                grenadeLeft.cords.x = -15;
+                grenadeLeft.cords.y = -15;
+                pthread_cancel(grenadeLeft.thread);
+                refresh();
+            }
+            
+            /* Right Grenade and Projectiles collision */
+            if(grenadeRightHit >= 0) {
+                printExplosion(grenadeRight.cords.x, grenadeRight.cords.y);
+                Mix_PlayChannel(-1, explosionSound, 0);
+                scoreCounter(player, 100 * game->difficulty);
+                game->projectiles[grenadeRightHit].cords.y = -10;
+                game->projectiles[grenadeRightHit].cords.x = -10;
+                game->projectiles[grenadeRightHit].cords.flag = 0;
+                grenadeRight.cords.x = -15;
+                grenadeRight.cords.y = -15;
+                pthread_cancel(grenadeRight.thread);
+                refresh();
+            }
+
+            /* Check if a Projectile hit the Player */
+            int projectHit = doesProjectileHitPlayer(game);
+
+            if(projectHit) {
+                player->lives--;
+                resetCrocodile(game->crocodiles, game);
+                resetProjectile(game->projectiles);
+                createCrocodile(game->crocodiles, game);
+                printShield(player->cords.x, player->cords.y);
+                printFrog(player->cords.x, player->cords.y);
+                Mix_PlayChannel(-1, shieldHit, 0);
+                refresh();
+                player->cords.x = spawnPoint.x;
+                player->cords.y = spawnPoint.y;
+                timeCounter = time(NULL) + game->timeDifficulty;
+            }
+
+
+            /* Win Condition, no free Den remaining */
+            if(occupiedDens == 5) {
+                for (int i = 0; i < 5; i++) {
+                    game->closedDen[i] = 0;
+                }
+                occupiedDens = 0;  
+
+                scoreCounter(player, (player->lives * 1000) * game->difficulty);
+                resetProjectile(game->projectiles);
+                resetCrocodile(game->crocodiles, game);
+                free(game->crocodiles);
+                free(game->projectiles);
+                Mix_HaltMusic();
+                Mix_PlayChannel(-1, winSound, 0);
+                winMenu(player->score);
+                break;
+            }
+
+
             /* Printing all the Game's Sprites */
             printRiver();
             printCrocodile(crocodile);
@@ -261,82 +331,12 @@ void run(Game *game) {
             printProjectile(projectile);
             printTime(timeCounter - mancheTime);
             printScoreBoard(player->score, player->lives);
-
-            /* Check Grenade Collisions */
-            grenadeLeftHit = doesProjectileHitGrenade(game, grenadeLeft);
-            grenadeRightHit = doesProjectileHitGrenade(game, grenadeRight);
-
-            /* Left Grenade and Projectiles collision */
-            if(grenadeLeftHit >= 0) {
-                printExplosion(grenadeLeft.cords.x, grenadeLeft.cords.y);
-                Mix_PlayChannel(-1, explosionSound, 0);
-                scoreCounter(player, 100 * game->difficulty);
-                player->score += 150;
-                pthread_cancel(grenadeLeft.thread);
-                grenadeLeft.cords.x = -15;
-                grenadeLeft.cords.y = -15;
-                // pthread_cancel(game->projectiles[grenadeLeftHit].thread);
-                game->projectiles[grenadeLeftHit].cords.y = -10;
-                game->projectiles[grenadeLeftHit].cords.x = -10;
-                game->projectiles[grenadeLeftHit].cords.flag = 0;
-                refresh();
-            }
             
-            /* Right Grenade and Projectiles collision */
-            if(grenadeRightHit >= 0) {
-                printExplosion(grenadeRight.cords.x, grenadeRight.cords.y);
-                Mix_PlayChannel(-1, explosionSound, 0);
-                scoreCounter(player, 100 * game->difficulty);
-                pthread_cancel(grenadeRight.thread);
-                grenadeRight.cords.x = -15;
-                grenadeRight.cords.y = -15;
-                // pthread_cancel(game->projectiles[grenadeRightHit].thread);
-                game->projectiles[grenadeRightHit].cords.y = -10;
-                game->projectiles[grenadeRightHit].cords.x = -10;
-                game->projectiles[grenadeRightHit].cords.flag = 0;
-                refresh();
-            }
-
-            /* Check if a Projectile hit the Player */
-            int projectHit = doesProjectileHitPlayer(game);
-
-            if(projectHit) {
-                player->lives--;
-                resetCrocodile(game->crocodiles, game);
-                resetProjectile(game->projectiles);
-                createCrocodile(game->crocodiles, game);
-                printShield(player->cords.x, player->cords.y);
-                printFrog(player->cords.x, player->cords.y);
-                Mix_PlayChannel(-1, shieldHit, 0);
-                refresh();
-                player->cords.x = spawnPoint.x;
-                player->cords.y = spawnPoint.y;
-                timeCounter = time(NULL) + game->timeDifficulty;
-            }
-
             /* Printing Frog, it has to be the last one */
             printFrog(player->cords.x, player->cords.y);
 
             /* Client-Server Communication */
             sendPlayerCords(player, game->serverSocket);
-
-            /* Win Condition, no free Den remaining */
-            if(occupiedDens == 5) {
-                for (int i = 0; i < 5; i++) {
-                    game->closedDen[i] = 0;
-                }
-                occupiedDens = 0;  
-
-                scoreCounter(player, (player->lives * 1000) * game->difficulty);
-                resetProjectile(game->projectiles);
-                resetCrocodile(game->crocodiles, game);
-                free(game->crocodiles);
-                free(game->projectiles);
-                Mix_HaltMusic();
-                Mix_PlayChannel(-1, winSound, 0);
-                winMenu(player->score);
-                break;
-            }
 
             /* Screen Refresh */
             wnoutrefresh(stdscr); 

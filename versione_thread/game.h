@@ -15,7 +15,7 @@
 
 
 
-#define GODMODE 0
+#define GODMODE 1
 
 
 
