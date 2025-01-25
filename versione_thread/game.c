@@ -101,6 +101,7 @@ void run(Game *game) {
         time_t mancheTime;
         short playersCroc = 0;                                   /* Index of the crocodile where the player stands on, initialized to -1 indicating no crocodile */
         short playersDen = -1;                                   /* Index of the den where the player stands on, initialized to -1 indicating no den */
+        short playerGrass = 1;
         short clearCounter = 0;                                  /* Counter to clear the screen every 1000 game cycles */
         short grenadeLeftHit = 0;                                /* Set to 1 if the left Grenade was hit */
         short grenadeRightHit = 0;                               /* Set to 1 if the right Grenade was hit */
@@ -162,6 +163,7 @@ void run(Game *game) {
             /* Check Collisions */
             playersCroc = isPlayerOnCroc(game);
             playersDen = isPlayerOnDen(game);
+            playerGrass = isPlayerOnGrass(game);
 
             /* If the frog is on a free Den */
             if(playersDen < 10 && playersDen >= 0) {
@@ -187,26 +189,27 @@ void run(Game *game) {
                 createCrocodile(game->crocodiles, game);
                 clear();
                 timeCounter = time(NULL) + game->timeDifficulty;
-            }
 
-            /* If the Player falls in the water */            
-            if(player->isOnCrocodile == 0 && !isPlayerOnGrass(game) && GODMODE || (timeCounter - mancheTime) == 0) {
-                player->lives--;
-                Mix_PlayChannel(-1, fallWater, 0);
-                scoreCounter(player, ((GAME_LINES - player->cords.y)/4 * 10) * game->difficulty);
-                player->cords.x = spawnPoint.x;
-                player->cords.y = spawnPoint.y;
-                resetCrocodile(game->crocodiles, game);
-                resetProjectile(game->projectiles);
-                grenadeLeft.cords.x = -15;
-                grenadeLeft.cords.y = -15;
-                grenadeRight.cords.x = -15;
-                grenadeRight.cords.y = -15;
-                createCrocodile(game->crocodiles, game);
-                clear();
-                
-                timeCounter = time(NULL) + game->timeDifficulty;
-            }
+
+                /* If the Player falls in the water */  
+            }else if(player->isOnCrocodile == 0 && !playerGrass || (timeCounter - mancheTime) == 0) {
+                    player->lives--;
+                    Mix_PlayChannel(-1, fallWater, 0);
+                    scoreCounter(player, ((GAME_LINES - player->cords.y)/4 * 10) * game->difficulty);
+                    player->cords.x = spawnPoint.x;
+                    player->cords.y = spawnPoint.y;
+                    resetCrocodile(game->crocodiles, game);
+                    resetProjectile(game->projectiles);
+                    grenadeLeft.cords.x = -15;
+                    grenadeLeft.cords.y = -15;
+                    grenadeRight.cords.x = -15;
+                    grenadeRight.cords.y = -15;
+                    createCrocodile(game->crocodiles, game);
+                    clear();
+                    
+                    timeCounter = time(NULL) + game->timeDifficulty;
+                }
+
 
             /* Lose condition, no life remaining */
             if (player->lives == 0) {

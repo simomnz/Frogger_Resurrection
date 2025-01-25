@@ -39,7 +39,7 @@ int isPlayerOnCroc(Game *game) {
 
 /* Function to check if the player is on grass */
 int isPlayerOnGrass(Game *game){
-    if (game->player.cords.y > GAME_LINES - 5 || game->player.cords.y < 13) {
+    if (game->player.cords.y > GAME_LINES - 5 || (game->player.cords.y < 13 && game->player.cords.y >8)) {
         return 1;
     }
     return 0;
