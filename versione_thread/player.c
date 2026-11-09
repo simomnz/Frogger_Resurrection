@@ -53,10 +53,10 @@ int isPlayerOnDen(Game *game) {
         denX = (DEN_LENGTH + distance) * (i +1);   // calculations are correct, trust me
 
         // not tested, if errors occur it's the y==4;
-        if (game->player.cords.y == 8 && game->player.cords.x >= denX - DEN_LENGTH -3 && game->player.cords.x <= denX + DEN_LENGTH && game->closedDen[i] == 0) {
+        if (game->player.cords.y == 8 && game->player.cords.x >= denX - DEN_LENGTH -3 && game->player.cords.x <= denX - DEN_LENGTH + 3 && game->closedDen[i] == 0) {
             game->closedDen[i] = 1;
             return i;  // returns the id of the den
-        } else if(game->player.cords.y == 8 && game->player.cords.x >= denX - DEN_LENGTH -3 && game->player.cords.x <= denX + DEN_LENGTH +1 && game->closedDen[i] == 1) {
+        } else if(game->player.cords.y == 8 && game->player.cords.x >= denX - DEN_LENGTH -3 && game->player.cords.x <= denX - DEN_LENGTH + 3 && game->closedDen[i] == 1) {
             return 10;
         }
     }
